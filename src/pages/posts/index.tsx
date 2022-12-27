@@ -1,21 +1,36 @@
-import Link from "next/link";
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import type { Post } from "../../types"; 
+
+import type { Post } from "~/types"; 
+
+import { PostCard } from "~/components/molecules/postCard";
+import { Container } from "~/components/organisms/container";
+import { PageHeader } from "~/components/atoms/pageHeader";
 
 const PostsPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const posts = props.posts;
 
   return (
-    <div className="text-center mt-10">
-      <h1>Posts</h1>
-      <ul>
-        {posts?.map((post) => (
-          <li key={post.id}>
-            <Link href={`/posts/${post.id}`}>{post.title}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Container>
+      <div className="text-center mt-10">
+        <PageHeader
+          title="Posts"
+          description="I love to write about things I'm learning. 
+          Blogging is a great way to improve and share knowledge.
+          And who knows, maybe one day it might help me to write a book!"
+        />
+        <ul>
+          {posts?.map((post) => (
+            <li key={post.id}>
+              <PostCard
+                title={post.title}
+                description={post.description}
+                canonical_url={post.canonical_url}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Container>
   );
 };
 
