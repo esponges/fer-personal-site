@@ -13,3 +13,9 @@ export enum Emojis {
   family = '👨‍👩‍👧‍👦',
   love = '👫',
 }
+
+export enum Routes {
+  home = '/',
+  posts = '/posts',
+  projects = '/projects',
+}

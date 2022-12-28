@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import Link from "next/link";
+import { Routes } from "~/types/enums";
 
 export const Navbar = () => {
   return (
@@ -7,17 +8,14 @@ export const Navbar = () => {
       <div className="w-full">
         <div className="mx-auto flex max-w-3xl justify-between">
           <div className="">
-            <Link href="/">
-              <span className="text-3xl font-bold text-white">Esponges</span>
+            <Link href={Routes.home}>
+              <span className="text-3xl font-bold text-white">FerTostado</span>
             </Link>
-            <Link href="/posts">
+            <Link href={Routes.posts}>
               <span className="ml-6 text-lg font-bold text-white">Posts</span>
             </Link>
-            <Link href="/posts">
+            <Link href={Routes.projects}>
               <span className="ml-6 text-lg font-bold text-white">Projects</span>
-            </Link>
-            <Link href="/posts">
-              <span className="ml-6 text-lg font-bold text-white">Me</span>
             </Link>
           </div>
           <div className="flex flex-row items-center gap-4">
