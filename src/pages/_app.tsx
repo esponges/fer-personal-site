@@ -1,18 +1,38 @@
-import { type AppType } from "next/app";
+import { type AppType, type AppProps } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
-import { trpc } from "../utils/trpc";
+import type { ReactElement, ReactNode } from "react";
+import type { NextPage } from "next";
 
-import "../styles/globals.css";
+import { trpc } from "~/utils/trpc";
+
+import "~/styles/globals.css";
+import { MainLayout } from "~/components/layouts/main";
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+  requireAuth?: boolean;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+  pageProps: {
+    session: Session | null;
+  };
+};
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
-}) => {
+}: AppPropsWithLayout) => {
+  const getLayout = Component.getLayout || ((page) => <MainLayout>{page}</MainLayout>);
+  const layout = getLayout(<Component {...pageProps} />) as JSX.Element;
+
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      {layout}
     </SessionProvider>
   );
 };
