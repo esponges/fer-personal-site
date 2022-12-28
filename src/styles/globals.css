@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* dark mode w/transition */
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #0d74b9;
+    transition: background-color 0.5s ease;
+  }
+}
