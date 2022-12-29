@@ -7,8 +7,10 @@ import type { NextPage } from "next";
 
 import { trpc } from "~/utils/trpc";
 
-import "~/styles/globals.css";
 import { MainLayout } from "~/components/layouts/main";
+
+import "~/styles/globals.css";
+import "react-awesome-slider/dist/styles.css";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
