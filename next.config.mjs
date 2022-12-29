@@ -13,5 +13,23 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "reactnative.dev",
+        pathname:  "/img/*",
+      },
+      {
+        protocol: "https",
+        hostname: "reactjs.org",
+      },
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com",
+        pathname: "/600/*",
+      },
+    ],
+  },
 };
 export default config;
