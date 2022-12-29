@@ -10,3 +10,12 @@
     transition: background-color 0.5s ease;
   }
 }
+
+.crossfade-transition {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.crossfade-transition.active {
+  opacity: 1;
+}

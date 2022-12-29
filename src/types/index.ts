@@ -31,3 +31,26 @@ export interface Post {
     profile_image_90: string;
   };
 }
+
+export interface Image {
+  url: string;
+  alt: string;
+  title?: string;
+  placeholder?: string;
+  width?: number;
+  height?: number;
+}
+
+interface Lib {
+  name: string;
+  url: string;
+}
+
+export interface CarouselElement {
+  name: string;
+  description: string;
+  stack: string;
+  url: string;
+  images: Image[];
+  libs: Lib[];
+};
