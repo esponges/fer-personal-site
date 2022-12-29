@@ -1,12 +1,15 @@
 import Image from "next/image";
 import AwesomeSlider from "react-awesome-slider";
+import Link from "next/link";
 
 import type { Project } from "~/types";
 
 import { Header } from "~/components/atoms/header";
 import { SubHeader } from "~/components/atoms/subheader";
-import { Paragraph } from "../atoms/paragraph";
-import Link from "next/link";
+import { Paragraph } from "~/components/atoms/paragraph";
+
+import { env } from "~/env/client.mjs";
+import { IKImage } from "imagekitio-react";
 
 interface Props {
   project: Project;
@@ -37,8 +40,19 @@ export const ProjectCard = ({ project }: Props) => {
       <div className="px-4 py-4 sm:px-6">
         <AwesomeSlider bullets={false}>
           {project.images.map((image, index) => {
+            if (image.path) {
+              return (
+                <div key={index}>
+                  <IKImage
+                    path={image.path}
+                    urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
+                  />
+                </div>
+              );
+            }
+
             return (
-              <div key={index} className="pointer-events-auto">
+              <div key={index}>
                 <Image
                   src={image.url}
                   alt={image.alt}

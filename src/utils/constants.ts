@@ -22,15 +22,13 @@ export const PROJECTS: Project[] = [
     images: [
       {
         url: "https://reactnative.dev/img/header_logo.svg",
-        alt: "React Native Logo",
+        alt: "Polymail Screenshot 2",
+        path: "polymail-screen-1.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672354515784"
       },
       {
         url: "https://reactjs.org/logo-og.png",
-        alt: "React Native Logo",
-      },
-      {
-        url: "https://reactnative.dev/img/header_logo.svg",
-        alt: "React Native Logo",
+        alt: "Polymail Screenshot 2",
+        path: "polymail-screen-2.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672354703596",
       },
     ],
   },

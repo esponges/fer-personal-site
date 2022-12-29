@@ -39,6 +39,7 @@ export interface Image {
   placeholder?: string;
   width?: number;
   height?: number;
+  path?: string;
 }
 
 interface Lib {
