@@ -2,23 +2,31 @@ import type { Project } from "~/types";
 
 export const PROJECTS: Project[] = [
   {
-    name: "Polymail",
+    name: "Polymail 💌",
+    url: "https://polymail.io/",
     subheader: "An awesome email web app, also available as a desktop app with Electron.",
     description: "I'm the principal maintainer of Polymail, an email client for managing your email. \
     It relies on awesome caching & performance strategies such as using IndexedDB to store emails, \
     and a Web Worker to process emails in the background.",
-    tags: "#React, #mongoDB",
+    tags: "#React, #mongoDB, #IndexedDB, #WebWorker, #Electron",
     libs: [
       {
-        name: "React Navigation",
-        url: "https://reactnavigation.org/",
+        name: "Redux",
+        url: "https://www.npmjs.com/package/redux",
       },
       {
-        name: "React Native Paper",
-        url: "https://callstack.github.io/react-native-paper/",
+        name: "RxJS",
+        url: "https://www.npmjs.com/package/rxjs",
       },
+      {
+        name: "Electron",
+        url: "https://www.npmjs.com/package/electron",
+      },
+      {
+        name: "React",
+        url: "https://www.npmjs.com/package/react",
+      }
     ],
-    url: "https://reactnative.dev/",
     images: [
       {
         url: "https://reactnative.dev/img/header_logo.svg",
@@ -33,28 +41,45 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    name: "React",
-    description: "A JavaScript library for building user interfaces",
-    tags: "React, Mysql",
+    name: "Roland Cloud CRM 🎹",
+    url: "https://roland.com/",
+    description: "I built and maintain the Roland Cloud CRM, it's a full stack web app with multiple microservices \
+    for managing users and their internal data, such as products, subscriptions, managers, etc. \
+    Roland Cloud is a cloud-based subscription service for the Roland products, \
+    such as synthesizers, drum machines, and more.",
+    tags: "#React, #Parse, #Redux, #MySQL, #NodeJS",
     libs: [
       {
-        name: "React Router",
-        url: "https://reactrouter.com/",
+        name: "React",
+        url: "https://www.npmjs.com/package/react",
       },
       {
-        name: "React Bootstrap",
-        url: "https://react-bootstrap.github.io/",
+        name: "Redux",
+        url: "https://www.npmjs.com/package/redux",
+      },
+      {
+        name: "Parse",
+        url: "https://www.npmjs.com/package/parse",
+      },
+      {
+        name: "NodeJS",
+        url: "https://www.npmjs.com/package/node",
+      },
+      {
+        name: "knexJS",
+        url: "https://www.npmjs.com/package/knex",
       },
     ],
-    url: "https://reactjs.org/",
     images: [
       {
         url: "https://reactjs.org/logo-og.png",
-        alt: "React Logo",
+        alt: "Customer Views",
+        path: "roland-crm-1.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672354514473",
       },
       {
         url: "https://reactjs.org/favicon.ico",
-        alt: "React Logo",
+        alt: "Product Views",
+        path: "roland-crm-2.png?ik-sdk-version=javascript-1.4.3&updatedAt=1672354514444",
       },
     ],
   },

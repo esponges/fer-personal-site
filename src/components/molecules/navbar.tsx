@@ -14,9 +14,9 @@ export const Navbar = () => {
             <Link href={Routes.posts}>
               <span className="ml-6 text-lg font-bold text-white">Posts</span>
             </Link>
-            {/* <Link href={Routes.projects}>
+            <Link href={Routes.projects}>
               <span className="ml-6 text-lg font-bold text-white">Projects</span>
-            </Link> */}
+            </Link>
           </div>
           <div className="flex flex-row items-center gap-4">
             <Link href='https://github.com/esponges'>

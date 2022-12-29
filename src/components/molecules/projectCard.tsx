@@ -1,6 +1,7 @@
 import Image from "next/image";
 import AwesomeSlider from "react-awesome-slider";
 import Link from "next/link";
+import { IKImage } from "imagekitio-react";
 
 import type { Project } from "~/types";
 
@@ -9,7 +10,7 @@ import { SubHeader } from "~/components/atoms/subheader";
 import { Paragraph } from "~/components/atoms/paragraph";
 
 import { env } from "~/env/client.mjs";
-import { IKImage } from "imagekitio-react";
+import { UrlHeader } from "../atoms/urlHeader";
 
 interface Props {
   project: Project;
@@ -20,6 +21,11 @@ export const ProjectCard = ({ project }: Props) => {
     <div className="card--bg overflow-hidden rounded-lg">
       <div className="px-4 py-5 sm:p-6">
         <Header>{project.name}</Header>
+        {project.url && (
+          <div className="my-6">
+            <UrlHeader url={project.url} />
+          </div>
+        )}
         <SubHeader>{project.subheader}</SubHeader>
         <Paragraph>{project.description}</Paragraph>
       </div>
@@ -37,8 +43,9 @@ export const ProjectCard = ({ project }: Props) => {
           );
         })}
       </ul>
-      <div className="px-4 py-4 sm:px-6">
-        <AwesomeSlider bullets={false}>
+      <div className="px-4 py-4 sm:px-6 rounded-lg">
+        {/* for ImageKit hosted pages */}
+        <AwesomeSlider bullets={false} startup>
           {project.images.map((image, index) => {
             if (image.path) {
               return (

@@ -12,6 +12,8 @@ export enum Emojis {
   gym = '🏋️‍♂️',
   family = '👨‍👩‍👧‍👦',
   love = '👫',
+  email = '💌',
+  piano = '🎹',
 }
 
 export enum Routes {
