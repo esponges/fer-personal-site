@@ -46,11 +46,12 @@ interface Lib {
   url: string;
 }
 
-export interface CarouselElement {
+export interface Project {
   name: string;
-  description: string;
-  stack: string;
-  url: string;
+  subheader?: string;
+  description?: string;
+  tags: string;
+  url?: string;
   images: Image[];
   libs: Lib[];
 };

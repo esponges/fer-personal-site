@@ -1,7 +1,7 @@
 import NextImage from "next/image";
 import { useState } from "react";
 
-import type { CarouselElement, Image } from "~/types";
+import type { Image } from "~/types";
 
 interface Props {
   elements: Image[];
@@ -27,11 +27,7 @@ export const Carousel = ({ elements }: Props) => {
   };
 
   const handleTransitionEnd = () => {
-    if (activeIndex === elements.length - 1) {
-      setActiveIndex(0);
-    } else if (activeIndex === 0) {
-      setActiveIndex(elements.length - 1);
-    }
+    setActiveIndex(0);
   };
 
   const images = elements.map((element, index) => {
@@ -40,7 +36,7 @@ export const Carousel = ({ elements }: Props) => {
         key={index}
         src={element.url}
         alt={element.alt}
-        className="w-full h-full object-cover"
+        className="h-full w-full object-cover"
         // placeholder="blur"
         // blurDataURL="/"
         width={600}
@@ -81,7 +77,7 @@ export const Carousel = ({ elements }: Props) => {
         <div
           className="carousel-content flex transition-all duration-500 ease-in-out"
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-          
+          // onTransitionEnd={handleTransitionEnd}
         >
           {images}
           <div className="carousel-caption absolute hidden text-center md:block">

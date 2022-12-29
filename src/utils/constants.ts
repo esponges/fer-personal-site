@@ -1,10 +1,13 @@
-import type { CarouselElement } from "~/types";
+import type { Project } from "~/types";
 
-export const PROJECTS: CarouselElement[] = [
+export const PROJECTS: Project[] = [
   {
-    name: "React Native",
-    description: "A framework for building native apps using React",
-    stack: "React Navite, Mysql",
+    name: "Polymail",
+    subheader: "An awesome email web app, also available as a desktop app with Electron.",
+    description: "I'm the principal maintainer of Polymail, an email client for managing your email. \
+    It relies on awesome caching & performance strategies such as using IndexedDB to store emails, \
+    and a Web Worker to process emails in the background.",
+    tags: "#React, #mongoDB",
     libs: [
       {
         name: "React Navigation",
@@ -18,19 +21,15 @@ export const PROJECTS: CarouselElement[] = [
     url: "https://reactnative.dev/",
     images: [
       {
-        url: "/771796.png",
+        url: "https://reactnative.dev/img/header_logo.svg",
         alt: "React Native Logo",
       },
       {
-        url: "/56a8c2.png",
+        url: "https://reactjs.org/logo-og.png",
         alt: "React Native Logo",
       },
       {
-        url: "/d32776.png",
-        alt: "React Native Logo",
-      },
-      {
-        url: "/b0f7cc.png",
+        url: "https://reactnative.dev/img/header_logo.svg",
         alt: "React Native Logo",
       },
     ],
@@ -38,7 +37,7 @@ export const PROJECTS: CarouselElement[] = [
   {
     name: "React",
     description: "A JavaScript library for building user interfaces",
-    stack: "React, Mysql",
+    tags: "React, Mysql",
     libs: [
       {
         name: "React Router",
