@@ -2,14 +2,13 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
+import Head from "next/head";
 
 import type { Post } from "~/types";
 
 import { PostCard } from "~/components/molecules/postCard";
 import { Container } from "~/components/organisms/container";
 import { PageHeader } from "~/components/atoms/pageHeader";
-import Head from "next/head";
-import { generateSitemap } from "~/utils/misc";
 
 const PostsPage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -19,7 +18,7 @@ const PostsPage = (
   return (
     <>
       <Head>
-        <title>Posts | esponges</title>
+        <title>Posts | FerTostado</title>
         <meta
           name="description"
           content="This is a list of all the posts I've written on dev.to."
