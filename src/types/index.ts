@@ -1,5 +1,7 @@
+import type { Prisma } from "@prisma/client";
+
+// dev.to API response
 export interface Post {
-  // dev.to API response
   type_of: string;
   id: number;
   title: string;
@@ -32,27 +34,10 @@ export interface Post {
   };
 }
 
-export interface Image {
-  url: string;
-  alt: string;
-  title?: string;
-  placeholder?: string;
-  width?: number;
-  height?: number;
-  path?: string;
-}
-
-interface Lib {
-  name: string;
-  url: string;
-}
-
-export interface Project {
-  name: string;
-  subheader?: string;
-  description?: string;
-  tags: string;
-  url?: string;
-  images: Image[];
-  libs: Lib[];
-};
+export type Project = Prisma.ProjectGetPayload<{
+  // include relationships from the Project Model
+  include: {
+    images: true;
+    libs: true;
+  };
+}>;

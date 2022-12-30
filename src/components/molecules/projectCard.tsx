@@ -58,17 +58,19 @@ export const ProjectCard = ({ project }: Props) => {
               );
             }
 
-            return (
-              <div key={index}>
-                <Image
-                  src={image.url}
-                  alt={image.alt}
-                  className="h-full w-full object-cover"
-                  width={600}
-                  height={600}
-                />
-              </div>
-            );
+            if (image.url) {
+              return (
+                <div key={index}>
+                  <Image
+                    src={image.url}
+                    alt={image.alt}
+                    className="h-full w-full object-cover"
+                    width={600}
+                    height={600}
+                  />
+                </div>
+              );
+            }
           })}
         </AwesomeSlider>
       </div>
