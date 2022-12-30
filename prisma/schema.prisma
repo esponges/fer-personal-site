@@ -64,3 +64,42 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Image {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  url         String?
+  alt         String
+  title       String?
+  placeholder String?
+  width       Int?
+  height      Int?
+  path        String?
+  Project     Project? @relation(fields: [projectId], references: [id])
+  projectId   String?
+}
+
+model Lib {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  url       String
+  // many to many project to lib
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  subheader   String?
+  description String?
+  url         String?
+  tags        String?
+  images      Image[]
+  libs        Lib[]
+}
