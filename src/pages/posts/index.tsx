@@ -9,11 +9,14 @@ import type { Post } from "~/types";
 import { PostCard } from "~/components/molecules/postCard";
 import { Container } from "~/components/organisms/container";
 import { PageHeader } from "~/components/atoms/pageHeader";
+import { trpc } from "~/utils/trpc";
 
 const PostsPage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
   const { posts } = props;
+  const { data } = trpc.projects.getAllPosts.useQuery();
+  console.log(data);
 
   return (
     <>
