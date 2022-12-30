@@ -11,12 +11,15 @@ import { Paragraph } from "~/components/atoms/paragraph";
 
 import { env } from "~/env/client.mjs";
 import { UrlHeader } from "../atoms/urlHeader";
+import { useDeviceWidth } from "~/utils/hooks/misc";
 
 interface Props {
   project: Project;
 }
 
 export const ProjectCard = ({ project }: Props) => {
+  const { isMobile } = useDeviceWidth();
+
   return (
     <div className="card--bg overflow-hidden rounded-lg">
       <div className="px-4 py-5 sm:p-6">
@@ -43,9 +46,9 @@ export const ProjectCard = ({ project }: Props) => {
           );
         })}
       </ul>
-      <div className="px-4 py-4 sm:px-6 rounded-lg">
+      <div className="px-4 py-4 sm:px-6 rounded-lg mb-6 md:mb-0">
         {/* for ImageKit hosted pages */}
-        <AwesomeSlider bullets={false} startup>
+        <AwesomeSlider bullets={isMobile} startup>
           {project.images.map((image, index) => {
             if (image.path) {
               return (
