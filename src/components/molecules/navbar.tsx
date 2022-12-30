@@ -4,18 +4,18 @@ import { Routes } from "~/types/enums";
 
 export const Navbar = () => {
   return (
-    <nav className="flex h-20 flex-row items-center bg-white/10">
+    <nav className="flex h-20 flex-row items-center bg-white/10 md:px-0 px-2">
       <div className="w-full">
         <div className="mx-auto flex max-w-3xl justify-between">
           <div className="">
             <Link href={Routes.home}>
-              <span className="text-3xl font-bold text-white">FerTostado</span>
+              <span className="md:text-3xl text-xl font-bold text-white">FerTostado</span>
             </Link>
             <Link href={Routes.posts}>
-              <span className="ml-6 text-lg font-bold text-white">Posts</span>
+              <span className="ml-6 md:text-lg font-bold text-white">Posts</span>
             </Link>
             <Link href={Routes.projects}>
-              <span className="ml-6 text-lg font-bold text-white">Projects</span>
+              <span className="ml-6 md:text-lg font-bold text-white">Projects</span>
             </Link>
           </div>
           <div className="flex flex-row items-center gap-4">
