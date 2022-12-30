@@ -29,6 +29,15 @@ const config = {
         hostname: "via.placeholder.com",
         pathname: "/600/*",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "dev.to",
+        pathname: "/social_previews/article/*",
+      },
     ],
   },
 };

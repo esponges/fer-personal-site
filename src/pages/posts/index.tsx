@@ -8,32 +8,43 @@ import type { Post } from "~/types";
 import { PostCard } from "~/components/molecules/postCard";
 import { Container } from "~/components/organisms/container";
 import { PageHeader } from "~/components/atoms/pageHeader";
+import Head from "next/head";
+import { generateSitemap } from "~/utils/misc";
 
 const PostsPage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
-  const posts = props.posts;
+  const { posts } = props;
 
   return (
-    <Container>
-      <PageHeader
-        title="Posts"
-        description="I love to write about things I'm learning. 
-          Blogging is a great way to improve and share knowledge.
-          And who knows, maybe one day it might help me to write a book!"
-      />
-      <ul>
+    <>
+      <Head>
+        <title>Posts | esponges</title>
+        <meta
+          name="description"
+          content="This is a list of all the posts I've written on dev.to."
+        />
+      </Head>
+      <Container>
+        <PageHeader
+          title="Posts"
+          description="I love to write about things I'm learning. 
+            Blogging is a great way to improve and share knowledge.
+            And who knows, maybe one day it might help me to write a book!"
+        />
         {posts?.map((post) => (
-          <li key={post.id}>
+          <article key={post.id}>
             <PostCard
               title={post.title}
               description={post.description}
               canonical_url={post.canonical_url}
+              cover_image={post.cover_image}
+              social_image={post.social_image}
             />
-          </li>
+          </article>
         ))}
-      </ul>
-    </Container>
+      </Container>
+    </>
   );
 };
 
