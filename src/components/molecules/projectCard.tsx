@@ -45,7 +45,7 @@ export const ProjectCard = ({ project }: Props) => {
       </ul>
       <div className="px-4 py-4 sm:px-6 rounded-lg">
         {/* for ImageKit hosted pages */}
-        <AwesomeSlider bullets={false} startup>
+        {/* <AwesomeSlider bullets={false} startup>
           {project.images.map((image, index) => {
             if (image.path) {
               return (
@@ -70,7 +70,7 @@ export const ProjectCard = ({ project }: Props) => {
               </div>
             );
           })}
-        </AwesomeSlider>
+        </AwesomeSlider> */}
       </div>
       <div className="px-4 py-4 sm:px-6">
         <b>Stack: </b>
