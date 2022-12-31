@@ -87,8 +87,7 @@ model Lib {
   name      String
   url       String
   // many to many project to lib
-  Project   Project? @relation(fields: [projectId], references: [id])
-  projectId String?
+  Project   Project[]
 }
 
 model Project {
