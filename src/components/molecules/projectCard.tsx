@@ -12,6 +12,9 @@ import { Paragraph } from "~/components/atoms/paragraph";
 import { env } from "~/env/client.mjs";
 import { UrlHeader } from "../atoms/urlHeader";
 import { useDeviceWidth } from "~/utils/hooks/misc";
+import { useState } from "react";
+import { Modal } from "~/components/organisms/modal";
+import { BgColor } from "~/types/enums";
 
 interface Props {
   project: Project;
@@ -20,8 +23,33 @@ interface Props {
 export const ProjectCard = ({ project }: Props) => {
   const { isMobile } = useDeviceWidth();
 
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [showImageIdx, setShowImageIdx] = useState(0);
+
+  const handleOpenImageModal = (idx: number) => {
+    setShowImageIdx(idx);
+    setShowImageModal(true);
+  };
+
+  const handleCloseImageModal = () => {
+    setShowImageModal(false);
+  };
+
   return (
     <div className="card--bg overflow-hidden rounded-lg">
+      {showImageModal && (
+        <Modal
+          onClose={handleCloseImageModal}
+          isOpen={showImageModal}
+          bgColor={BgColor.darkGray}
+          outerCloseBtn
+        >
+          <IKImage
+            urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
+            path={project?.images?.[showImageIdx]?.path ?? ""}
+          />
+        </Modal>
+      )}
       <div className="px-4 py-5 sm:p-6">
         <Header>{project.name}</Header>
         {project.url && (
@@ -46,13 +74,30 @@ export const ProjectCard = ({ project }: Props) => {
           );
         })}
       </ul>
-      <div className="px-4 py-4 sm:px-6 rounded-lg mb-6 md:mb-0">
+      <div className="mb-6 rounded-lg px-4 py-4 sm:px-6 md:mb-0">
         {/* for ImageKit hosted pages */}
         <AwesomeSlider bullets={isMobile} startup>
           {project.images.map((image, index) => {
+            // show youtube video - PoC
+            // TODO: pass the correct w/h to the iframe depending on the device
+            // if (image.ytUrl) {
+            //   return (
+            //     <div key={index}>
+            //       <iframe
+            //         width="300"
+            //         height="150"
+            //         src={'https://www.youtube.com/embed/8vnHJNjwuqg'}
+            //         title={image.alt}
+            //         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            //         allowFullScreen
+            //       />
+            //     </div>
+            //   );
+            // }
+
             if (image.path) {
               return (
-                <div key={index}>
+                <div key={index} onClick={() => handleOpenImageModal(index)} className='cursor-pointer'>
                   <IKImage
                     path={image.path}
                     urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
