@@ -5,6 +5,7 @@ interface Props {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
+  outerCloseBtn?: boolean;
   title?: string;
   showActions?: boolean;
   bgColor?: BgColor;
@@ -17,6 +18,7 @@ export const Modal = ({
   title,
   showActions,
   bgColor,
+  outerCloseBtn,
 }: Props) => {
   if (!isOpen) {
     return null;
@@ -30,17 +32,19 @@ export const Modal = ({
         overflow-y-auto overflow-x-hidden 
         outline-none focus:outline-none"
       >
-        <div className="relative my-6 mx-auto w-auto max-w-3xl lg:min-w-[40%]">
-          <button
-            className="absolute -top-6 -right-6 ml-auto
+        <div className="relative my-6 mx-auto w-auto md:max-w-6xl lg:min-w-[40%]">
+          {outerCloseBtn && (
+            <button
+              className="absolute -top-6 -right-6 ml-auto
                 border-0 bg-transparent p-1 text-3xl font-semibold
                 leading-none text-black opacity-50"
-            onClick={onClose}
-          >
-            <span className="h-6 w-6 bg-transparent text-2xl text-black outline-none focus:outline-none">
-              ×
-            </span>
-          </button>
+              onClick={onClose}
+            >
+              <span className="h-6 w-6 bg-transparent text-2xl text-black outline-none focus:outline-none">
+                ×
+              </span>
+            </button>
+          )}
           {/* content */}
           <div
             className={`relative flex w-full flex-col rounded-lg border-0 ${
