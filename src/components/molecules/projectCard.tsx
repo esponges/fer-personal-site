@@ -35,6 +35,11 @@ export const ProjectCard = ({ project }: Props) => {
     setShowImageModal(false);
   };
 
+  const handleNextImage = () => {
+    const next = showImageIdx === project.images.length - 1 ? 0 : showImageIdx + 1;
+    setShowImageIdx(next);
+  };
+
   return (
     <div className="card--bg overflow-hidden rounded-lg">
       {showImageModal && (
@@ -48,6 +53,23 @@ export const ProjectCard = ({ project }: Props) => {
             urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
             path={project?.images?.[showImageIdx]?.path ?? ""}
           />
+          {/* close & next img btns */}
+          <div className="mx-auto">
+            <button
+              type="button"
+              onClick={handleCloseImageModal}
+              className="rounded-lg bg-gray-800 px-4 py-2 text-white mr-4"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              onClick={handleNextImage}
+              className="rounded-lg bg-gray-800 px-4 py-2 text-white ml-4"
+            >
+              Next
+            </button>
+          </div>
         </Modal>
       )}
       <div className="px-4 py-5 sm:p-6">
@@ -97,7 +119,11 @@ export const ProjectCard = ({ project }: Props) => {
 
             if (image.path) {
               return (
-                <div key={index} onClick={() => handleOpenImageModal(index)} className='cursor-pointer'>
+                <div
+                  key={index}
+                  onClick={() => handleOpenImageModal(index)}
+                  className="cursor-pointer"
+                >
                   <IKImage
                     path={image.path}
                     urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
