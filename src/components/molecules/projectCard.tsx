@@ -1,20 +1,22 @@
+import { useState } from "react";
 import Image from "next/image";
 import AwesomeSlider from "react-awesome-slider";
 import Link from "next/link";
 import { IKImage } from "imagekitio-react";
 
 import type { Project } from "~/types";
+import { BgColor } from "~/types/enums";
 
 import { Header } from "~/components/atoms/header";
 import { SubHeader } from "~/components/atoms/subheader";
 import { Paragraph } from "~/components/atoms/paragraph";
+import { UrlHeader } from "~/components/atoms/urlHeader";
+import { Modal } from "~/components/organisms/modal";
+import { Button } from "~/components/atoms/button";
 
 import { env } from "~/env/client.mjs";
-import { UrlHeader } from "../atoms/urlHeader";
+
 import { useDeviceWidth } from "~/utils/hooks/misc";
-import { useState } from "react";
-import { Modal } from "~/components/organisms/modal";
-import { BgColor } from "~/types/enums";
 
 interface Props {
   project: Project;
@@ -36,9 +38,28 @@ export const ProjectCard = ({ project }: Props) => {
   };
 
   const handleNextImage = () => {
-    const next = showImageIdx === project.images.length - 1 ? 0 : showImageIdx + 1;
+    const next =
+      showImageIdx === project.images.length - 1 ? 0 : showImageIdx + 1;
     setShowImageIdx(next);
   };
+
+  const renderModalContent = () => (
+    <>
+      <IKImage
+        urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
+        path={project?.images?.[showImageIdx]?.path ?? ""}
+      />
+      {/* close & next img btns */}
+      <div className="mx-auto">
+        <Button onClick={handleCloseImageModal} className="mr-4">
+          Close
+        </Button>
+        <Button onClick={handleNextImage} className="ml-4">
+          Next
+        </Button>
+      </div>
+    </>
+  );
 
   return (
     <div className="card--bg overflow-hidden rounded-lg">
@@ -49,27 +70,7 @@ export const ProjectCard = ({ project }: Props) => {
           bgColor={BgColor.darkGray}
           outerCloseBtn
         >
-          <IKImage
-            urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
-            path={project?.images?.[showImageIdx]?.path ?? ""}
-          />
-          {/* close & next img btns */}
-          <div className="mx-auto">
-            <button
-              type="button"
-              onClick={handleCloseImageModal}
-              className="rounded-lg bg-gray-800 px-4 py-2 text-white mr-4"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              onClick={handleNextImage}
-              className="rounded-lg bg-gray-800 px-4 py-2 text-white ml-4"
-            >
-              Next
-            </button>
-          </div>
+          {renderModalContent()}
         </Modal>
       )}
       <div className="px-4 py-5 sm:p-6">
