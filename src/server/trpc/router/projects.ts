@@ -8,7 +8,10 @@ export const projectsRouter = router({
           images: true,
           libs: true,
         },
-      }
+        orderBy: {
+          relevance: "desc",
+        },
+      },
     );
   }),
 });

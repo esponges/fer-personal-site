@@ -75,7 +75,9 @@ model Image {
   placeholder String?
   width       Int?
   height      Int?
+  // imagekey relative path
   path        String?
+  ytUrl       String?
   Project     Project? @relation(fields: [projectId], references: [id])
   projectId   String?
 }
@@ -99,6 +101,7 @@ model Project {
   description String?
   url         String?
   tags        String?
+  relevance   Float?  @default(1)
   images      Image[]
   libs        Lib[]
 }
