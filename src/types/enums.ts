@@ -14,6 +14,8 @@ export enum Emojis {
   love = '👫',
   email = '💌',
   piano = '🎹',
+  guitar = '🎸',
+  taxi = '🚕',
 }
 
 export enum Routes {
