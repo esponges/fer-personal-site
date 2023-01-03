@@ -1,9 +1,11 @@
+import { IKImage } from "imagekitio-react";
 import { type NextPage } from "next";
 import Head from "next/head";
 
 import { PageHeader } from "~/components/atoms/pageHeader";
 import { MeCard } from "~/components/molecules/meCard";
 import { Container } from "~/components/organisms/container";
+import { env } from "~/env/client.mjs";
 import { Emojis } from "~/types/enums";
 
 const Home: NextPage = () => {
@@ -19,6 +21,12 @@ const Home: NextPage = () => {
           <PageHeader
             title={`Hello ${Emojis.hi}, I'm Fernando `}
             description=""
+          />
+          <IKImage
+            className="mx-auto h-36 rounded-full 
+            border-2 border-4 border-gray-200"
+            urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
+            path="me_jL4sB97lr?ik-sdk-version=javascript-1.4.3&updatedAt=1672787403219"
           />
           <div className="container flex flex-col items-center justify-center gap-12 py-16 ">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
