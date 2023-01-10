@@ -1,6 +1,7 @@
 import { type AppType, type AppProps } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
@@ -34,6 +35,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
+      <ReactQueryDevtools/>
       {layout}
     </SessionProvider>
   );
