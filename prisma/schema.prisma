@@ -104,4 +104,5 @@ model Project {
   relevance   Float?  @default(1)
   images      Image[]
   libs        Lib[]
+  repoUrl     String?
 }

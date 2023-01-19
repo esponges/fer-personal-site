@@ -97,58 +97,68 @@ export const ProjectCard = ({ project }: Props) => {
           );
         })}
       </ul>
-      <div className="mb-6 rounded-lg px-4 py-4 sm:px-6 md:mb-0">
-        {/* for ImageKit hosted pages */}
-        <AwesomeSlider bullets={isMobile} startup>
-          {project.images.map((image, index) => {
-            // show youtube video - PoC
-            // TODO: pass the correct w/h to the iframe depending on the device
-            // if (image.ytUrl) {
-            //   return (
-            //     <div key={index}>
-            //       <iframe
-            //         width="300"
-            //         height="150"
-            //         src={'https://www.youtube.com/embed/8vnHJNjwuqg'}
-            //         title={image.alt}
-            //         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            //         allowFullScreen
-            //       />
-            //     </div>
-            //   );
-            // }
+      {project.images.length > 0 && (
+        <div className="mb-6 rounded-lg px-4 py-4 sm:px-6 md:mb-0">
+          {/* for ImageKit hosted pages */}
+          <AwesomeSlider bullets={isMobile} startup>
+            {project.images.map((image, index) => {
+              // show youtube video - PoC
+              // TODO: pass the correct w/h to the iframe depending on the device
+              // if (image.ytUrl) {
+              //   return (
+              //     <div key={index}>
+              //       <iframe
+              //         width="300"
+              //         height="150"
+              //         src={'https://www.youtube.com/embed/8vnHJNjwuqg'}
+              //         title={image.alt}
+              //         allow="accelerometer; autoplay; clipboard-write; 
+              //                encrypted-media; gyroscope; picture-in-picture"
+              //         allowFullScreen
+              //       />
+              //     </div>
+              //   );
+              // }
 
-            if (image.path) {
-              return (
-                <div
-                  key={index}
-                  onClick={() => handleOpenImageModal(index)}
-                  className="cursor-pointer"
-                >
-                  <IKImage
-                    path={image.path}
-                    urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
-                  />
-                </div>
-              );
-            }
+              if (image.path) {
+                return (
+                  <div
+                    key={index}
+                    onClick={() => handleOpenImageModal(index)}
+                    className="cursor-pointer"
+                  >
+                    <IKImage
+                      path={image.path}
+                      urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
+                    />
+                  </div>
+                );
+              }
 
-            if (image.url) {
-              return (
-                <div key={index}>
-                  <Image
-                    src={image.url}
-                    alt={image.alt}
-                    className="h-full w-full object-cover"
-                    width={600}
-                    height={600}
-                  />
-                </div>
-              );
-            }
-          })}
-        </AwesomeSlider>
-      </div>
+              if (image.url) {
+                return (
+                  <div key={index}>
+                    <Image
+                      src={image.url}
+                      alt={image.alt}
+                      className="h-full w-full object-cover"
+                      width={600}
+                      height={600}
+                    />
+                  </div>
+                );
+              }
+            })}
+          </AwesomeSlider>
+        </div>
+      )}
+      {/* if it has a repo url */}
+      {project.repoUrl && (
+        <div className="px-4 py-4 sm:px-6">
+          Check the code:
+          <UrlHeader url={project.repoUrl} />
+        </div>
+      )}
       <div className="px-4 py-4 sm:px-6">
         <b>Stack: </b>
         {project.tags}
