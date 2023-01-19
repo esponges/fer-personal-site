@@ -1,5 +1,6 @@
 export enum Emojis {
   me = '👨',
+  meCoding = '👨‍💻',
   her = '👩',
   hi = '👋',
   heart = '❤️',
