@@ -38,12 +38,12 @@ interface Props {
 
 export const SocialMediaIcon = ({
   url,
-  className = "flex justify-center space-x-2",
+  className = "",
   icon,
 }: Props) => {
   return (
     <Link href={url}>
-      <div className={className}>{ICONS[icon]}</div>
+      <div className={`flex justify-center space-x-2 ${className}`}>{ICONS[icon]}</div>
     </Link>
   );
 };

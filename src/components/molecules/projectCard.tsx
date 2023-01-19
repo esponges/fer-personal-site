@@ -17,6 +17,7 @@ import { Button } from "~/components/atoms/button";
 import { env } from "~/env/client.mjs";
 
 import { useDeviceWidth } from "~/utils/hooks/misc";
+import { SocialMediaIcon } from "../atoms/socialMediaIcon";
 
 interface Props {
   project: Project;
@@ -83,6 +84,20 @@ export const ProjectCard = ({ project }: Props) => {
         <SubHeader>{project.subheader}</SubHeader>
         <Paragraph>{project.description}</Paragraph>
       </div>
+      {/* if it has a repo url */}
+      {project.repoUrl && (
+        <div className="mx-2 rounded-md border border-gray-200 px-4 py-4 sm:px-6 mb-4">
+          Check the code!
+          {project.repoUrl.includes("github") && (
+            <SocialMediaIcon
+              url={project.repoUrl}
+              icon="github"
+              className="my-4"
+            />
+          )}
+          <UrlHeader url={project.repoUrl} className="break-all" />
+        </div>
+      )}
       <SubHeader>Main libs used in this project:</SubHeader>
       <ul className="px-4 py-4 sm:px-6">
         {project.libs.map((lib, index) => {
@@ -112,7 +127,7 @@ export const ProjectCard = ({ project }: Props) => {
               //         height="150"
               //         src={'https://www.youtube.com/embed/8vnHJNjwuqg'}
               //         title={image.alt}
-              //         allow="accelerometer; autoplay; clipboard-write; 
+              //         allow="accelerometer; autoplay; clipboard-write;
               //                encrypted-media; gyroscope; picture-in-picture"
               //         allowFullScreen
               //       />
@@ -150,13 +165,6 @@ export const ProjectCard = ({ project }: Props) => {
               }
             })}
           </AwesomeSlider>
-        </div>
-      )}
-      {/* if it has a repo url */}
-      {project.repoUrl && (
-        <div className="px-4 py-4 sm:px-6">
-          Check the code:
-          <UrlHeader url={project.repoUrl} />
         </div>
       )}
       <div className="px-4 py-4 sm:px-6">
