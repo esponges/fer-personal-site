@@ -56,6 +56,9 @@ export const getServerSideProps = async (_ctx: GetServerSidePropsContext) => {
   const res = await fetch(url);
   const posts = (await res.json()) as Post[];
 
+  // order the posts by positive_reactions_count
+  posts.sort((a, b) => b.positive_reactions_count - a.positive_reactions_count);
+
   return {
     props: {
       posts,
