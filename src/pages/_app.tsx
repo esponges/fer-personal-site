@@ -1,7 +1,7 @@
 import { type AppType, type AppProps } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
@@ -9,6 +9,7 @@ import type { NextPage } from "next";
 import { trpc } from "~/utils/trpc";
 
 import { MainLayout } from "~/components/layouts/main";
+import { Transition } from "~/components/layouts/transition";
 
 import "~/styles/globals.css";
 import "react-awesome-slider/dist/styles.css";
@@ -30,12 +31,19 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) => {
-  const getLayout = Component.getLayout || ((page) => <MainLayout>{page}</MainLayout>);
+  const getLayout =
+    Component.getLayout ||
+    ((page) => (
+      <MainLayout>
+        <Transition />
+        {page}
+      </MainLayout>
+    ));
   const layout = getLayout(<Component {...pageProps} />) as JSX.Element;
 
   return (
     <SessionProvider session={session}>
-      <ReactQueryDevtools/>
+      <ReactQueryDevtools />
       {layout}
     </SessionProvider>
   );
