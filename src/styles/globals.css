@@ -16,3 +16,8 @@
 .card--bg {
   @apply bg-white/10 hover:bg-white/20;
 }
+
+#nprogress .bar.app {
+  background: white;
+  height: 3px;
+}

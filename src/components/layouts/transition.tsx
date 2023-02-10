@@ -7,6 +7,14 @@ NProgress.configure({
   easing: "ease",
   speed: 500,
   showSpinner: false,
+  template: `
+    <div class="bar app" role="bar">
+      <div class="peg"></div>
+    </div>
+    <div class="spinner" role="spinner">
+      <div class="spinner-icon"></div>
+    </div>
+  `,
 });
 
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -15,6 +23,4 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 export const Transition = () => {
   return null;
-}
-
-
+};
