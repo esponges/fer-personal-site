@@ -1,13 +1,11 @@
-import DefaultTags from "./default-tags";
-
 export default function Head() {
   return (
     <>
+      <title>Posts | FerTostado</title>
       <meta
         name="description"
-        content="Fer Tostado's Personal site"
+        content="This is a list of all the posts I've written on dev.to."
       />
-      <DefaultTags />
     </>
   );
 }
