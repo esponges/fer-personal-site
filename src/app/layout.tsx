@@ -6,7 +6,7 @@ import "react-awesome-slider/dist/styles.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html lang='EN'>
       <head />
       <body className="flex min-h-screen flex-col bg-gradient-to-b from-[#093679] to-[#00d4ff] text-white">
         <Navbar />
