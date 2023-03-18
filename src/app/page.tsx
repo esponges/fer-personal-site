@@ -1,11 +1,10 @@
-// import { IKImage } from "imagekitio-react";
-import { PageHeader } from "~/components/atoms/pageHeader";
-import { MeCard } from "~/components/molecules/meCard";
-import { Container } from "~/components/organisms/container";
-// import { env } from "~/env/client.mjs";
-import { Emojis } from "~/types/enums";
+import Image from 'next/image';
+import { PageHeader } from '~/components/atoms/pageHeader';
+import { MeCard } from '~/components/molecules/meCard';
+import { Container } from '~/components/organisms/container';
+import { Emojis } from '~/types/enums';
 
-export default function Home () {
+export default function Home() {
   return (
     <>
       <main className="flex flex-col items-center justify-center">
@@ -14,12 +13,14 @@ export default function Home () {
             title={`Hello ${Emojis.hi}, I'm Fernando `}
             description=""
           />
-          {/* <IKImage
-            className="mx-auto h-36 rounded-full 
+          <Image
+            className="mx-auto rounded-xl
             border-2 border-4 border-gray-200"
-            urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
-            path="me_jL4sB97lr?ik-sdk-version=javascript-1.4.3&updatedAt=1672787403219"
-          /> */}
+            src="/images/me.png"
+            alt="Fernando Tostado"
+            width={200}
+            height={200}
+          />
           <div className="container flex flex-col items-center justify-center gap-12 py-16 ">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
               <MeCard
@@ -50,4 +51,4 @@ export default function Home () {
       </main>
     </>
   );
-};
+}
