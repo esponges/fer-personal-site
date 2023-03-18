@@ -62,3 +62,8 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
 # fer-personal-site
+
+# Migration to App directory
+
+Left the migration in the `app-dir-migrate-test` branch for reference but had to quit since GSSP is not supported by the app directory
+and TPRC would also be killed which something I cannot accept for the moment.
