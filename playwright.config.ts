@@ -6,7 +6,7 @@ export default defineConfig({
   testDir: 'src/tests/e2e/',
 
   // add global setup (auth mainly)
-  // globalSetup: 'src/tests/e2e/setup/global.ts',
+  globalSetup: 'src/tests/e2e/setup/global.ts',
 
   // Run all tests in parallel.
   fullyParallel: true,
@@ -37,7 +37,7 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        // storageState: 'src/tests/e2e/setup/storage-state.json',
+        storageState: 'src/tests/e2e/setup/storage-state.json',
       },
     },
   ],
