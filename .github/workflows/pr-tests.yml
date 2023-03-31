@@ -1,0 +1,5 @@
+name: Deployment tests
+on:
+  pull_request:
+    branches:
+      - main
