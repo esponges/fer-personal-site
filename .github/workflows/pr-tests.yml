@@ -1,3 +1,8 @@
+name: Deployment tests
+on:
+  pull_request:
+    branches:
+      - main
 jobs:
   test_setup:
     name: Test setup
