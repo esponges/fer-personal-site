@@ -19,7 +19,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           max_timeout: 300
-      - run: echo ${{ steps.waitForVercelPreviewDeployment.outputs.url }}
+      - run: "echo deployment url is ready: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}" 
 
   tests_e2e:
     name: Run end-to-end tests
@@ -37,5 +37,4 @@ jobs:
       - name: Run tests
         run: npx playwright test
         env:
-          run: "ech 'Running end-to-end tests with the url ${{ needs.test_setup.outputs.preview_url }}'"
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
