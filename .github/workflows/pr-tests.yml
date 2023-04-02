@@ -35,6 +35,6 @@ jobs:
       - name: Install playwright browsers
         run: npx playwright install
       - name: Run tests
-        run: npx playwright test
+        run: timeout 300 npx playwright test || exit 1
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}

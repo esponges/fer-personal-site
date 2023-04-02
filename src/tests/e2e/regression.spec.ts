@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('simple regression test', async ({ page }) => {
-  await page.goto('google.com');
+  await page.goto('/');
   await page.pause();
 
   // home page
