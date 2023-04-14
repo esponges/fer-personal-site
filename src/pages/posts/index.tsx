@@ -9,11 +9,30 @@ import type { Post } from "~/types";
 import { PostCard } from "~/components/molecules/postCard";
 import { Container } from "~/components/organisms/container";
 import { PageHeader } from "~/components/atoms/pageHeader";
+import { Pagination } from "~/components/molecules/pagination";
+import { useState } from "react";
+
+const POSTS_PER_PAGE = 4;
 
 const PostsPage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
   const { posts } = props;
+
+  const [postsToShow, setPostsToShow] = useState<Post[]>(posts.slice(0, 4));
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (page: number) => {
+    const start = (page - 1) * POSTS_PER_PAGE;
+    const end = start + POSTS_PER_PAGE;
+
+    setPostsToShow(posts.slice(start, end));
+    setCurrentPage(page);
+  };
+  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+
+  console.log(postsToShow);
+  console.log(currentPage);
 
   return (
     <>
@@ -42,6 +61,11 @@ const PostsPage = (
             />
           </article>
         ))}
+        <Pagination
+          page={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </Container>
     </>
   );
