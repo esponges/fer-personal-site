@@ -31,9 +31,6 @@ const PostsPage = (
   };
   const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
 
-  console.log(postsToShow);
-  console.log(currentPage);
-
   return (
     <>
       <Head>
@@ -50,7 +47,7 @@ const PostsPage = (
             Blogging is a great way to improve and share knowledge.
             And who knows, maybe one day it might help me to write a book!"
         />
-        {posts?.map((post) => (
+        {postsToShow?.map((post) => (
           <article key={post.id}>
             <PostCard
               title={post.title}
