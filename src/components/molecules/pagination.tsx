@@ -24,7 +24,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className="flex justify-center items-center m-10">
       <button
-        className="flex items-center justify-center rounded-full w-8 h-8"
+        className="flex items-center justify-center rounded-full w-12 h-12 cursor-pointer"
         onClick={() => onPageChange(page - 1)}
         disabled={page === 1}
       >
@@ -42,12 +42,11 @@ export const Pagination: React.FC<PaginationProps> = ({
         );
       })}
       <button
-        className="flex items-center justify-center rounded-full w-8 h-8"
+        className="flex items-center justify-center rounded-full w-12 h-12 cursor-pointer"
         onClick={() => onPageChange(page + 1)}
         disabled={page === totalPages}
       >
         {'>'}
-        {/* <ChevronRightIcon className="w-5 h-5" /> */}
       </button>
     </div>
   );
