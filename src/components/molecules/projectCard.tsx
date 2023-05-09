@@ -21,7 +21,7 @@ import { env } from "~/env/client.mjs";
 import { useDeviceWidth } from "~/utils/hooks/misc";
 import { SocialMediaIcon } from "../atoms/socialMediaIcon";
 
-export const ProjectCard = ({ project }: { project: Project }) => {
+export const ProjectCard = ({ project }: { project: Project<false> }) => {
   const { isMobile } = useDeviceWidth();
 
   const [showImageModal, setShowImageModal] = useState(false);
