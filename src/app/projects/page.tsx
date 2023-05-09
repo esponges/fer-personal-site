@@ -1,6 +1,9 @@
-import { ProjectCard } from '~/components/molecules/projectCard';
+import { Suspense } from 'react';
+
 import { PageHeader } from '~/components/atoms/pageHeader';
 import { Container } from '~/components/organisms/container';
+import Projects from '~/components/containers/projects';
+
 
 import { getProjects } from '~/utils/projects';
 
@@ -14,19 +17,10 @@ export default async function ProjectsPage() {
           title="Projects"
           description="A collection of projects I've worked on."
         />
-        {projects?.map((project) => {
-          return (
-            <div
-              key={project.name}
-              className="my-5"
-            >
-              <ProjectCard
-                key={project.name}
-                project={project}
-              />
-            </div>
-          );
-        })}
+        <Suspense fallback={'LOADING'}>
+          {/* @ts-expect-error Server Component */}
+          <Projects />
+        </Suspense>
       </Container>
     </>
   );
