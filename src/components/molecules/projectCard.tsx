@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from "react";
 import Image from "next/image";
 import AwesomeSlider from "react-awesome-slider";
@@ -19,11 +21,7 @@ import { env } from "~/env/client.mjs";
 import { useDeviceWidth } from "~/utils/hooks/misc";
 import { SocialMediaIcon } from "../atoms/socialMediaIcon";
 
-interface Props {
-  project: Project;
-}
-
-export const ProjectCard = ({ project }: Props) => {
+export const ProjectCard = ({ project }: { project: Project }) => {
   const { isMobile } = useDeviceWidth();
 
   const [showImageModal, setShowImageModal] = useState(false);
