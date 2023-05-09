@@ -24,6 +24,11 @@ export const Navbar = () => {
                 Projects
               </span>
             </Link>
+            <Link href={Routes.rscProjects}>
+              <span className="ml-6 font-bold text-white md:text-lg">
+                RSC Projects
+              </span>
+            </Link>
           </div>
           <div className="flex flex-row items-center gap-4">
             <SocialMediaIcon
