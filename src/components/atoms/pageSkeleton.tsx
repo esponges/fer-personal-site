@@ -11,8 +11,8 @@ export function PageSkeleton() {
       width={400}
       height={460}
       viewBox="0 0 400 460"
-      backgroundColor="#f3f3f3"
-      foregroundColor="#ecebeb"
+      backgroundColor="#9ab0f4"
+      foregroundColor="#8094f9"
       className='w-full h-full mx-auto'
       /* {...props} */
     >
