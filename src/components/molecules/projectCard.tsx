@@ -104,18 +104,6 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
           />
         </div>
       )}
-      <SubHeader>Main libs used in this project:</SubHeader>
-      <ul className="px-4 py-4 sm:px-6">
-        {project.libs.map((lib, index) => {
-          return (
-            <li key={index}>
-              <Link href={lib.url}>
-                <span className="underline hover:text-blue-600">{lib.name}</span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
       {project.images.length > 0 && (
         <div className="mb-6 rounded-lg px-4 py-4 sm:px-6 md:mb-0">
           {/* for ImageKit hosted pages */}
@@ -174,6 +162,18 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
           </AwesomeSlider>
         </div>
       )}
+      <SubHeader>Main libs used in this project:</SubHeader>
+      <ul className="px-4 py-4 sm:px-6">
+        {project.libs.map((lib, index) => {
+          return (
+            <li key={index}>
+              <Link href={lib.url}>
+                <span className="underline hover:text-blue-600">{lib.name}</span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
       <div className="px-4 py-4 sm:px-6">
         <b>Stack: </b>
         {project.tags}

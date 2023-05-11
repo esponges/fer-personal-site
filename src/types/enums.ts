@@ -17,6 +17,7 @@ export enum Emojis {
   piano = '🎹',
   guitar = '🎸',
   taxi = '🚕',
+  wine = '🍷',
 }
 
 export enum Routes {
