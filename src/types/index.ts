@@ -53,4 +53,3 @@ export type Project<HasTimeStamps extends boolean = true> = HasTimeStamps extend
       images: Omit<Image, 'createdAt' | 'updatedAt'>[];
       libs: Omit<Lib, 'createdAt' | 'updatedAt'>[];
     };
-  

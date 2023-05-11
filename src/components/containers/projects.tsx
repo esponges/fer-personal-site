@@ -1,8 +1,9 @@
 import { getProjects } from "~/utils/projects";
-import { ProjectCard } from "../molecules/projectCard";
+import { Project } from "~/types";
+import { ProjectCard } from "~/components/molecules/projectCard";
 
 export default async function Projects() {
-  const projects = await getProjects();
+  const projects = await getProjects() as Project<false>[];
 
   return projects?.map((project) => {
     return (
