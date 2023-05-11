@@ -1,4 +1,4 @@
-export default function DefaultTags() {
+export default function DefaultTags({ title = "Fer Tostado's Personal site" }: { title?: string}) {
   return (
     <>
       <meta
@@ -9,7 +9,7 @@ export default function DefaultTags() {
         rel="shortcut icon"
         href="/favicon.ico"
       />
-      <title>Fer Tostado</title>
+      <title>{title}</title>
       <link
         rel="icon"
         href="/favicon.ico"
