@@ -1,4 +1,4 @@
-import type { Prisma } from "@prisma/client";
+import type { Prisma, Image, Lib } from '@prisma/client';
 
 // dev.to API response
 export interface Post {
@@ -34,10 +34,22 @@ export interface Post {
   };
 }
 
-export type Project = Prisma.ProjectGetPayload<{
-  // include relationships from the Project Model
-  include: {
-    images: true;
-    libs: true;
-  };
-}>;
+export type Project<HasTimeStamps extends boolean = true> = HasTimeStamps extends true
+  ? Prisma.ProjectGetPayload<{
+      include: {
+        images: true;
+        libs: true;
+      };
+    }>
+  : Omit<
+      Prisma.ProjectGetPayload<{
+        include: {
+          images: true;
+          libs: true;
+        };
+      }>,
+      'createdAt' | 'updatedAt'
+    > & {
+      images: Omit<Image, 'createdAt' | 'updatedAt'>[];
+      libs: Omit<Lib, 'createdAt' | 'updatedAt'>[];
+    };

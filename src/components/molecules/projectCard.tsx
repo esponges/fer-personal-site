@@ -1,29 +1,27 @@
-import { useState } from "react";
-import Image from "next/image";
-import AwesomeSlider from "react-awesome-slider";
-import Link from "next/link";
-import { IKImage } from "imagekitio-react";
+'use client';
 
-import type { Project } from "~/types";
-import { BgColor } from "~/types/enums";
+import { useState } from 'react';
+import Image from 'next/image';
+import AwesomeSlider from 'react-awesome-slider';
+import Link from 'next/link';
+import { IKImage } from 'imagekitio-react';
 
-import { Header } from "~/components/atoms/header";
-import { SubHeader } from "~/components/atoms/subheader";
-import { Paragraph } from "~/components/atoms/paragraph";
-import { UrlHeader } from "~/components/atoms/urlHeader";
-import { Modal } from "~/components/organisms/modal";
-import { Button } from "~/components/atoms/button";
+import type { Project } from '~/types';
+import { BgColor } from '~/types/enums';
 
-import { env } from "~/env/client.mjs";
+import { Header } from '~/components/atoms/header';
+import { SubHeader } from '~/components/atoms/subheader';
+import { Paragraph } from '~/components/atoms/paragraph';
+import { UrlHeader } from '~/components/atoms/urlHeader';
+import { Modal } from '~/components/organisms/modal';
+import { Button } from '~/components/atoms/button';
 
-import { useDeviceWidth } from "~/utils/hooks/misc";
-import { SocialMediaIcon } from "../atoms/socialMediaIcon";
+import { env } from '~/env/client.mjs';
 
-interface Props {
-  project: Project;
-}
+import { useDeviceWidth } from '~/utils/hooks/misc';
+import { SocialMediaIcon } from '../atoms/socialMediaIcon';
 
-export const ProjectCard = ({ project }: Props) => {
+export const ProjectCard = ({ project }: { project: Project<false> }) => {
   const { isMobile } = useDeviceWidth();
 
   const [showImageModal, setShowImageModal] = useState(false);
@@ -39,8 +37,7 @@ export const ProjectCard = ({ project }: Props) => {
   };
 
   const handleNextImage = () => {
-    const next =
-      showImageIdx === project.images.length - 1 ? 0 : showImageIdx + 1;
+    const next = showImageIdx === project.images.length - 1 ? 0 : showImageIdx + 1;
     setShowImageIdx(next);
   };
 
@@ -48,14 +45,20 @@ export const ProjectCard = ({ project }: Props) => {
     <>
       <IKImage
         urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
-        path={project?.images?.[showImageIdx]?.path ?? ""}
+        path={project?.images?.[showImageIdx]?.path ?? ''}
       />
       {/* close & next img btns */}
       <div className="mx-auto">
-        <Button onClick={handleCloseImageModal} className="mr-4">
+        <Button
+          onClick={handleCloseImageModal}
+          className="mr-4"
+        >
           Close
         </Button>
-        <Button onClick={handleNextImage} className="ml-4">
+        <Button
+          onClick={handleNextImage}
+          className="ml-4"
+        >
           Next
         </Button>
       </div>
@@ -86,16 +89,19 @@ export const ProjectCard = ({ project }: Props) => {
       </div>
       {/* if it has a repo url */}
       {project.repoUrl && (
-        <div className="mx-2 rounded-md border border-gray-200 px-4 py-4 sm:px-6 mb-4">
+        <div className="mx-2 mb-4 rounded-md border border-gray-200 px-4 py-4 sm:px-6">
           Check the code!
-          {project.repoUrl.includes("github") && (
+          {project.repoUrl.includes('github') && (
             <SocialMediaIcon
               url={project.repoUrl}
               icon="github"
               className="my-4"
             />
           )}
-          <UrlHeader url={project.repoUrl} className="break-all" />
+          <UrlHeader
+            url={project.repoUrl}
+            className="break-all"
+          />
         </div>
       )}
       <SubHeader>Main libs used in this project:</SubHeader>
@@ -104,9 +110,7 @@ export const ProjectCard = ({ project }: Props) => {
           return (
             <li key={index}>
               <Link href={lib.url}>
-                <span className="underline hover:text-blue-600">
-                  {lib.name}
-                </span>
+                <span className="underline hover:text-blue-600">{lib.name}</span>
               </Link>
             </li>
           );
@@ -115,7 +119,10 @@ export const ProjectCard = ({ project }: Props) => {
       {project.images.length > 0 && (
         <div className="mb-6 rounded-lg px-4 py-4 sm:px-6 md:mb-0">
           {/* for ImageKit hosted pages */}
-          <AwesomeSlider bullets={isMobile} startup>
+          <AwesomeSlider
+            bullets={isMobile}
+            startup
+          >
             {project.images.map((image, index) => {
               // show youtube video - PoC
               // TODO: pass the correct w/h to the iframe depending on the device

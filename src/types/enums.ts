@@ -23,6 +23,7 @@ export enum Routes {
   home = '/',
   posts = '/posts',
   projects = '/projects',
+  rscProjects = '/rsc-projects',
 }
 
 export enum BgColor {
