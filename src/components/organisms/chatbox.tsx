@@ -5,7 +5,7 @@ import { useRef, useState, useEffect, type ChangeEvent, type FormEvent, type Key
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import { LoadingDots } from '~/components/atoms/loadingDots';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/components/atoms/Accordion';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/components/atoms/accordion';
 
 import { type Message } from '~/types';
 import { trpc } from '~/utils/trpc';
