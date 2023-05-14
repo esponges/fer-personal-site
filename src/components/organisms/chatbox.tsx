@@ -35,6 +35,11 @@ const ChatBox = () => {
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  /* 
+    * TRPC is not yet compatible with RSC
+      so this component wont work unless the next api is used
+  */
+
   // const {
   //   mutate,
   //   isLoading,
