@@ -7,21 +7,6 @@ on:
     branches: [ main ]
 
 jobs:
-  # you can use this job to test against the deployed image in Vercel 
-  # test_setup:
-  #   name: Test setup
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     preview_url: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}
-  #   steps:
-  #     - name: Wait for Vercel Preview
-  #       uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
-  #       id: waitForVercelPreviewDeployment
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         max_timeout: 300
-  #     - run: "echo deployment url is ready: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}" 
-
   tests_e2e:
     name: Run end-to-end tests
     runs-on: ubuntu-latest
@@ -39,3 +24,18 @@ jobs:
         run: timeout 300 npx playwright test || exit 1
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
+  # you can use this job to test against the deployed image in Vercel 
+  # test_setup:
+  #   name: Test setup
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     preview_url: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}
+  #   steps:
+  #     - name: Wait for Vercel Preview
+  #       uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
+  #       id: waitForVercelPreviewDeployment
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         max_timeout: 300
+  #     - run: "echo deployment url is ready: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}" 
+
