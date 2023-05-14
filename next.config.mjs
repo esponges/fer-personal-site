@@ -3,7 +3,7 @@
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
  * This is especially useful for Docker builds.
  */
-!process.env.SKIP_ENV_VALIDATION && (await import("./src/env/server.mjs"));
+!process.env.SKIP_ENV_VALIDATION && (await import('./src/env/server.mjs'));
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -13,33 +13,40 @@ const config = {
   reactStrictMode: true,
   swcMinify: true,
   i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
+  webpack(config) {
+    config.experiments = {
+      ...config.experiments,
+      topLevelAwait: true,
+    };
+    return config;
   },
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "reactnative.dev",
-        pathname:  "/img/*",
+        protocol: 'https',
+        hostname: 'reactnative.dev',
+        pathname: '/img/*',
       },
       {
-        protocol: "https",
-        hostname: "reactjs.org",
+        protocol: 'https',
+        hostname: 'reactjs.org',
       },
       {
-        protocol: "https",
-        hostname: "via.placeholder.com",
-        pathname: "/600/*",
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+        pathname: '/600/*',
       },
       {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
       },
       {
-        protocol: "https",
-        hostname: "dev.to",
-        pathname: "/social_previews/article/*",
+        protocol: 'https',
+        hostname: 'dev.to',
+        pathname: '/social_previews/article/*',
       },
     ],
   },

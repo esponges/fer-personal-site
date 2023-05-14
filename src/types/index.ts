@@ -1,4 +1,5 @@
 import type { Prisma, Image, Lib } from '@prisma/client';
+import { type Document } from 'langchain/document';
 
 // dev.to API response
 export interface Post {
@@ -53,3 +54,10 @@ export type Project<HasTimeStamps extends boolean = true> = HasTimeStamps extend
       images: Omit<Image, 'createdAt' | 'updatedAt'>[];
       libs: Omit<Lib, 'createdAt' | 'updatedAt'>[];
     };
+
+export type Message = {
+  type: 'apiMessage' | 'userMessage';
+  message: string;
+  isStreaming?: boolean;
+  sourceDocs?: Document[];
+};
