@@ -1,22 +1,19 @@
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 
-import type { Post } from "~/types";
-import { Header } from "~/components/atoms/header";
-import { Paragraph } from "~/components/atoms/paragraph";
+import type { Post } from '~/types';
+import { Header } from '~/components/atoms/header';
+import { Paragraph } from '~/components/atoms/paragraph';
 
 export const PostCard = (
-  post: Pick<
-    Post,
-    "title" | "canonical_url" | "cover_image" | "description" | "social_image"
-  >
+  post: Pick<Post, 'title' | 'canonical_url' | 'cover_image' | 'description' | 'social_image'>
 ) => {
   return (
     <Link href={post.canonical_url}>
       <div className="card--bg my-10 flex flex-col gap-4 rounded-xl p-4">
         <Header>{post.title}</Header>
         <Image
-          src={post.cover_image ?? post.social_image ?? "/images/cover-placeholder.png"}
+          src={post.cover_image ?? post.social_image ?? '/images/cover-placeholder.png'}
           alt={post.title}
           width={500}
           height={300}

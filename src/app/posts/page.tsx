@@ -5,8 +5,7 @@ import { PageHeader } from '~/components/atoms/pageHeader';
 import { PageSkeleton } from '~/components/atoms/pageSkeleton';
 import Posts from '~/components/containers/posts';
 
-export default async function PostsPage() {
-
+export default function PostsPage() {
   return (
     <>
       <Container>
