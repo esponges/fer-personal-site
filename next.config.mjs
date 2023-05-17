@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // @ts-check
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
@@ -16,13 +19,22 @@ const config = {
     locales: ['en'],
     defaultLocale: 'en',
   },
-  webpack(config) {
-    config.experiments = {
-      ...config.experiments,
+  // webpack(conf) {
+  //   conf.experiments = {
+  //     ...conf.experiments,
+  //     topLevelAwait: true,
+  //   };
+  //   return conf;
+  // },
+  webpack: (conf) => {
+    conf.experiments = {
+      ...conf.experiments,
       topLevelAwait: true,
     };
-    return config;
+    return conf;
   },
+  // resolves time out issue when building pages
+  staticPageGenerationTimeout: 100,
   images: {
     remotePatterns: [
       {
