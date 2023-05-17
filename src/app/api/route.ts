@@ -1,6 +1,7 @@
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function GET(_request: NextRequest) {
   // Do whatever you want
   return new Response('Hello World!', {
     status: 200,

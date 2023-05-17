@@ -8,9 +8,9 @@ import ReactMarkdown from 'react-markdown';
 import { LoadingDots } from '~/components/atoms/loadingDots';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/components/atoms/accordion';
 
-import { type Message } from '~/types';
-
-import { type Document } from 'langchain/document';
+import type {  Message } from '~/types';
+import type { Document } from 'langchain/document';
+import type { ChatResponseBody } from '~/app/api/chat/route';
 
 export const ChatBox = () => {
   const [query, setQuery] = useState<string>('');
@@ -30,8 +30,6 @@ export const ChatBox = () => {
     ],
     history: [],
   });
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [nameSpace, setNameSpace] = useState<string>();
 
   const { messages, history } = messageState;
 
@@ -43,7 +41,7 @@ export const ChatBox = () => {
   }, []);
 
   //handle form submission
-  async function handleSubmit(e: any) {
+  const handleSubmit = async (e: React.KeyboardEvent<HTMLTextAreaElement>): Promise<void> => {
     e.preventDefault();
 
     setError(null);
@@ -80,47 +78,50 @@ export const ChatBox = () => {
           history,
         }),
       });
-      const chatData = await response.json();
+      const chatData = await response.json() as ChatResponseBody;
 
-      if (chatData.error) {
-        setError(chatData.error);
-      } else {
-        setMessageState((state) => ({
-          ...state,
-          messages: [
-            ...state.messages,
-            {
-              type: 'apiMessage',
-              message: chatData.text,
-              sourceDocs: chatData.sourceDocuments,
-            },
-          ],
-          history: [...state.history, [question, chatData.text]],
-        }));
-      }
+      // if (chatData.error) {
+      //   setError(chatData.error);
+      // } else {
+      setMessageState((state) => ({
+        ...state,
+        messages: [
+          ...state.messages,
+          {
+            type: 'apiMessage',
+            message: chatData.text,
+            // sourceDocs: chatData.sourceDocuments,
+          },
+        ],
+        history: [...state.history, [question, chatData.text]],
+        pendingSourceDocs: chatData.sourceDocuments,
+      }));
+      // }
       console.log('messageState', messageState);
 
       setLoading(false);
 
       //scroll to bottom
       messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
-    } catch (error) {
+    } catch (err: unknown) {
       setLoading(false);
       setError('An error occurred while fetching the data. Please try again.');
-      console.log('error', error);
     }
-  }
+  };
 
   //prevent empty submissions
-  const handleEnter = (e: any) => {
+  const handleEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && query) {
       handleSubmit(e);
-    } else if (e.key == 'Enter') {
+    } else if (e.key === 'Enter') {
       e.preventDefault();
     }
   };
 
-  const canUploadAttachment = !loading && !uploadedFile;
+  // const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  //   e.preventDefault();
+  //   await handleSubmit(e);
+  // };
 
   return (
     <div className="mx-auto flex h-40 w-full flex-col gap-4">
@@ -203,7 +204,7 @@ export const ChatBox = () => {
       </div>
       <div className={styles.center}>
         <div className={styles.cloudform}>
-          <form onSubmit={handleSubmit}>
+          <form>
             <textarea
               disabled={loading}
               onKeyDown={handleEnter}
@@ -213,13 +214,7 @@ export const ChatBox = () => {
               maxLength={512}
               id="userInput"
               name="userInput"
-              placeholder={
-                loading
-                  ? 'Waiting for response...'
-                  : uploadedFile?.name
-                    ? `Ask a question about ${uploadedFile.name}`
-                    : 'Upload a document first'
-              }
+              placeholder={loading ? 'Waiting for response...' : 'Ask a question about the document...'}
               value={query}
               /* dont set vals, use the form values so we do not rerender at every keystroke */
               onChange={(e) => setQuery(e.target.value)}
@@ -227,7 +222,7 @@ export const ChatBox = () => {
             />
             <button
               type="submit"
-              disabled={loading || !uploadedFile}
+              disabled={loading}
               className={styles.generatebutton}
             >
               {loading ? (
@@ -241,6 +236,7 @@ export const ChatBox = () => {
                   className={styles.svgicon}
                   xmlns="http://www.w3.org/2000/svg"
                 >
+                  {/* eslint-disable-next-line max-len */}
                   <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
                 </svg>
               )}
@@ -248,13 +244,9 @@ export const ChatBox = () => {
           </form>
         </div>
       </div>
-      {error || !uploadedFile ? (
+      {error ? (
         <div className="rounded-md border border-red-400 p-4">
-          <p className="text-red-500">
-            {error
-              ? `${error} - Please try again later or use a different file`
-              : 'Please upload your file first to proceed'}
-          </p>
+          <p className="text-red-500">{error}</p>
         </div>
       ) : null}
     </div>

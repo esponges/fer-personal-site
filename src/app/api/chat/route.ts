@@ -1,11 +1,23 @@
+import type { ChainValues } from 'langchain/dist/schema';
 import { type NextRequest, NextResponse } from 'next/server';
 
 import { makeChain } from '~/utils/langchain';
 import { pinecone } from '~/utils/pinecone';
 
+import type { Document } from 'langchain/document';
+
 interface RequestBody {
   question: string;
   history: string[];
+}
+
+export interface ChatResponseBody {
+  text: string;
+  sourceDocuments: Document[];
+}
+
+export interface ChatResponseError {
+  error: string;
 }
 
 /*
