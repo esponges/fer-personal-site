@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { prisma } from '~/server/db/client';
-import type { Project } from '~/types';
+import { prisma } from "~/server/db/client";
+import { Project } from "~/types";
 
 export const removeTimeStamps = (project: Project) => {
   const { createdAt, updatedAt, ...rest } = project;
@@ -31,5 +29,5 @@ export const getProjects = async () => {
     },
   });
 
-  return data.map((project) => removeTimeStamps(project));
+  return data.map((project) => removeTimeStamps(project))
 };

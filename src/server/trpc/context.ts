@@ -14,7 +14,6 @@ type CreateContextOptions = {
  * - trpc's `createSSGHelpers` where we don't have req/res
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  **/
-// eslint-disable-next-line @typescript-eslint/require-await
 export const createContextInner = async (opts: CreateContextOptions) => {
   return {
     session: opts.session,
