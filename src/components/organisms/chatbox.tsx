@@ -217,8 +217,8 @@ export const ChatBox = () => {
                 loading
                   ? 'Waiting for response...'
                   : uploadedFile?.name
-                  ? `Ask a question about ${uploadedFile.name}`
-                  : 'Upload a document first'
+                    ? `Ask a question about ${uploadedFile.name}`
+                    : 'Upload a document first'
               }
               value={query}
               /* dont set vals, use the form values so we do not rerender at every keystroke */

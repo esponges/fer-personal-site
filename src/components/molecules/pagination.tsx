@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 interface PaginationProps {
   page: number;
@@ -6,43 +6,39 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export const Pagination: React.FC<PaginationProps> = ({
-  page,
-  totalPages,
-  onPageChange,
-}) => {
+export const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange }) => {
   const [pages, setPages] = useState<number[]>([]);
 
   useEffect(() => {
-    const pages = [];
+    const p = [];
     for (let i = 1; i <= totalPages; i++) {
-      pages.push(i);
+      p.push(i);
     }
-    setPages(pages);
+    setPages(p);
   }, [totalPages]);
 
   return (
-    <div className="flex justify-center items-center m-10">
+    <div className="m-10 flex items-center justify-center">
       <button
-        className="flex items-center justify-center rounded-full w-12 h-12 cursor-pointer"
+        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full"
         onClick={() => onPageChange(page - 1)}
         disabled={page === 1}
       >
         {'<'}
       </button>
-      {pages.map((page) => {
+      {pages.map((p) => {
         return (
           <button
-            key={page}  
-            className="flex items-center justify-center rounded-full w-8 h-8 mx-1"
-            onClick={() => onPageChange(page)}
+            key={p}
+            className="mx-1 flex h-8 w-8 items-center justify-center rounded-full"
+            onClick={() => onPageChange(p)}
           >
-            {page}
+            {p}
           </button>
         );
       })}
       <button
-        className="flex items-center justify-center rounded-full w-12 h-12 cursor-pointer"
+        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full"
         onClick={() => onPageChange(page + 1)}
         disabled={page === totalPages}
       >
