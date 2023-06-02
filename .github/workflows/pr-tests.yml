@@ -39,6 +39,7 @@ jobs:
           # PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
           # Github secret set in the repository settings
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PLAYWRIGHT_TEST_BASE_URL: "http://localhost:3000"
           NODE_ENV: "test"
           NEXT_PUBLIC_IMAGEKIT_URL: "https://ik.imagekit.io"
           NEXTAUTH_SECRET: "mocked_nextauth_secret"
