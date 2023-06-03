@@ -19,7 +19,7 @@ jobs:
   #       with:
   #         token: ${{ secrets.GITHUB_TOKEN }}
   #         max_timeout: 300
-  #     - run: "echo deployment url is ready: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}" 
+  #     - run: "echo deployment url is ready: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}" foo
   tests_e2e:
     name: Run end-to-end tests
     runs-on: ubuntu-latest
