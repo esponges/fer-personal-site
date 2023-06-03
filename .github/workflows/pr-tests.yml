@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test_setup:
+  vercel_image_setup:
     name: Setup testing environment preview
     runs-on: ubuntu-latest
     outputs:
@@ -23,7 +23,7 @@ jobs:
   tests_e2e:
     name: Run end-to-end tests
     runs-on: ubuntu-latest
-    needs: test_setup
+    needs: vercel_image_setup
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -36,7 +36,10 @@ jobs:
       - name: Run tests
         run: timeout 300 npm run test-e2e-start-server || exit 1
         env:
-          PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
+          # This is very weird, but this is the only setup that works for the e2e tests. Despite the
+          # deployment image not being used since we use the `test-e2e-start-server` script, we still
+          # need to set the image to the same as the deployment image. Otherwise, the tests will fail
+          PLAYWRIGHT_TEST_BASE_URL: ${{ needs.vercel_image_setup.outputs.preview_url }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NODE_ENV: "test"
           NEXT_PUBLIC_IMAGEKIT_URL: "https://ik.imagekit.io"
