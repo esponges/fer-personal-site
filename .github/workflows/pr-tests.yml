@@ -7,23 +7,23 @@ on:
     branches: [ main ]
 
 jobs:
-  # test_setup:
-  #   name: Setup testing environment preview
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     preview_url: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}
-  #   steps:
-  #     - name: Wait for Vercel Preview
-  #       uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
-  #       id: waitForVercelPreviewDeployment
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         max_timeout: 300
-  #     - run: "echo deployment url is ready: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}" 
+  vercel_image_setup:
+    name: Setup testing environment preview
+    runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}
+    steps:
+      - name: Wait for Vercel Preview
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
+        id: waitForVercelPreviewDeployment
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 300
+      - run: "echo deployment url is ready: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}" 
   tests_e2e:
     name: Run end-to-end tests
     runs-on: ubuntu-latest
-    needs: test_setup
+    needs: vercel_image_setup
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -36,9 +36,10 @@ jobs:
       - name: Run tests
         run: timeout 300 npm run test-e2e-start-server || exit 1
         env:
-          # running against localhost atm - not needed for the moment
-          # PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
-          # no need to redeclare again, in the playwright config localhost:3000 is already set as fallback
+          # This is very weird, but this is the only setup that works for the e2e tests. Despite the
+          # deployment image not being used since we use the `test-e2e-start-server` script, we still
+          # need to set the image to the same as the deployment image. Otherwise, the tests will fail
+          PLAYWRIGHT_TEST_BASE_URL: ${{ needs.vercel_image_setup.outputs.preview_url }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NODE_ENV: "test"
           NEXT_PUBLIC_IMAGEKIT_URL: "https://ik.imagekit.io"
@@ -47,5 +48,4 @@ jobs:
           PINECONE_NAMESPACE: "mocked_pinecone_namespace"
           DISCORD_CLIENT_ID: "mocked_discord_client_id"
           DISCORD_CLIENT_SECRET: "mocked_discord_client_secret"
-
 
