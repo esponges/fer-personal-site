@@ -8,7 +8,8 @@
 /** @type {import("next").NextConfig} */
 const config = {
   experimental: {
-    appDir: true,
+    // not required after 14.4.0
+    // appDir: true,
   },
   reactStrictMode: true,
   swcMinify: true,
@@ -25,24 +26,6 @@ const config = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'reactnative.dev',
-        pathname: '/img/*',
-      },
-      {
-        protocol: 'https',
-        hostname: 'reactjs.org',
-      },
-      {
-        protocol: 'https',
-        hostname: 'via.placeholder.com',
-        pathname: '/600/*',
-      },
-      {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-      },
       {
         protocol: 'https',
         hostname: 'dev.to',
