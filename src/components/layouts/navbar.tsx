@@ -19,7 +19,7 @@ const NavbarLink = ({
       href={href}
       className={`ml-6`}
     >
-      <span className={`rounded p-3 font-bold text-white ${textSize} ${className}`}>
+      <span className={`rounded md:p-3 font-bold text-white ${textSize} ${className}`}>
         {children}
       </span>
     </Link>
@@ -32,29 +32,31 @@ export const Navbar = () => {
   return (
     <nav className="flex h-20 flex-row items-center bg-white/10 px-2 md:px-0">
       <div className="w-full">
-        <div className="mx-auto flex max-w-3xl justify-between">
+        <div className="mx-auto md:flex max-w-3xl justify-between xs:text-center">
           <div className="">
             <NavbarLink
               href={Routes.home}
-              textSize="text-3xl"
+              textSize="md:text-2xl text-3xl"
               className={navElHoverClass}
             >
               FerTostado
             </NavbarLink>
             <NavbarLink
               href={Routes.posts}
+              textSize="md:text-xl lg:text-2xl text-lg"
               className={navElHoverClass}
             >
               Posts
             </NavbarLink>
             <NavbarLink
               href={Routes.projects}
+              textSize="md:text-xl lg:text-2xl text-lg"
               className={navElHoverClass}
             >
               Projects
             </NavbarLink>
           </div>
-          <div className="flex flex-row items-center gap-4">
+          <div className="md:flex hidden flex-row items-center gap-4">
             <SocialMediaIcon
               url="https://github.com/esponges"
               icon="github"
