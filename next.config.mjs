@@ -31,6 +31,10 @@ const config = {
         hostname: 'dev.to',
         pathname: '/social_previews/article/*',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
     ],
   },
 };
