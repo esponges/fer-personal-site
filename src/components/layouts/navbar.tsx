@@ -68,7 +68,7 @@ const NavbarToggler = ({ onToggle, isSidebarOpen }: { onToggle: () => void; isSi
   );
 };
 
-export const navElHoverClass = 'hover:bg-white/20 hover:text-gray';
+export const NAV_LINK_HOVER_CLASS = 'hover:bg-white/20 hover:text-gray';
 
 export const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -99,7 +99,7 @@ export const Navbar = () => {
               <NavbarLink
                 href={Routes.home}
                 textSize="md:text-4xl text-3xl"
-                className={navElHoverClass}
+                className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay
                 isMobile={isMobile}
               >
@@ -108,7 +108,7 @@ export const Navbar = () => {
               <NavbarLink
                 href={Routes.posts}
                 textSize="md:text-xl lg:text-2xl text-lg"
-                className={navElHoverClass}
+                className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay={!isMobile}
               >
                 Posts
@@ -116,7 +116,7 @@ export const Navbar = () => {
               <NavbarLink
                 href={Routes.projects}
                 textSize="md:text-xl lg:text-2xl text-lg"
-                className={navElHoverClass}
+                className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay={!isMobile}
               >
                 Projects
