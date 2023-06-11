@@ -1,7 +1,7 @@
 import { Routes } from '~/types/enums';
 import { NavbarLink, navElHoverClass } from './navbar';
 
-export const Sidebar = ({ isOpen }: { isOpen: boolean }) => {
+export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => {
   return (
     <div
       className={`
@@ -20,7 +20,8 @@ export const Sidebar = ({ isOpen }: { isOpen: boolean }) => {
               className={navElHoverClass}
               shouldDisplay
               isMobile
-              textColor='text-gray-500'
+              textColor="text-gray-500"
+              onClick={onClick}
             >
               FerTostado
             </NavbarLink>
@@ -32,7 +33,8 @@ export const Sidebar = ({ isOpen }: { isOpen: boolean }) => {
               className={navElHoverClass}
               shouldDisplay
               isMobile
-              textColor='text-gray-500'
+              textColor="text-gray-500"
+              onClick={onClick}
             >
               Posts
             </NavbarLink>
@@ -44,7 +46,8 @@ export const Sidebar = ({ isOpen }: { isOpen: boolean }) => {
               className={navElHoverClass}
               shouldDisplay
               isMobile
-              textColor='text-gray-500'
+              textColor="text-gray-500"
+              onClick={onClick}
             >
               Projects
             </NavbarLink>

@@ -17,6 +17,7 @@ export const NavbarLink = ({
   shouldDisplay = true,
   isMobile = false,
   textColor = 'text-white',
+  onClick,
 }: {
   href: string;
   children: React.ReactNode;
@@ -25,10 +26,12 @@ export const NavbarLink = ({
   className?: string;
   shouldDisplay?: boolean;
   isMobile?: boolean;
+  onClick?: () => void;
 }) => {
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={!isMobile && shouldDisplay ? 'ml-6' : 'block'}
     >
       <span
@@ -77,7 +80,12 @@ export const Navbar = () => {
 
   return (
     <>
-      {isMobile ? <Sidebar isOpen={isSidebarOpen} /> : null}
+      {isMobile ? (
+        <Sidebar
+          onClick={() => setIsSidebarOpen(false)}
+          isOpen={isSidebarOpen}
+        />
+      ) : null}
       <nav className="flex h-20 flex-row items-center bg-white/10 px-2 md:px-0">
         <div className="w-full">
           <div className="xs:text-center mx-auto max-w-3xl justify-between md:flex">
