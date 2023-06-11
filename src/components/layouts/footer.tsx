@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { Routes } from "~/types/enums";
-import { Social } from "../atoms/social";
+import Link from 'next/link';
+import { Routes } from '~/types/enums';
+import { Social } from '../atoms/social';
 
 /* eslint-disable max-len */
 export const Footer = () => {
@@ -9,10 +9,12 @@ export const Footer = () => {
       <div className="flex items-center p-6">
         {/* <div className="mr-12 hidden lg:block" /> */}
         <div className="flex">
-          {Social.map((social) => social)}
+          {Social.map((social, idx) => (
+            <span key={idx}>{social}</span>
+          ))}
         </div>
       </div>
-      <div className="mx-6 md:py-2 text-center md:text-left">
+      <div className="mx-6 text-center md:py-2 md:text-left">
         <div className="grid-1 grid grid-cols-2 gap-8">
           <div className="">
             <h6
@@ -21,9 +23,9 @@ export const Footer = () => {
             flex
             items-center
           
+            justify-end
             font-semibold
             uppercase
-            justify-end
           "
             >
               <svg
@@ -44,13 +46,12 @@ export const Footer = () => {
               Fer Tostado Web Dev
             </h6>
             <p className="justify-end text-right">
-              This is my personal website and I don&apos;t intend to make any money off of it. I just want to share my passion for web development with the world.
+              This is my personal website and I don&apos;t intend to make any money off of it. I just want to share my
+              passion for web development with the world.
             </p>
           </div>
           <div className="">
-            <h6 className="mb-4 flex font-semibold uppercase justify-end">
-              Contact
-            </h6>
+            <h6 className="mb-4 flex justify-end font-semibold uppercase">Contact</h6>
             <p className="mb-4 flex items-center justify-end">
               <svg
                 aria-hidden="true"
@@ -92,7 +93,10 @@ export const Footer = () => {
       </div>
       <div className="p-6 text-center">
         <span>© {new Date().getFullYear()} Copyright:</span>
-        <Link className="font-semibold ml-2" href={Routes.home}>
+        <Link
+          className="ml-2 font-semibold"
+          href={Routes.home}
+        >
           Fer Tostado
         </Link>
       </div>

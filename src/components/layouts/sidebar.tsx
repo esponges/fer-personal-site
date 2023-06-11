@@ -54,13 +54,13 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               Projects
             </NavbarLink>
           </li>
-          <li className='flex py-3'>
-            {Social.map((social) => social)}
+          <li className="flex py-3">
+            {Social.map((social, idx) => (
+              <span key={idx}>{social}</span>
+            ))}
           </li>
           <li>
-            <span className={NAV_EL_COLOR}>
-              {new Date().getFullYear()}
-            </span>
+            <span className={NAV_EL_COLOR}>{new Date().getFullYear()}</span>
           </li>
         </ul>
       </div>
