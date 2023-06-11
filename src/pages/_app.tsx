@@ -1,18 +1,17 @@
-import { type AppType, type AppProps } from "next/app";
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { type AppType, type AppProps } from 'next/app';
+import { type Session } from 'next-auth';
+import { SessionProvider } from 'next-auth/react';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import type { ReactElement, ReactNode } from "react";
-import type { NextPage } from "next";
+import type { ReactElement, ReactNode } from 'react';
+import type { NextPage } from 'next';
 
-import { trpc } from "~/utils/trpc";
+import { trpc } from '~/utils/trpc';
 
-import { MainLayout } from "~/components/layouts/main";
-import { Transition } from "~/components/layouts/transition";
+import { Transition } from '~/components/layouts/transition';
 
-import "~/styles/globals.css";
-import "react-awesome-slider/dist/styles.css";
+import '~/styles/globals.css';
+import 'react-awesome-slider/dist/styles.css';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -34,10 +33,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const getLayout =
     Component.getLayout ||
     ((page) => (
-      <MainLayout>
+      <>
         <Transition />
         {page}
-      </MainLayout>
+      </>
     ));
   const layout = getLayout(<Component {...pageProps} />) as JSX.Element;
 
