@@ -74,7 +74,7 @@ export const Navbar = () => {
   const navElHoverClass = 'hover:bg-white/20 hover:text-gray';
   return (
     <>
-      <Sidebar isOpen={isSidebarOpen} />
+      {isMobile ? <Sidebar isOpen={isSidebarOpen} /> : null}
       <nav className="flex h-20 flex-row items-center bg-white/10 px-2 md:px-0">
         <div className="w-full">
           <div className="xs:text-center mx-auto max-w-3xl justify-between md:flex">
