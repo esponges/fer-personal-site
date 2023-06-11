@@ -9,17 +9,19 @@ import { useDeviceWidth } from '~/utils/hooks/misc';
 import { SocialMediaIcon } from '../atoms/socialMediaIcon';
 import { Sidebar } from './sidebar';
 
-const NavbarLink = ({
+export const NavbarLink = ({
   href,
   children,
   textSize = 'text-lg',
   className,
   shouldDisplay = true,
   isMobile = false,
+  textColor = 'text-white',
 }: {
   href: string;
   children: React.ReactNode;
   textSize?: string;
+  textColor?: string;
   className?: string;
   shouldDisplay?: boolean;
   isMobile?: boolean;
@@ -30,7 +32,7 @@ const NavbarLink = ({
       className={!isMobile && shouldDisplay ? 'ml-6' : 'block'}
     >
       <span
-        className={`rounded font-bold text-white md:p-3 ${textSize} ${className} ${!shouldDisplay ? 'hidden' : null}`}
+        className={`rounded font-bold md:p-3 ${textColor} ${textSize} ${className} ${!shouldDisplay ? 'hidden' : null}`}
       >
         {children}
       </span>
@@ -63,6 +65,8 @@ const NavbarToggler = ({ onToggle, isSidebarOpen }: { onToggle: () => void; isSi
   );
 };
 
+export const navElHoverClass = 'hover:bg-white/20 hover:text-gray';
+
 export const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { isMobile } = useDeviceWidth();
@@ -71,7 +75,6 @@ export const Navbar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const navElHoverClass = 'hover:bg-white/20 hover:text-gray';
   return (
     <>
       {isMobile ? <Sidebar isOpen={isSidebarOpen} /> : null}
