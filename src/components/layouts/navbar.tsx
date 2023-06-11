@@ -3,7 +3,7 @@
 // but if I remove the app breaks https://github.com/vercel/next.js/discussions/46795
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes } from '~/types/enums';
 import { useDeviceWidth } from '~/utils/hooks/misc';
 import { SocialMediaIcon } from '../atoms/socialMediaIcon';
@@ -46,7 +46,7 @@ export const NavbarLink = ({
 const NavbarToggler = ({ onToggle, isSidebarOpen }: { onToggle: () => void; isSidebarOpen: boolean }) => {
   return (
     <button
-      className="fixed top-4 right-4 z-50 rounded-full p-2"
+      className="fixed top-5 right-4 z-50 rounded-full p-2"
       onClick={onToggle}
     >
       <svg
@@ -70,13 +70,30 @@ const NavbarToggler = ({ onToggle, isSidebarOpen }: { onToggle: () => void; isSi
 
 export const NAV_LINK_HOVER_CLASS = 'hover:bg-white/20 hover:text-gray';
 
+const NavbarStripe = ({ children }: { children: React.ReactNode }) => {
+  return <nav className="flex h-20 flex-row items-center bg-white/10 px-2 md:px-0">{children}</nav>;
+};
+
 export const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const { isMobile } = useDeviceWidth();
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  // handle hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted)
+    return (
+      <NavbarStripe>
+        <></>
+      </NavbarStripe>
+    );
 
   return (
     <>
@@ -86,7 +103,7 @@ export const Navbar = () => {
           isOpen={isSidebarOpen}
         />
       ) : null}
-      <nav className="flex h-20 flex-row items-center bg-white/10 px-2 md:px-0">
+      <NavbarStripe>
         <div className="w-full">
           <div className="xs:text-center mx-auto max-w-3xl justify-between md:flex">
             <div className={isMobile ? 'align-center flex justify-center text-center' : ''}>
@@ -134,7 +151,7 @@ export const Navbar = () => {
             </div>
           </div>
         </div>
-      </nav>
+      </NavbarStripe>
     </>
   );
 };
