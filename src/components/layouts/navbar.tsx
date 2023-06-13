@@ -9,6 +9,7 @@ import { NavbarStripe } from '~/components/atoms/navbar/navbarStripe';
 import { NavbarToggler } from '~/components/atoms/navbar/navbarToggler';
 import { SocialMediaIcon } from '~/components/atoms/socialMediaIcon';
 import { Sidebar } from '~/components/layouts/sidebar';
+import { DarkModeToggler } from '~/components/atoms/darkModeToggler';
 
 export const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -79,6 +80,7 @@ export const Navbar = () => {
               </NavbarLink>
             </div>
             <div className="hidden flex-row items-center gap-4 md:flex">
+              <DarkModeToggler />
               <SocialMediaIcon
                 url="https://github.com/esponges"
                 icon="github"
