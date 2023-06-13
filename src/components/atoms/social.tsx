@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-export const Social = [
+export const renderSocial = (color: string = 'text-gray-600') => [
   <Link
     href="https://twitter.com/fer_tostado"
-    className="mr-6 text-gray-600"
+    className={`${color} hover:text-gray-800 transition-colors duration-300 ease-in-out mx-10`}
   >
     <svg
       aria-hidden="true"
@@ -23,7 +23,7 @@ export const Social = [
   </Link>,
   <Link
     href="https://www.linkedin.com/in/luis-fernando-gonz%C3%A1lez-tostado-a9696177/"
-    className="mr-6 text-gray-600"
+    className={`${color} hover:text-gray-800 transition-colors duration-300 ease-in-out mx-10 `}
   >
     <svg
       aria-hidden="true"
@@ -43,7 +43,7 @@ export const Social = [
   </Link>,
   <Link
     href="https://github.com/esponges"
-    className="text-gray-600"
+    className={`${color} hover:text-gray-800 transition-colors duration-300 ease-in-out mx-10 `}
   >
     <svg
       aria-hidden="true"
