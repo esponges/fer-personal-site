@@ -21,7 +21,7 @@ For production you can use postgres. To create the database:
 - add your connection string to the `DATABASE_URL` environment variable
 - run `npx prisma db push` to create the database schema
 - seed with `npx prisma db seed` (optional)
-- update the schema with the migrations generated in dev (see seed.ts comments and below)
+- update the schema with the migrations generated in dev (see seed.ts comments and below).
 
 To migrate the database:
 
