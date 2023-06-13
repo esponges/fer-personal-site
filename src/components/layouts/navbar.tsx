@@ -63,7 +63,7 @@ export const Navbar = () => {
                 FerTostado
               </NavbarLink>
               <NavbarLink
-                href={Routes.posts}
+                href={Routes.home}
                 textSize="md:text-xl lg:text-2xl text-lg"
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay={!isMobile}
@@ -71,7 +71,7 @@ export const Navbar = () => {
                 Posts
               </NavbarLink>
               <NavbarLink
-                href={Routes.projects}
+                href={Routes.home}
                 textSize="md:text-xl lg:text-2xl text-lg"
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay={!isMobile}
