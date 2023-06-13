@@ -6,7 +6,7 @@ export const DarkModeToggler = () => {
   if (activeTheme === 'dark') {
     return (
       <button
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/90 dark:text-white hover:bg-white/20"
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-500 text-white/90 dark:text-white hover:bg-white/20"
         onClick={toggleTheme}
       >
         <svg
@@ -28,7 +28,7 @@ export const DarkModeToggler = () => {
 
   return (
     <button
-      className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/90 dark:text-white hover:bg-white/20"
+      className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-500 text-white/90 dark:text-white"
       onClick={toggleTheme}
     >
       <svg
