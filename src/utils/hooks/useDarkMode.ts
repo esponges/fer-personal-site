@@ -6,13 +6,11 @@ export const useDarkMode = () => {
 
   const setMode = (mode: string) => {
     window.localStorage.theme = mode;
-    // document.documentElement.classList.add(mode);
+
     if (mode === 'light') {
-      // window.localStorage.theme = 'light';
       document.documentElement.classList.remove('dark');
       document.documentElement.classList.add('light');
     } else {
-      // window.localStorage.theme = 'dark';
       document.documentElement.classList.remove('light');
       document.documentElement.classList.add('dark');
     }
@@ -29,7 +27,11 @@ export const useDarkMode = () => {
   };
 
   useEffect(() => {
-    const localTheme = window.localStorage.theme;
+    const isDarkMode = localStorage.theme === 'dark' || ('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const localTheme = isDarkMode ? 'dark' : 'light';
+
+    // todo? maybe add a listener to theme changes? overkill? how knows
+
     if (localTheme) {
       setActiveTheme(localTheme);
       setMode(localTheme);
