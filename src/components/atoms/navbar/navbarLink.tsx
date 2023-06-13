@@ -28,7 +28,7 @@ export const NavbarLink = ({
       className={!isMobile && shouldDisplay ? 'ml-6' : 'block'}
     >
       <span
-        className={`rounded font-bold md:p-3 ${textColor} ${textSize} ${className} ${!shouldDisplay ? 'hidden' : null}`}
+        className={`rounded font-bold md:p-3 dark:text-white ${textColor} ${textSize} ${className} ${!shouldDisplay ? 'hidden' : null}`}
       >
         {children}
       </span>
