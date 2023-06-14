@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Routes } from '~/types/enums';
-import { renderSocial } from '../atoms/social';
+// import { renderSocial } from '../atoms/social';
 
 /* eslint-disable max-len */
 export const Footer = () => {
@@ -8,11 +8,11 @@ export const Footer = () => {
     <footer className="flex w-full flex-col items-center bg-white/10 text-center">
       <div className="flex items-center p-6">
         {/* <div className="mr-12 hidden lg:block" /> */}
-        <div className="flex">
+        {/* <div className="flex">
           {renderSocial('text-white').map((social, idx) => (
             <span key={idx}>{social}</span>
           ))}
-        </div>
+        </div> */}
       </div>
       <div className="mx-6 text-center md:py-2 md:text-left">
         <div className="grid-1 grid grid-cols-2 gap-8">
