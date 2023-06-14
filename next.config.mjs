@@ -10,6 +10,7 @@ const config = {
   experimental: {
     // not required after 14.4.0
     // appDir: true,
+    appDir: true,
   },
   reactStrictMode: true,
   swcMinify: true,
