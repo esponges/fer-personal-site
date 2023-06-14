@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { Routes } from '~/types/enums';
 import { useDeviceWidth } from '~/utils/hooks/misc';
-import { useDarkMode } from '~/utils/hooks/useDarkMode';
 import { NavbarLink, NAV_LINK_HOVER_CLASS } from '~/components/atoms/navbar/navbarLink';
 import { NavbarStripe } from '~/components/atoms/navbar/navbarStripe';
 import { NavbarToggler } from '~/components/atoms/navbar/navbarToggler';
@@ -16,7 +15,6 @@ export const Navbar = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   const { isMobile } = useDeviceWidth();
-  const { toggleTheme } = useDarkMode();
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
