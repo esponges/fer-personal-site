@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { PageHeader } from '~/components/atoms/pageHeader';
 import { MeCard } from '~/components/molecules/meCard';
 import { Container } from '~/components/organisms/container';
@@ -12,6 +13,11 @@ export default function Home() {
           title={`Hello ${Emojis.hi}, I'm Fernando `}
           description=""
         />
+        <Link href="/">
+          <span className="text-2xl font-bold text-center text-blue-500 hover:text-blue-600">
+            Check out my blog
+          </span>
+        </Link>
         <Image
           className="mx-auto rounded-xl
             border-2 border-4 border-gray-200"
