@@ -1,4 +1,5 @@
-import Link from "next/link";
+// import Link from "next/link";
+import { useRouter } from 'next/navigation'
 
 export const NAV_LINK_HOVER_CLASS = 'hover:bg-white/20 hover:text-gray';
 
@@ -21,10 +22,18 @@ export const NavbarLink = ({
   isMobile?: boolean;
   onClick?: () => void;
 }) => {
+  const router = useRouter();
+
+  const handleNavigate = () => {
+    if (onClick) {
+      onClick();
+    }
+    router.push(href);
+  };
+
   return (
-    <Link
-      href={href}
-      onClick={onClick}
+    <span
+      onClick={handleNavigate}
       className={!isMobile && shouldDisplay ? 'ml-6' : 'block'}
     >
       <span
@@ -32,6 +41,6 @@ export const NavbarLink = ({
       >
         {children}
       </span>
-    </Link>
+    </span>
   );
 };
