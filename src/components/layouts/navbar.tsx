@@ -52,7 +52,7 @@ export const Navbar = () => {
                 />
               ) : null}
               <NavbarLink
-                href={Routes.home}
+                href={Routes.me}
                 textSize="md:text-4xl text-3xl"
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay
