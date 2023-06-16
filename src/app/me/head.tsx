@@ -1,3 +1,3 @@
-import Head from "../head";
+import Head from "~/app/head";
 
 export default Head;
