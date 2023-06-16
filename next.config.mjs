@@ -14,7 +14,6 @@ const config = {
   },
   reactStrictMode: true,
   swcMinify: true,
-  basePath: '/me',
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
