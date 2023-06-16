@@ -1,6 +1,12 @@
 import { Container } from '~/components/organisms/container';
 import { PageHeader } from '~/components/atoms/pageHeader';
 import Posts from '~/components/containers/posts';
+import { generateMetadata } from '~/app/defaultMetadata';
+
+export const metadata = await generateMetadata({
+  title: 'Posts',
+  description: 'Stuff I learned and liked enough.'
+});
 
 export default async function PostsPage() {
   return (

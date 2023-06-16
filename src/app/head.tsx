@@ -1,13 +1,5 @@
-import DefaultTags from "./default-tags";
+import DefaultTags from "./defaultTags";
 
 export default function Head() {
-  return (
-    <>
-      <meta
-        name="description"
-        content="Fer Tostado's Personal site"
-      />
-      <DefaultTags />
-    </>
-  );
+  return <DefaultTags />;
 }

@@ -1,13 +1,5 @@
-import DefaultTags from "../default-tags";
+import DefaultTags from "~/app/defaultTags";
 
 export default function Head() {
-  return (
-    <>
-      <DefaultTags title="Projects | FerTostado" />
-      <meta
-        name="description"
-        content="This is a list of all the relevant projects I've worked on."
-      />
-    </>
-  );
+  return <DefaultTags />;
 }

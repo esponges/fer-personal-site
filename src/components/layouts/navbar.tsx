@@ -28,7 +28,7 @@ export const Navbar = () => {
   if (!isMounted)
     return (
       <NavbarStripe>
-        <></>
+        <div />
       </NavbarStripe>
     );
 
@@ -43,7 +43,7 @@ export const Navbar = () => {
       <NavbarStripe>
         <div className="w-full">
           <div className="xs:text-center mx-auto max-w-3xl justify-between md:flex">
-            <div className={isMobile ? 'align-center flex justify-center text-center' : ''}>
+            <div className={`${isMobile ? '' : 'items-center flex justify-center'} text-center`}>
               {isMobile ? (
                 <NavbarToggler
                   // onToggle={toggleTheme}
@@ -52,7 +52,7 @@ export const Navbar = () => {
                 />
               ) : null}
               <NavbarLink
-                href={Routes.home}
+                href={Routes.me}
                 textSize="md:text-4xl text-3xl"
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay
