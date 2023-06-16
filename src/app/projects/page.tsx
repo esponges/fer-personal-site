@@ -1,7 +1,10 @@
+import Projects from '~/components/containers/projects';
 import { PageHeader } from '~/components/atoms/pageHeader';
 import { Container } from '~/components/organisms/container';
-import Projects from '~/components/containers/projects';
 
+import { generateMetadata } from '../defaultMetadata';
+
+export const metadata = await generateMetadata();
 
 export default async function ProjectsPage() {
   return (

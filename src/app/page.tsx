@@ -3,6 +3,9 @@ import { PageHeader } from '~/components/atoms/pageHeader';
 import { MeCard } from '~/components/molecules/meCard';
 import { Container } from '~/components/organisms/container';
 import { Emojis } from '~/types/enums';
+import { generateMetadata } from './defaultMetadata';
+
+export const metadata = await generateMetadata();
 
 export default function Home() {
   return (
