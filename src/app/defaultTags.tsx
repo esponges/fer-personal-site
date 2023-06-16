@@ -13,6 +13,10 @@ export default function DefaultTags() {
         rel="icon"
         href="/favicon.ico"
       />
+      <meta
+        name="robots"
+        content="all"
+      />
     </>
   );
 }
