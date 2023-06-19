@@ -11,6 +11,7 @@ export const NavbarLink = ({
   isMobile = false,
   textColor = 'text-white',
   onClick,
+  id,
 }: {
   href: string;
   children: React.ReactNode;
@@ -20,12 +21,14 @@ export const NavbarLink = ({
   shouldDisplay?: boolean;
   isMobile?: boolean;
   onClick?: () => void;
+  id?: string;
 }) => {
   return (
     <Link
       href={href}
       onClick={onClick}
       className={!isMobile && shouldDisplay ? 'ml-6' : 'block'}
+      id={id}
     >
       <span
         className={`rounded font-bold md:p-3 font-color-dark--primary ${textColor} ${textSize} ${className} ${!shouldDisplay ? 'hidden' : null}`}
