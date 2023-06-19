@@ -7,7 +7,7 @@ import { Emojis } from '~/types/enums';
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center foo">
+    <div className="flex flex-col items-center justify-center">
       <Container>
         <PageHeader
           title={`Hello ${Emojis.hi}, I'm Fernando `}
