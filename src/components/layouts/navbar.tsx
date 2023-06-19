@@ -57,6 +57,7 @@ export const Navbar = () => {
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay
                 isMobile={isMobile}
+                id="navbar-home-link"
               >
                 FerTostado
               </NavbarLink>
