@@ -9,8 +9,8 @@
 const config = {
   experimental: {
     // not required after 14.4.0
-    appDir: true,
-    clientRouterFilter: false,
+    // appDir: true,
+    // clientRouterFilter: false,
   },
   reactStrictMode: true,
   swcMinify: true,
