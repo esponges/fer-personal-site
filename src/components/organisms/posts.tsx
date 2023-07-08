@@ -25,6 +25,7 @@ export const Posts = ({ posts }: { posts: Post[] }) => {
               canonical_url={post.canonical_url}
               cover_image={post.cover_image}
               social_image={post.social_image}
+              id={post.id}
             />
           </article>
         ))
