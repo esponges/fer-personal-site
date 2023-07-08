@@ -25,6 +25,7 @@
     "imagekitio-react": "^2.0.0",
     "langchain": "^0.0.55",
     "lucide-react": "^0.125.0",
+    "markdown-to-jsx": "^7.2.1",
     "next": "^13.4.5",
     "next-auth": "^4.22.1",
     "nprogress": "^0.2.0",
