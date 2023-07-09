@@ -3,6 +3,7 @@ import { getPostDetails } from "~/utils/posts";
 
 import Markdown from "markdown-to-jsx";
 import { createElement } from "react";
+import { PageHeader } from "~/components/atoms/pageHeader";
 
 type CustomElementProps = {
   children: React.ReactNode;
@@ -15,10 +16,11 @@ const CustomElement = ({ children, type, ...props }: CustomElementProps) => {
 };
 
 export default async function PostDetails({ params }: { params: { id: string } }) {
-  const { body_markdown: markdown } = await getPostDetails(params.id);
+  const { body_markdown: markdown, title } = await getPostDetails(params.id);
 
   return (
     <Container textCenter={false}>
+      <PageHeader title={title} />
       <Markdown
         options={{
           overrides: {
@@ -53,7 +55,7 @@ export default async function PostDetails({ params }: { params: { id: string } }
             img: {
               component: CustomElement,
               props: {
-                className: "rounded-md my-4 md:my-6",
+                className: "rounded-md my-4 md:my-6 mx-auto",
                 type: "img",
               },
             },

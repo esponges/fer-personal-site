@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { usePagination } from '~/utils/hooks/usePagination';
-import { PostCard } from '~/components/molecules/postCard';
-import { Pagination } from '~/components/molecules/pagination';
+import { usePagination } from "~/utils/hooks/usePagination";
+import { PostCard } from "~/components/molecules/postCard";
+import { Pagination } from "~/components/molecules/pagination";
 
-import type { Post } from '~/types';
+import type { Post } from "~/types";
 
 const POSTS_PER_PAGE = 4;
 
@@ -16,6 +16,11 @@ export const Posts = ({ posts }: { posts: Post[] }) => {
 
   return (
     <>
+      <Pagination
+        page={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
       {!!toShow.length ? (
         toShow.map((post) => (
           <article key={post.id}>
