@@ -5,14 +5,31 @@ import { PostCard } from "~/components/molecules/postCard";
 import { Pagination } from "~/components/molecules/pagination";
 
 import type { Post } from "~/types";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 const POSTS_PER_PAGE = 4;
 
 export const Posts = ({ posts }: { posts: Post[] }) => {
+  const router = useRouter();
+  const params = useSearchParams();
   const { toShow, currentPage, totalPages, handlePageChange } = usePagination<Post>({
     elementsPerPage: POSTS_PER_PAGE,
     elements: posts,
   });
+
+  // if the page is not set, set it to 1, otherwise use the from the currentPage from pagination
+  const queryPage = params?.get("page");
+  useEffect(() => {
+    if (!queryPage && currentPage === 1) {
+      router.push(`?page=1`);
+    } else {
+      router.push(`?page=${currentPage}`);
+    }
+  }, [currentPage]);
+
+
+  console.log("q", currentPage);
 
   return (
     <>
