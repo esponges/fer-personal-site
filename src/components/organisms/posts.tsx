@@ -13,7 +13,7 @@ const POSTS_PER_PAGE = 4;
 export const Posts = ({ posts }: { posts: Post[] }) => {
   const router = useRouter();
   const params = useSearchParams();
-  const { toShow, currentPage, totalPages, handlePageChange } = usePagination<Post>({
+  const { toShow, currentPage, totalPages, handlePageChange: onPageChange } = usePagination<Post>({
     elementsPerPage: POSTS_PER_PAGE,
     elements: posts,
   });
@@ -21,15 +21,17 @@ export const Posts = ({ posts }: { posts: Post[] }) => {
   // if the page is not set, set it to 1, otherwise use the from the currentPage from pagination
   const queryPage = params?.get("page");
   useEffect(() => {
-    if (!queryPage && currentPage === 1) {
+    if (!queryPage) {
+      onPageChange(1);
       router.push(`?page=1`);
     } else {
-      router.push(`?page=${currentPage}`);
+      onPageChange(parseInt(queryPage));
     }
-  }, [currentPage]);
+  }, [queryPage]);
 
-
-  console.log("q", currentPage);
+  const handlePageChange = (page: number) => {
+    router.push(`?page=${page}`);
+  };
 
   return (
     <>
