@@ -4,6 +4,7 @@ import { getPostDetails } from "~/utils/posts";
 import Markdown from "markdown-to-jsx";
 import { createElement } from "react";
 import { PageHeader } from "~/components/atoms/pageHeader";
+import { generateMetadata } from "~/app/defaultMetadata";
 
 type CustomElementProps = {
   children: React.ReactNode;
@@ -11,10 +12,14 @@ type CustomElementProps = {
   props: HTMLElement;
 };
 
-const overrideCustomElement = (type: keyof HTMLElementTagNameMap, className: string) => {
-  const language = className.replace("lang-", "");
-  console.log(language);
+const metadata = await generateMetadata({
+  title: "Posts",
+  description: "Stuff I learned and liked enough.",
+});
 
+// to do: react-syntax-highlighter doesn't work with server components
+// find a way to make it work
+const overrideCustomElement = (type: keyof HTMLElementTagNameMap, className: string) => {
   return {
     component: CustomElement,
     props: {

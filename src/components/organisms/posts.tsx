@@ -50,6 +50,7 @@ export const Posts = ({ posts }: { posts: Post[] }) => {
               cover_image={post.cover_image}
               social_image={post.social_image}
               id={post.id}
+              slug={post.slug}
             />
           </article>
         ))
