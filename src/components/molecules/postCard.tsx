@@ -9,7 +9,7 @@ export const PostCard = (
   post: Pick<Post, "title" | "canonical_url" | "cover_image" | "description" | "social_image" | "id" | "slug">
 ) => {
   return (
-    <Link href={`/posts/${post.slug}/${post.id}`}>
+    <Link href={post.canonical_url}>
       <div className="card--bg my-10 flex flex-col gap-4 rounded-xl p-4">
         <Header>{post.title}</Header>
         <Image
