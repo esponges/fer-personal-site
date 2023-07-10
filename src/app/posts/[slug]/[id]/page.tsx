@@ -4,18 +4,41 @@ import { getPostDetails } from "~/utils/posts";
 import Markdown from "markdown-to-jsx";
 import { createElement } from "react";
 import { PageHeader } from "~/components/atoms/pageHeader";
-import { generateMetadata } from "~/app/defaultMetadata";
+
+import { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  // read route params
+  const id = params.id;
+
+  // fetch data
+  const { title, description, url, user, tags } = await getPostDetails(id);
+
+  // optionally access and extend (rather than replace) parent metadata
+  return {
+    title,
+    description,
+    authors: [{
+      name: user.name,
+      url: `https://github.com/${user.github_username}`,
+    }],
+    keywords: tags,
+    alternates: {
+      canonical: url,
+    }
+  };
+}
 
 type CustomElementProps = {
   children: React.ReactNode;
   type: keyof HTMLElementTagNameMap;
   props: HTMLElement;
 };
-
-const metadata = await generateMetadata({
-  title: "Posts",
-  description: "Stuff I learned and liked enough.",
-});
 
 // to do: react-syntax-highlighter doesn't work with server components
 // find a way to make it work
