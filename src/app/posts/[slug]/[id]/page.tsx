@@ -1,11 +1,11 @@
-import { Container } from "~/components/organisms/container";
-import { getPostDetails } from "~/utils/posts";
-
+import { Metadata, ResolvingMetadata } from "next";
 import Markdown from "markdown-to-jsx";
 import { createElement } from "react";
-import { PageHeader } from "~/components/atoms/pageHeader";
 
-import { Metadata, ResolvingMetadata } from "next";
+import { Container } from "~/components/organisms/container";
+import { PageHeader } from "~/components/atoms/pageHeader";
+import { getPostDetails } from "~/utils/posts";
+import Image from "next/image";
 
 type Props = {
   params: { id: string };
@@ -23,14 +23,16 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
   return {
     title,
     description,
-    authors: [{
-      name: user.name,
-      url: `https://github.com/${user.github_username}`,
-    }],
+    authors: [
+      {
+        name: user.name,
+        url: `https://github.com/${user.github_username}`,
+      },
+    ],
     keywords: tags,
     alternates: {
       canonical: url,
-    }
+    },
   };
 }
 
@@ -60,11 +62,22 @@ const CustomElement = ({ children, type, ...props }: CustomElementProps) => {
 // not sure if possible in RSCs directly yet
 // id prefer this router to be posts/[slug]?id=123
 export default async function PostDetails({ params }: { params: { id: string } }) {
-  const { body_markdown: markdown, title } = await getPostDetails(params.id);
+  const { body_markdown: markdown, title, url, cover_image: cover } = await getPostDetails(params.id);
 
   return (
     <Container textCenter={false}>
       <PageHeader title={title} />
+      {cover ? (
+        <Image
+          src={cover}
+          alt={title}
+          width={500}
+          height={300}
+          className="mx-auto my-4 rounded-xl md:my-10"
+          placeholder="blur"
+          blurDataURL="/images/cover-placeholder.png"
+        />
+      ) : null}
       <Markdown
         options={{
           overrides: {
@@ -83,6 +96,17 @@ export default async function PostDetails({ params }: { params: { id: string } }
       >
         {markdown}
       </Markdown>
+      {/* add a reference to the original post */}
+      <p className="my-6 text-center text-gray-500 md:my-10">
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-blue-600"
+        >
+          Read the original post on Dev.to
+        </a>
+      </p>
     </Container>
   );
 }
