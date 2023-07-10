@@ -2,7 +2,7 @@ import type { Prisma, Image, Lib } from '@prisma/client';
 import { type Document } from 'langchain/document';
 
 // dev.to API response
-export interface Post {
+export type Post <HasDetails extends boolean = false > = {
   type_of: string;
   id: number;
   title: string;
@@ -33,7 +33,10 @@ export interface Post {
     profile_image: string;
     profile_image_90: string;
   };
-}
+} & (HasDetails extends true ? { 
+  body_html: string;
+  body_markdown: string;
+} : {});
 
 export type Project<HasTimeStamps extends boolean = true> = HasTimeStamps extends true
   ? Prisma.ProjectGetPayload<{
