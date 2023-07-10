@@ -23,7 +23,7 @@ export const Posts = ({ posts }: { posts: Post[] }) => {
   useEffect(() => {
     if (!queryPage) {
       onPageChange(1);
-      router.push(`?page=1`);
+      handlePageChange(1);
     } else {
       onPageChange(parseInt(queryPage));
     }
