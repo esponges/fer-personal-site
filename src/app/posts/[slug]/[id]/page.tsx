@@ -21,6 +21,7 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 
   // fetch data
   const details = await getPostDetails(id);
+
   const { title, description, tags, user, url } = details ?? {};
 
   // optionally access and extend (rather than replace) parent metadata

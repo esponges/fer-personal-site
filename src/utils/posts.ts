@@ -5,12 +5,12 @@ type PostFetchError = {
   status: number;
 };
 
-export const getPosts = async () => {
+export const getPosts = async (): Promise<(Post)[] | null> => {
   const url = 'https://dev.to/api/articles?username=esponges';
 
   try {
     const res = await fetch(url);
-    const posts = (await res.json()) as Post[] | PostFetchError;
+    const posts = (await res.json());
 
     if (Array.isArray(posts)) {
       // order the posts by positive_reactions_count
@@ -24,18 +24,19 @@ export const getPosts = async () => {
   }
 };
 
-export const getPostDetails = async (id: string) => {
+export const getPostDetails = async (id: string): Promise<(Post<true>) | null> => {
   const url = `https://dev.to/api/articles/${id}`;
 
   try {
     const res = await fetch(url);
-    const post = (await res.json()) as Post<true> | PostFetchError;
+    const post = (await res.json());
   
-    if (Array.isArray(post)) {
+    if (post.id) {
       return post as Post<true>;
     } else {
       return null;
-    } 
+    }
+    
   } catch (error) {
     return null;
   }
