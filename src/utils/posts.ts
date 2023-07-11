@@ -1,10 +1,5 @@
 import type { Post } from '~/types';
 
-type PostFetchError = {
-  error: string;
-  status: number;
-};
-
 export const getPosts = async (): Promise<(Post)[] | null> => {
   const url = 'https://dev.to/api/articles?username=esponges';
 
