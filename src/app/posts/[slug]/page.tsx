@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 // import Markdown from "markdown-to-jsx";
 import { createElement, lazy } from "react";
 
@@ -66,7 +66,13 @@ const CustomElement = ({ children, type, ...props }: CustomElementProps) => {
 // todo: figure out if there's a way to use the slug instead of the id
 // not sure if possible in RSCs directly yet
 // id prefer this router to be posts/[slug]?id=123
-export default async function PostDetails({ params, searchParams }: { params: { id: string }; searchParams: { ref: string } }) {
+export default async function PostDetails({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: { ref: string };
+}) {
   const details = await getPostDetails(searchParams.ref);
 
   if (!details) {

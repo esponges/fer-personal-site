@@ -1,19 +1,20 @@
-'use client';
+/* eslint-disable max-len */
+"use client";
 
-import styles from '~/styles/Home.module.css';
-import { useRef, useState, useEffect, type ChangeEvent, type FormEvent, type KeyboardEvent } from 'react';
-import Image from 'next/image';
-import ReactMarkdown from 'react-markdown';
-import { LoadingDots } from '~/components/atoms/loadingDots';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/components/atoms/accordion';
+import styles from "~/styles/Home.module.css";
+import { useRef, useState, useEffect, type ChangeEvent, type FormEvent, type KeyboardEvent } from "react";
+import Image from "next/image";
+import ReactMarkdown from "react-markdown";
+import { LoadingDots } from "~/components/atoms/loadingDots";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/atoms/accordion";
 
-import { type Message } from '~/types';
-import { trpc } from '~/utils/trpc';
+import { type Message } from "~/types";
+import { trpc } from "~/utils/trpc";
 
-import { type Document } from 'langchain/document';
+import { type Document } from "langchain/document";
 
 const ChatBox = () => {
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [uploadedFile, setUploadedFile] = useState<File | undefined>();
@@ -25,8 +26,8 @@ const ChatBox = () => {
   }>({
     messages: [
       {
-        message: 'Hi, what would you like to learn about this document?',
-        type: 'apiMessage',
+        message: "Hi, what would you like to learn about this document?",
+        type: "apiMessage",
       },
     ],
     history: [],
@@ -81,12 +82,13 @@ const ChatBox = () => {
 
   //handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    // eslint-disable-next-line @typescript-eslint/require-await
     void (async () => {
       e.preventDefault();
       setError(null);
 
       if (!query) {
-        alert('Please input a question');
+        alert("Please input a question");
         return;
       }
 
@@ -97,22 +99,22 @@ const ChatBox = () => {
         messages: [
           ...state.messages,
           {
-            type: 'userMessage',
+            type: "userMessage",
             message: question,
           },
         ],
       }));
 
       setLoading(true);
-      setQuery('');
+      setQuery("");
 
       const requestBody = {
         question,
         history: JSON.stringify(history),
         file: {
-          fieldName: uploadedFile?.name ?? '',
-          originalFilename: uploadedFile?.name ?? '',
-          path: uploadedFile?.name ?? '',
+          fieldName: uploadedFile?.name ?? "",
+          originalFilename: uploadedFile?.name ?? "",
+          path: uploadedFile?.name ?? "",
           headers: {},
           size: uploadedFile?.size ?? 0,
         },
@@ -123,10 +125,10 @@ const ChatBox = () => {
   };
 
   const handleEnter = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && query) {
+    if (e.key === "Enter" && query) {
       // todo: fix this
       handleSubmit(e as unknown as FormEvent<HTMLFormElement>);
-    } else if (e.key == 'Enter') {
+    } else if (e.key == "Enter") {
       e.preventDefault();
     }
   };
@@ -149,7 +151,7 @@ const ChatBox = () => {
               Chat about the uploaded <span className="underline">{uploadedFile.name}</span> file
             </span>
           ) : (
-            'Chat about any uploaded document'
+            "Chat about any uploaded document"
           )}
         </h1>
         <div className="pl-4">
@@ -166,9 +168,9 @@ const ChatBox = () => {
             htmlFor="file"
             className={`
               flex w-1/4 items-center 
-              justify-center px-4 py-2 ${!canUploadAttachment ? 'cursor-not-allowed' : 'cursor-pointer'}
+              justify-center px-4 py-2 ${!canUploadAttachment ? "cursor-not-allowed" : "cursor-pointer"}
               rounded-md border border-transparent bg-blue-600 text-sm 
-              font-medium text-white shadow-sm ${!canUploadAttachment ? 'hover:bg-gray-600' : 'hover:bg-blue-900'}
+              font-medium text-white shadow-sm ${!canUploadAttachment ? "hover:bg-gray-600" : "hover:bg-blue-900"}
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
           >
             Upload a document
@@ -186,7 +188,7 @@ const ChatBox = () => {
               {messages.map((message, index) => {
                 let icon;
                 let className;
-                if (message.type === 'apiMessage') {
+                if (message.type === "apiMessage") {
                   icon = (
                     <Image
                       key={index}
@@ -269,10 +271,10 @@ const ChatBox = () => {
                   name="userInput"
                   placeholder={
                     loading
-                      ? 'Waiting for response...'
+                      ? "Waiting for response..."
                       : uploadedFile?.name
-                      ? `Ask a question about ${uploadedFile.name}`
-                      : 'Upload a document first'
+                        ? `Ask a question about ${uploadedFile.name}`
+                        : "Upload a document first"
                   }
                   value={query}
                   /* dont set vals, use the form values so we do not rerender at every keystroke */

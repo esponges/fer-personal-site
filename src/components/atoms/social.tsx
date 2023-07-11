@@ -1,9 +1,11 @@
+/* eslint-disable max-len */
 import Link from "next/link";
 
-export const renderSocial = (color: string = 'text-gray-600') => [
+export const renderSocial = (color: string = "text-gray-600") => [
   <Link
     href="https://twitter.com/fer_tostado"
-    className={`${color} hover:text-gray-800 transition-colors duration-300 ease-in-out mx-10`}
+    className={`${color} mx-10 transition-colors duration-300 ease-in-out hover:text-gray-800`}
+    key="twitter"
   >
     <svg
       aria-hidden="true"
@@ -23,7 +25,8 @@ export const renderSocial = (color: string = 'text-gray-600') => [
   </Link>,
   <Link
     href="https://www.linkedin.com/in/luis-fernando-gonz%C3%A1lez-tostado-a9696177/"
-    className={`${color} hover:text-gray-800 transition-colors duration-300 ease-in-out mx-10 `}
+    className={`${color} mx-10 transition-colors duration-300 ease-in-out hover:text-gray-800 `}
+    key="linkedin"
   >
     <svg
       aria-hidden="true"
@@ -43,7 +46,8 @@ export const renderSocial = (color: string = 'text-gray-600') => [
   </Link>,
   <Link
     href="https://github.com/esponges"
-    className={`${color} hover:text-gray-800 transition-colors duration-300 ease-in-out mx-10 `}
+    className={`${color} mx-10 transition-colors duration-300 ease-in-out hover:text-gray-800 `}
+    key="github"
   >
     <svg
       aria-hidden="true"

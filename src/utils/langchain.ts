@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { OpenAI } from "langchain/llms/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";

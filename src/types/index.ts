@@ -40,23 +40,23 @@ export type Post <HasDetails extends boolean = false > = {
 
 export type Project<HasTimeStamps extends boolean = true> = HasTimeStamps extends true
   ? Prisma.ProjectGetPayload<{
-      include: {
-        images: true;
-        libs: true;
-      };
-    }>
-  : Omit<
-      Prisma.ProjectGetPayload<{
-        include: {
-          images: true;
-          libs: true;
-        };
-      }>,
-      'createdAt' | 'updatedAt'
-    > & {
-      images: Omit<Image, 'createdAt' | 'updatedAt'>[];
-      libs: Omit<Lib, 'createdAt' | 'updatedAt'>[];
+    include: {
+      images: true;
+      libs: true;
     };
+  }>
+  : Omit<
+  Prisma.ProjectGetPayload<{
+    include: {
+      images: true;
+      libs: true;
+    };
+  }>,
+  'createdAt' | 'updatedAt'
+  > & {
+    images: Omit<Image, 'createdAt' | 'updatedAt'>[];
+    libs: Omit<Lib, 'createdAt' | 'updatedAt'>[];
+  };
 
 export type Message = {
   type: 'apiMessage' | 'userMessage';

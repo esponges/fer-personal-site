@@ -1,3 +1,4 @@
+import { P } from "drizzle-orm/db.d-a6fe1b19";
 import { useEffect, useState } from "react";
 
 interface PaginationProps {
@@ -14,11 +15,11 @@ export const Pagination: React.FC<PaginationProps> = ({
   const [pages, setPages] = useState<number[]>([]);
 
   useEffect(() => {
-    const pages = [];
+    const ps = [];
     for (let i = 1; i <= totalPages; i++) {
-      pages.push(i);
+      ps.push(i);
     }
-    setPages(pages);
+    setPages(ps);
   }, [totalPages]);
 
   return (
@@ -30,14 +31,14 @@ export const Pagination: React.FC<PaginationProps> = ({
       >
         {'<'}
       </button>
-      {pages.map((page) => {
+      {pages.map((p) => {
         return (
           <button
-            key={page}  
+            key={p}  
             className="flex items-center justify-center rounded-full w-8 h-8 mx-1"
-            onClick={() => onPageChange(page)}
+            onClick={() => onPageChange(p)}
           >
-            {page}
+            {p}
           </button>
         );
       })}

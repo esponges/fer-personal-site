@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import type { Post } from '~/types';
 
 export const getPosts = async (): Promise<(Post)[] | null> => {
@@ -35,4 +37,4 @@ export const getPostDetails = async (id: string): Promise<(Post<true>) | null> =
   } catch (error) {
     return null;
   }
-}
+};

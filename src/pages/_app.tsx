@@ -41,6 +41,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const layout = getLayout(<Component {...pageProps} />) as JSX.Element;
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     <SessionProvider session={session}>
       <ReactQueryDevtools />
       {layout}

@@ -9,6 +9,7 @@ export const metadata = await generateMetadata({
   description: 'Production projects I\'ve worked on.',
 });
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export default async function ProjectsPage() {
   return (
     <>
