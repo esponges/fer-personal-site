@@ -1,11 +1,14 @@
 import { Metadata, ResolvingMetadata } from "next";
-import Markdown from "markdown-to-jsx";
-import { createElement } from "react";
+// import Markdown from "markdown-to-jsx";
+import { createElement, lazy } from "react";
 
 import { Container } from "~/components/organisms/container";
 import { PageHeader } from "~/components/atoms/pageHeader";
 import { getPostDetails } from "~/utils/posts";
 import Image from "next/image";
+
+// do not import directly to avoid 
+const Markdown = lazy(() => import("markdown-to-jsx"));
 
 type Props = {
   params: { id: string };
@@ -17,21 +20,22 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
   const id = params.id;
 
   // fetch data
-  const { title, description, url, user, tags } = await getPostDetails(id);
+  const details = await getPostDetails(id);
+  const { title, description, tags, user, url } = details ?? {};
 
   // optionally access and extend (rather than replace) parent metadata
   return {
-    title,
-    description,
+    title: title ?? 'Post not found',
+    description: description ?? 'Post not found',
     authors: [
       {
-        name: user.name,
-        url: `https://github.com/${user.github_username}`,
+        name: user?.name ?? 'Unknown',
+        url: !!user ? `https://github.com/${user.github_username}` : undefined,
       },
     ],
-    keywords: tags,
+    keywords: tags ?? [],
     alternates: {
-      canonical: url,
+      canonical: url ?? 'https://dev.to/',
     },
   };
 }
@@ -62,7 +66,19 @@ const CustomElement = ({ children, type, ...props }: CustomElementProps) => {
 // not sure if possible in RSCs directly yet
 // id prefer this router to be posts/[slug]?id=123
 export default async function PostDetails({ params }: { params: { id: string } }) {
-  const { body_markdown: markdown, title, url, cover_image: cover } = await getPostDetails(params.id);
+  const details = await getPostDetails(params.id);
+  
+  if (!details) {
+    // todo: improve error handling views
+    return (
+      <Container textCenter={false}>
+        <PageHeader title="Post not found" />
+        <p className="text-center text-gray-500">No post found. Please try again later.</p>
+      </Container>
+    );
+  }
+
+  const { body_markdown: markdown, title, url, cover_image: cover } = details;
 
   return (
     <Container textCenter={false}>
