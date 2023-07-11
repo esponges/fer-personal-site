@@ -8,7 +8,7 @@ import { Paragraph } from "~/components/atoms/paragraph";
 export const PostCard = (
   post: Pick<Post, "title" | "canonical_url" | "cover_image" | "description" | "social_image" | "id" | "slug">
 ) => {
-  const detailsUrl = `/posts/${post.id}/${post.slug}`;
+  const detailsUrl = `/posts/${post.slug}/${post.id}`;
 
   return (
     // <Link href={post.canonical_url}>
