@@ -7,17 +7,17 @@ import { PageHeader } from "~/components/atoms/pageHeader";
 import { getPostDetails } from "~/utils/posts";
 import Image from "next/image";
 
-// do not import directly to avoid 
+// do not import directly to avoid
 const Markdown = lazy(() => import("markdown-to-jsx"));
 
 type Props = {
-  params: { id: string };
+  params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   // read route params
-  const id = params.id;
+  const id = searchParams.ref as string;
 
   // fetch data
   const details = await getPostDetails(id);
@@ -26,17 +26,17 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 
   // optionally access and extend (rather than replace) parent metadata
   return {
-    title: title ?? 'Post not found',
-    description: description ?? 'Post not found',
+    title: title ?? "Post not found",
+    description: description ?? "Post not found",
     authors: [
       {
-        name: user?.name ?? 'Unknown',
+        name: user?.name ?? "Unknown",
         url: !!user ? `https://github.com/${user.github_username}` : undefined,
       },
     ],
     keywords: tags ?? [],
     alternates: {
-      canonical: url ?? 'https://dev.to/',
+      canonical: url ?? "https://dev.to/",
     },
   };
 }
@@ -66,9 +66,9 @@ const CustomElement = ({ children, type, ...props }: CustomElementProps) => {
 // todo: figure out if there's a way to use the slug instead of the id
 // not sure if possible in RSCs directly yet
 // id prefer this router to be posts/[slug]?id=123
-export default async function PostDetails({ params }: { params: { id: string } }) {
-  const details = await getPostDetails(params.id);
-  
+export default async function PostDetails({ params, searchParams }: { params: { id: string }; searchParams: { ref: string } }) {
+  const details = await getPostDetails(searchParams.ref);
+
   if (!details) {
     // todo: improve error handling views
     return (
