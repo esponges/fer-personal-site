@@ -2,7 +2,7 @@ import Projects from '~/components/containers/projects';
 import { PageHeader } from '~/components/atoms/pageHeader';
 import { Container } from '~/components/organisms/container';
 
-import { generateMetadata } from 'app/defaultMetadata';
+import { generateMetadata } from '~/app/defaultMetadata';
 
 export const metadata = await generateMetadata({
   title: 'Projects',
