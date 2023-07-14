@@ -8,6 +8,7 @@ export const metadata = await generateMetadata({
   description: 'Stuff I learned and liked enough.'
 });
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export default async function PostsPage() {
   return (
     <Container>

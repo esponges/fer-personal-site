@@ -20,7 +20,7 @@ export const usePagination = <T,>({
 
     setToShow(elements.slice(start, end));
     setCurrentPage(page);
-  }
+  };
 
   return {
     toShow,
@@ -28,4 +28,4 @@ export const usePagination = <T,>({
     totalPages,
     handlePageChange,
   };
-}
+};

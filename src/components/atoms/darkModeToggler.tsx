@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useDarkMode } from "~/utils/hooks/useDarkMode";
 
 export const DarkModeToggler = () => {
