@@ -1,8 +1,7 @@
 import type { Prisma, Image, Lib } from '@prisma/client';
-import { type Document } from 'langchain/document';
 
 // dev.to API response
-export type Post <HasDetails extends boolean = false > = {
+export type Post<HasDetails extends boolean = false> = {
   type_of: string;
   id: number;
   title: string;
@@ -33,34 +32,30 @@ export type Post <HasDetails extends boolean = false > = {
     profile_image: string;
     profile_image_90: string;
   };
-} & (HasDetails extends true ? { 
-  body_html: string;
-  body_markdown: string;
-} : {});
+} & (HasDetails extends true
+  ? {
+      body_html: string;
+      body_markdown: string;
+    }
+  : {});
 
-export type Project<HasTimeStamps extends boolean = true> = HasTimeStamps extends true
-  ? Prisma.ProjectGetPayload<{
-    include: {
-      images: true;
-      libs: true;
-    };
-  }>
-  : Omit<
-  Prisma.ProjectGetPayload<{
-    include: {
-      images: true;
-      libs: true;
-    };
-  }>,
-  'createdAt' | 'updatedAt'
-  > & {
-    images: Omit<Image, 'createdAt' | 'updatedAt'>[];
-    libs: Omit<Lib, 'createdAt' | 'updatedAt'>[];
-  };
-
-export type Message = {
-  type: 'apiMessage' | 'userMessage';
-  message: string;
-  isStreaming?: boolean;
-  sourceDocs?: Document[];
-};
+export type Project<HasTimeStamps extends boolean = true> =
+  HasTimeStamps extends true
+    ? Prisma.ProjectGetPayload<{
+        include: {
+          images: true;
+          libs: true;
+        };
+      }>
+    : Omit<
+        Prisma.ProjectGetPayload<{
+          include: {
+            images: true;
+            libs: true;
+          };
+        }>,
+        'createdAt' | 'updatedAt'
+      > & {
+        images: Omit<Image, 'createdAt' | 'updatedAt'>[];
+        libs: Omit<Lib, 'createdAt' | 'updatedAt'>[];
+      };
