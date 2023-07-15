@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "debug:vercel-fn-size-build": "NEXT_DEBUG_FUNCTION_SIZE=1 vercel build"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
@@ -19,6 +20,7 @@
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
     "drizzle-orm": "^0.26.5",
+    "langchain": "0.0.95",
     "imagekitio-react": "^2.0.0",
     "markdown-to-jsx": "^7.2.1",
     "next": "^13.4.5",
