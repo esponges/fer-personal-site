@@ -59,3 +59,18 @@ export type Project<HasTimeStamps extends boolean = true> =
       images: Omit<Image, 'createdAt' | 'updatedAt'>[];
       libs: Omit<Lib, 'createdAt' | 'updatedAt'>[];
     };
+
+export type Doc = {
+  id: string;
+  name: string | null;
+  createdAt: string | null;
+  nameSpace: string | null;
+  docs: {
+    id: string;
+    name: string | null;
+    createdAt: string | null;
+    metadata: string | null;
+    pageContent: string | null;
+    langChainDocsId: string | null;
+  }[];
+};
