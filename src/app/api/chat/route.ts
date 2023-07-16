@@ -2,6 +2,8 @@
 import { AIChatMessage, HumanChatMessage } from "langchain/schema";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+
 import { getErrorMessage } from "~/utils/misc";
 import { Document } from "langchain/document";
 
@@ -11,6 +13,7 @@ import type { Doc } from "~/types";
 import type { BaseChatMessage } from "langchain/schema";
 import { type NextRequest, NextResponse } from "next/server";
 
+import * as fs from "fs";
 interface RequestBody {
   question: string;
   history: Array<Array<string>>;
@@ -34,21 +37,28 @@ export async function POST(request: NextRequest) {
   });
 
   try {
-    const docs = await getExistingDocs("robot copy 5.pdf");
+    /* using DB instead of local file */
+    // const docs = await getExistingDocs("robot copy 5.pdf");
 
-    if (!docs[0]?.docs.length) {
-      return NextResponse.json({
-        error: "An error occurred while fetching documents",
-      });
-    }
+    // if (!docs[0]?.docs.length) {
+    //   return NextResponse.json({
+    //     error: "An error occurred while fetching documents",
+    //   });
+    // }
 
-    const documents = docs[0].docs.map(
-      (doc) =>
-        new Document<Doc>({
-          metadata: JSON.parse(doc.metadata as string),
-          pageContent: doc.pageContent as string,
-        })
-    );
+    // const documents = docs[0].docs.map(
+    //   (doc) =>
+    //     new Document<Doc>({
+    //       metadata: JSON.parse(doc.metadata as string),
+    //       pageContent: doc.pageContent as string,
+    //     })
+    // );
+
+    const text = fs.readFileSync("public/robot.txt", "utf8");
+    /* Split the text into chunks */
+    const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
+    const documents = await textSplitter.createDocuments([text]);
+    /* Create the vectorstore */
 
     const HNSWStore = await HNSWLib.fromDocuments(documents, new OpenAIEmbeddings());
 

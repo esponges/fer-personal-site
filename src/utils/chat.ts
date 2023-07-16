@@ -4,13 +4,15 @@
 /* eslint-disable max-len */
 import { OpenAI } from "langchain/llms/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
-import type { VectorStore } from "langchain/dist/vectorstores/base";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
 import { Client } from "pg";
+
+import type { VectorStore } from "langchain/dist/vectorstores/base";
 import type { Document } from "langchain/document";
 import type { Doc } from "~/types";
+
 import * as schema from "../../drizzle/schema";
 
 const CONDENSE_PROMPT = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.

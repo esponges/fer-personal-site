@@ -45,6 +45,6 @@
     "react/jsx-curly-brace-presence": ["warn", { "props": "never", "children": "never" }],
     // jsx curly spacing
     "react/jsx-curly-spacing": ["error", "never"],
-    "@typescript-eslint/require-await": "off", // must be off for nextjs 13 async component support
+    "@typescript-eslint/require-await": "off" // must be off for nextjs 13 async component support
   }
 }

@@ -67,7 +67,7 @@ export const Navbar = () => {
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay={!isMobile}
               >
-                Posts
+                Blog
               </NavbarLink>
               <NavbarLink
                 href={Routes.projects}
