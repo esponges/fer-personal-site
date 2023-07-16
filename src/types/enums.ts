@@ -22,6 +22,7 @@ export enum Emojis {
 
 export enum Routes {
   home = '/',
+  about = '/about',
   me = '/me',
   posts = '/posts',
   projects = '/projects',

@@ -12,7 +12,7 @@ import type { ChatMessage } from '~/types';
 import type { Document } from 'langchain/document';
 import type { ApiChatResponseBody } from '~/types';
 
-export const ChatBox = () => {
+export const ChatBot = () => {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
