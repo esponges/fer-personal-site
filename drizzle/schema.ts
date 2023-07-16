@@ -1,4 +1,5 @@
-import { pgTable, serial, uniqueIndex, varchar, timestamp, text, integer, numeric } from 'drizzle-orm/pg-core';
+import { pgTable, serial, uniqueIndex, varchar, timestamp, text, integer, numeric } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 
 /* 
     TODO:
@@ -25,25 +26,25 @@ import { pgTable, serial, uniqueIndex, varchar, timestamp, text, integer, numeri
 //   }
 
 export const accounts = pgTable(
-  'accounts',
+  "accounts",
   {
-    id: serial('id').primaryKey(),
-    userId: varchar('user_id', { length: 255 }),
-    type: text('type'),
-    provider: varchar('provider', { length: 50 }), // Changed to VARCHAR with length 50
-    providerAccountId: varchar('provider_account_id', { length: 100 }), // Changed to VARCHAR with length 100
-    refresh_token: text('refresh_token'),
-    access_token: text('access_token'),
-    expires_at: timestamp('expires_at'),
-    token_type: text('token_type'),
-    scope: text('scope'),
-    id_token: text('id_token'),
-    session_state: text('session_state'),
+    id: serial("id").primaryKey(),
+    userId: varchar("user_id", { length: 255 }),
+    type: text("type"),
+    provider: varchar("provider", { length: 50 }), // Changed to VARCHAR with length 50
+    providerAccountId: varchar("provider_account_id", { length: 100 }), // Changed to VARCHAR with length 100
+    refresh_token: text("refresh_token"),
+    access_token: text("access_token"),
+    expires_at: timestamp("expires_at"),
+    token_type: text("token_type"),
+    scope: text("scope"),
+    id_token: text("id_token"),
+    session_state: text("session_state"),
   },
-  (accounts) => ({
-    userIdIndex: uniqueIndex('user_id_idx').on(accounts.userId),
-    providerIndex: uniqueIndex('provider_idx').on(accounts.provider),
-    providerAccountIdIndex: uniqueIndex('provider_account_id_idx').on(accounts.providerAccountId),
+  (accs) => ({
+    userIdIndex: uniqueIndex("user_id_idx").on(accs.userId),
+    providerIndex: uniqueIndex("provider_idx").on(accs.provider),
+    providerAccountIdIndex: uniqueIndex("provider_account_id_idx").on(accs.providerAccountId),
   })
 );
 
@@ -57,12 +58,12 @@ export const accounts = pgTable(
 //     sessions      Session[]
 //   }
 
-export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  name: text('name'),
-  email: text('email'),
-  emailVerified: timestamp('email_verified'),
-  image: text('image'),
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  name: text("name"),
+  email: text("email"),
+  emailVerified: timestamp("email_verified"),
+  image: text("image"),
 });
 
 // model Session {
@@ -74,17 +75,17 @@ export const users = pgTable('users', {
 //   }
 
 export const sessions = pgTable(
-  'sessions',
+  "sessions",
   {
-    id: serial('id').primaryKey(),
-    sessionToken: text('session_token'),
-    userId: text('user_id'),
-    expires: timestamp('expires'),
+    id: serial("id").primaryKey(),
+    sessionToken: text("session_token"),
+    userId: text("user_id"),
+    expires: timestamp("expires"),
   },
-  (sessions) => ({
-    sessionTokenIndex: uniqueIndex('session_token_idx').on(sessions.sessionToken),
+  (s) => ({
+    sessionTokenIndex: uniqueIndex("session_token_idx").on(s.sessionToken),
     // to confirm
-    userIdIndex: uniqueIndex('user_id_idx').on(sessions.userId),
+    userIdIndex: uniqueIndex("user_id_idx").on(s.userId),
   })
 );
 
@@ -98,18 +99,15 @@ export const sessions = pgTable(
 
 export const verificationTokens = pgTable(
   // to confirm or verificationTokens label
-  'verification_tokens',
+  "verification_tokens",
   {
-    identifier: text('identifier'),
-    token: text('token'),
-    expires: timestamp('expires'),
+    identifier: text("identifier"),
+    token: text("token"),
+    expires: timestamp("expires"),
   },
   // to confirm
-  (verificationTokens) => ({
-    identifierTokenIndex: uniqueIndex('identifier_token_idx').on(
-      verificationTokens.identifier,
-      verificationTokens.token
-    ),
+  (vTokens) => ({
+    identifierTokenIndex: uniqueIndex("identifier_token_idx").on(vTokens.identifier, vTokens.token),
   })
 );
 
@@ -131,23 +129,23 @@ export const verificationTokens = pgTable(
 //   }
 
 export const images = pgTable(
-  'images',
+  "images",
   {
-    id: serial('id').primaryKey(),
-    createdAt: timestamp('created_at'),
-    updatedAt: timestamp('updated_at'),
-    url: text('url'),
-    alt: text('alt'),
-    title: text('title'),
-    placeholder: text('placeholder'),
-    width: integer('width'),
-    height: integer('height'),
-    path: text('path'),
-    ytUrl: text('yt_url'),
-    projectId: text('project_id'),
+    id: serial("id").primaryKey(),
+    createdAt: timestamp("created_at"),
+    updatedAt: timestamp("updated_at"),
+    url: text("url"),
+    alt: text("alt"),
+    title: text("title"),
+    placeholder: text("placeholder"),
+    width: integer("width"),
+    height: integer("height"),
+    path: text("path"),
+    ytUrl: text("yt_url"),
+    projectId: text("project_id"),
   },
-  (images) => ({
-    projectIdIndex: uniqueIndex('project_id_idx').on(images.projectId),
+  (imgs) => ({
+    projectIdIndex: uniqueIndex("project_id_idx").on(imgs.projectId),
   })
 );
 
@@ -162,16 +160,16 @@ export const images = pgTable(
 //   }
 
 export const libs = pgTable(
-  'libs',
+  "libs",
   {
-    id: serial('id').primaryKey(),
-    createdAt: timestamp('created_at'),
-    updatedAt: timestamp('updated_at'),
-    name: text('name'),
-    url: text('url'),
+    id: serial("id").primaryKey(),
+    createdAt: timestamp("created_at"),
+    updatedAt: timestamp("updated_at"),
+    name: text("name"),
+    url: text("url"),
   },
-  (libs) => ({
-    nameIndex: uniqueIndex('name_idx').on(libs.name),
+  (ls) => ({
+    nameIndex: uniqueIndex("name_idx").on(ls.name),
   })
 );
 
@@ -191,20 +189,47 @@ export const libs = pgTable(
 //   }
 
 export const projects = pgTable(
-  'projects',
+  "projects",
   {
-    id: serial('id').primaryKey(),
-    createdAt: timestamp('created_at'),
-    updatedAt: timestamp('updated_at'),
-    name: text('name'),
-    subheader: text('subheader'),
-    description: text('description'),
-    url: text('url'),
-    tags: text('tags'),
-    relevance: numeric('relevance'),
-    repoUrl: text('repo_url'),
+    id: serial("id").primaryKey(),
+    createdAt: timestamp("created_at"),
+    updatedAt: timestamp("updated_at"),
+    name: text("name"),
+    subheader: text("subheader"),
+    description: text("description"),
+    url: text("url"),
+    tags: text("tags"),
+    relevance: numeric("relevance"),
+    repoUrl: text("repo_url"),
   },
-  (projects) => ({
-    nameIndex: uniqueIndex('name_idx').on(projects.name),
+  (projs) => ({
+    nameIndex: uniqueIndex("name_idx").on(projs.name),
   })
 );
+
+export const langChainDocs = pgTable("LangChainDocs", {
+  id: varchar("id").primaryKey(),
+  createdAt: text("createdAt"),
+  name: text("name"),
+  nameSpace: text("nameSpace"),
+});
+
+export const langChainDocRelations = relations(langChainDocs, ({ many }) => ({
+  docs: many(docs),
+}));
+
+export const docs = pgTable("Docs", {
+  id: varchar("id").primaryKey(),
+  createdAt: text("createdAt"),
+  metadata: text("metadata"),
+  pageContent: text("pageContent"),
+  name: text("name"),
+  langChainDocsId: text("langChainDocsId"),
+});
+
+export const docsRelations = relations(docs, ({ one }) => ({
+  langChainDocs: one(langChainDocs, {
+    fields: [docs.langChainDocsId],
+    references: [langChainDocs.id],
+  }),
+}));

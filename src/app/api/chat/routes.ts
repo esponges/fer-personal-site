@@ -1,13 +1,15 @@
-import type { ChainValues } from "langchain/dist/schema";
-import { type NextRequest, NextResponse } from "next/server";
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { AIChatMessage, HumanChatMessage } from "langchain/schema";
+import { HNSWLib } from "langchain/vectorstores/hnswlib";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { getErrorMessage } from "~/utils/misc";
+import { Document } from "langchain/document";
+
+import { getExistingDocs, makeChain } from "~/utils/chat";
+
+import type { Doc } from "~/types";
 import type { BaseChatMessage } from "langchain/schema";
-import { HNSWLib } from 'langchain/vectorstores/hnswlib';
-
-// import { makeChain } from '~/utils/langchain';
-// import { pinecone } from '~/utils/pinecone';
-
-import type { Document } from "langchain/document";
+import { type NextRequest, NextResponse } from "next/server";
 
 interface RequestBody {
   question: string;
@@ -45,26 +47,39 @@ export async function POST(request: NextRequest) {
   });
 
   try {
-    // const pineconeClient = pinecone;
+    const docs = await getExistingDocs("fercho");
 
-    // //create chain for conversational AI
-    // const chain = await makeChain(pineconeClient);
+    if (!docs[0]?.docs.length) {
+      return NextResponse.json({
+        error: "An error occurred while fetching documents",
+      });
+    }
 
-    // //Ask a question using chat history
-    // // OpenAI recommends replacing newlines with spaces for best results
-    // const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
-    // const response = await chain.call({
-    //   question: sanitizedQuestion,
-    //   chat_history: history || [],
-    // });
+    const documents = docs[0].docs.map(
+      (doc) =>
+        new Document<Doc>({
+          metadata: JSON.parse(doc.metadata as string),
+          pageContent: doc.pageContent as string,
+        })
+    );
 
-    // res.status(200).json(response);
-    return NextResponse.json({
-      /* response */
+    const HNSWStore = await HNSWLib.fromDocuments(documents, new OpenAIEmbeddings());
+
+    const chain = makeChain(HNSWStore);
+
+    const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
+    const response = await chain.call({
+      question: sanitizedQuestion,
+      chat_history: chatHistory || [],
     });
-  } catch (error: any) {
+
+    return NextResponse.json({
+      response
+    });
+  } catch (error) {
+    const errorMsg = getErrorMessage(error);
     console.log("error creating chain", error);
-    // res.status(500).json({ error: error.message || 'Something went wrong' });
-    return NextResponse.json({ error: "Something went wrong" });
+    
+    return NextResponse.json({ error: errorMsg });
   }
 }
