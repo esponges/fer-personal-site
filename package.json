@@ -20,6 +20,7 @@
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
     "drizzle-orm": "^0.26.5",
+    "hnswlib-node": "^1.4.2",
     "imagekitio-react": "^2.0.0",
     "langchain": "0.0.95",
     "lucide-react": "^0.260.0",
