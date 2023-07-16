@@ -5,11 +5,9 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 
 import { getErrorMessage } from "~/utils/misc";
-import { Document } from "langchain/document";
 
-import { getExistingDocs, makeChain } from "~/utils/chat";
+import { makeChain } from "~/utils/chat";
 
-import type { Doc } from "~/types";
 import type { BaseChatMessage } from "langchain/schema";
 import { type NextRequest, NextResponse } from "next/server";
 

@@ -84,7 +84,9 @@ export type ChatMessage = {
 };
 
 export type ApiChatResponseBody = {
-  text: string;
-  sourceDocuments: Document[];
+  response: {
+    text: string;
+    sourceDocuments: Document[];
+  }
 };
 
