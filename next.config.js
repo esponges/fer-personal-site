@@ -23,18 +23,19 @@ const config = {
       ...config.experiments,
       topLevelAwait: true,
     };
+    config.externals = [...config.externals, "hnswlib-node"];
     return config;
   },
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'dev.to',
-        pathname: '/social_previews/article/*',
+        protocol: "https",
+        hostname: "dev.to",
+        pathname: "/social_previews/article/*",
       },
       {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
+        protocol: "https",
+        hostname: "res.cloudinary.com",
       },
     ],
   },
