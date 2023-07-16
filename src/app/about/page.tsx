@@ -9,7 +9,6 @@ export const metadata = await generateMetadata({
   description: 'Ask the chatbot about me!',
 });
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export default async function About() {
   return (
     <>

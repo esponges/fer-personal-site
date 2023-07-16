@@ -16,10 +16,6 @@ interface RequestBody {
   history: Array<Array<string>>;
 }
 
-/*
- * todo: route is not resolving, probably due to the pinecone import
- * probably pinecone is not yet working with the app directory
- */
 export async function POST(request: NextRequest) {
   const { question, history } = (await request.json()) as RequestBody;
 
@@ -69,8 +65,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     const errorMsg = getErrorMessage(error);
-    console.log("error creating chain", error);
 
-    return NextResponse.json({ error: errorMsg });
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }
