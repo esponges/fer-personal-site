@@ -1,4 +1,5 @@
 import type { Prisma, Image, Lib } from '@prisma/client';
+import type { Document } from 'langchain/document';
 
 // dev.to API response
 export type Post<HasDetails extends boolean = false> = {
@@ -74,3 +75,16 @@ export type Doc = {
     langChainDocsId: string | null;
   }[];
 };
+
+export type ChatMessage = {
+  type: 'apiMessage' | 'userMessage';
+  message: string;
+  isStreaming?: boolean;
+  sourceDocs?: Document[];
+};
+
+export type ApiChatResponseBody = {
+  text: string;
+  sourceDocuments: Document[];
+};
+

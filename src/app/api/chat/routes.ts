@@ -16,15 +16,6 @@ interface RequestBody {
   history: Array<Array<string>>;
 }
 
-export interface ChatResponseBody {
-  text: string;
-  sourceDocuments: Document[];
-}
-
-export interface ChatResponseError {
-  error: string;
-}
-
 /*
  * todo: route is not resolving, probably due to the pinecone import
  * probably pinecone is not yet working with the app directory
@@ -47,7 +38,7 @@ export async function POST(request: NextRequest) {
   });
 
   try {
-    const docs = await getExistingDocs("fercho");
+    const docs = await getExistingDocs("robot copy 5.pdf");
 
     if (!docs[0]?.docs.length) {
       return NextResponse.json({
@@ -67,19 +58,19 @@ export async function POST(request: NextRequest) {
 
     const chain = makeChain(HNSWStore);
 
-    const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
+    const sanitizedQuestion = question.trim().replaceAll("\n", " ");
     const response = await chain.call({
       question: sanitizedQuestion,
       chat_history: chatHistory || [],
     });
 
     return NextResponse.json({
-      response
+      response,
     });
   } catch (error) {
     const errorMsg = getErrorMessage(error);
     console.log("error creating chain", error);
-    
+
     return NextResponse.json({ error: errorMsg });
   }
 }
