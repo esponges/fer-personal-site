@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     //     })
     // );
 
-    const text = fs.readFileSync("public/robot.txt", "utf8");
+    const text = fs.readFileSync(`${process.cwd()}/public/robot.txt`, "utf-8");
     /* Split the text into chunks */
     const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
     const documents = await textSplitter.createDocuments([text]);
