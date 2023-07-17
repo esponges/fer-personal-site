@@ -22,9 +22,11 @@ Chat History:
 Follow Up Input: {question}
 Standalone question:`;
 
-const QA_PROMPT = `You are a helpful AI assistant. Use the following pieces of context to answer the question at the end.
+const QA_PROMPT = `You are a helpful AI assistant. You'll receive context and general information about a professional programmer. 
+Use the following pieces of context to answer the question at the end of the prompt.
 If you don't know the answer, just say you don't know. DO NOT try to make up an answer.
-If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context.
+If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context
+and the professional programmer's general information.
 
 {context}
 
@@ -54,12 +56,12 @@ export const makeChain = (vectorStore: VectorStore) => {
   });
 };
 
-if (!process.env.DATABASE_URL) {
+if (!process.env.DOCUMENTS_DB_URL) {
   throw new Error("DB_URL is not set");
 }
 
 const client = new Client({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DOCUMENTS_DB_URL,
 });
 
 const connect = async () => {
