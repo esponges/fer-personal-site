@@ -1,4 +1,5 @@
 import { Routes } from "~/types/enums";
+import { Badge } from "../atoms/badge";
 import { DarkModeToggler } from "../atoms/darkModeToggler";
 import { NavbarLink, NAV_LINK_HOVER_CLASS } from "../atoms/navbar/navbarLink";
 import { renderSocial } from "../atoms/social";
@@ -39,7 +40,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               textColor={NAV_EL_COLOR}
               onClick={onClick}
             >
-              Posts
+              Blog
             </NavbarLink>
           </li>
           <li>
@@ -53,6 +54,29 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               onClick={onClick}
             >
               Projects
+            </NavbarLink>
+          </li>
+          <li>
+            <NavbarLink
+              href={Routes.about}
+              textSize="md:text-xl lg:text-2xl text-lg"
+              className={NAV_LINK_HOVER_CLASS}
+              shouldDisplay
+              isMobile
+              textColor={NAV_EL_COLOR}
+              onClick={onClick}
+            >
+                About
+              <Badge
+                className="ml-2"
+                icon="🤖"
+                iconSize="text-xs"
+                iconColor="text-gray-500"
+                bgColor="bg-yellow-500"
+                textColor="text-gray-500"
+              >
+                <span className="text-md">AI</span>
+              </Badge>
             </NavbarLink>
           </li>
           <li>

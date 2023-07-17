@@ -112,8 +112,6 @@ export const ChatBot = () => {
     }
   };
 
-  console.log("messages", messages);
-
   return (
     <div className="mx-auto flex w-full flex-col gap-4">
       <div className="align-center justify-center">
@@ -163,7 +161,7 @@ export const ChatBot = () => {
                   </div>
                   {!index ? (
                     <div className="relative flex w-full flex-col items-center justify-center text-sm text-gray-500">
-                      E.g: What&apos;s Fer Tech Stack?
+                      E.g: What&apos;s Fer&apos;s Tech Stack?
                     </div>
                   ) : null}
                 </div>

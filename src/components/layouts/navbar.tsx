@@ -1,14 +1,15 @@
 /* eslint-disable max-len */
-'use client';
-import { useEffect, useState } from 'react';
-import { Routes } from '~/types/enums';
-import { useDeviceWidth } from '~/utils/hooks/misc';
-import { NavbarLink, NAV_LINK_HOVER_CLASS } from '~/components/atoms/navbar/navbarLink';
-import { NavbarStripe } from '~/components/atoms/navbar/navbarStripe';
-import { NavbarToggler } from '~/components/atoms/navbar/navbarToggler';
-import { SocialMediaIcon } from '~/components/atoms/socialMediaIcon';
-import { Sidebar } from '~/components/layouts/sidebar';
-import { DarkModeToggler } from '~/components/atoms/darkModeToggler';
+"use client";
+import { useEffect, useState } from "react";
+import { Routes } from "~/types/enums";
+import { useDeviceWidth } from "~/utils/hooks/misc";
+import { NavbarLink, NAV_LINK_HOVER_CLASS } from "~/components/atoms/navbar/navbarLink";
+import { NavbarStripe } from "~/components/atoms/navbar/navbarStripe";
+import { NavbarToggler } from "~/components/atoms/navbar/navbarToggler";
+import { SocialMediaIcon } from "~/components/atoms/socialMediaIcon";
+import { Sidebar } from "~/components/layouts/sidebar";
+import { DarkModeToggler } from "~/components/atoms/darkModeToggler";
+import { Badge } from "../atoms/badge";
 
 export const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -43,7 +44,7 @@ export const Navbar = () => {
       <NavbarStripe>
         <div className="w-full">
           <div className="xs:text-center mx-auto max-w-3xl justify-between md:flex">
-            <div className={`${isMobile ? '' : 'items-center flex justify-center'} text-center`}>
+            <div className={`${isMobile ? "" : "flex items-center justify-center"} text-center`}>
               {isMobile ? (
                 <NavbarToggler
                   // onToggle={toggleTheme}
@@ -84,6 +85,16 @@ export const Navbar = () => {
                 shouldDisplay={!isMobile}
               >
                 About
+                <Badge
+                  className="ml-2"
+                  icon="🤖"
+                  iconSize="text-xs"
+                  iconColor="text-gray-500"
+                  bgColor="bg-yellow-500"
+                  textColor="text-gray-500"
+                >
+                  <span className="text-md">AI</span>
+                </Badge>
               </NavbarLink>
             </div>
             <div className="hidden flex-row items-center gap-4 md:flex">
