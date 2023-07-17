@@ -46,7 +46,7 @@ export const ChatBot = () => {
     setError(null);
 
     if (!query) {
-      alert("Please input a question");
+      setError("Please enter a question.");
       return;
     }
 
@@ -112,6 +112,8 @@ export const ChatBot = () => {
     }
   };
 
+  console.log("messages", messages);
+
   return (
     <div className="mx-auto flex w-full flex-col gap-4">
       <div className="align-center justify-center">
@@ -154,16 +156,23 @@ export const ChatBot = () => {
               <div key={`chatMessage-${index}`}>
                 <div className={className}>
                   {icon}
-                  <div className={styles.markdownanswer}>
-                    <ReactMarkdown linkTarget="_blank">{message.message}</ReactMarkdown>
+                  <div className="flex flex-col">
+                    <div className={styles.markdownanswer}>
+                      <ReactMarkdown linkTarget="_blank">{message.message}</ReactMarkdown>
+                    </div>
                   </div>
+                  {!index ? (
+                    <div className="relative flex w-full flex-col items-center justify-center text-sm text-gray-500">
+                      E.g: What&apos;s Fer Tech Stack?
+                    </div>
+                  ) : null}
                 </div>
               </div>
             );
           })}
         </div>
-        <div className="flex justify-center items-center relative py-2 w-full flex-col">
-          <div className="w-full relative">
+        <div className="relative flex w-full flex-col items-center justify-center py-2">
+          <div className="relative w-full">
             <form>
               <textarea
                 disabled={loading}
