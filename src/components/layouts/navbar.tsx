@@ -67,7 +67,7 @@ export const Navbar = () => {
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay={!isMobile}
               >
-                Posts
+                Blog
               </NavbarLink>
               <NavbarLink
                 href={Routes.projects}
@@ -76,6 +76,14 @@ export const Navbar = () => {
                 shouldDisplay={!isMobile}
               >
                 Projects
+              </NavbarLink>
+              <NavbarLink
+                href={Routes.about}
+                textSize="md:text-xl lg:text-2xl text-lg"
+                className={NAV_LINK_HOVER_CLASS}
+                shouldDisplay={!isMobile}
+              >
+                About
               </NavbarLink>
             </div>
             <div className="hidden flex-row items-center gap-4 md:flex">

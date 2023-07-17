@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { test, expect } from "@playwright/test";
 
+// todo: test are not passing - FIX
 test.describe("regression tests", () => {
   test("should successfully navigate and find elements through main sections in the page", async ({ page }) => {
     await page.goto("/");

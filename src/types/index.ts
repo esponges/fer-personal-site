@@ -1,4 +1,5 @@
 import type { Prisma, Image, Lib } from '@prisma/client';
+import type { Document } from 'langchain/document';
 
 // dev.to API response
 export type Post<HasDetails extends boolean = false> = {
@@ -59,3 +60,33 @@ export type Project<HasTimeStamps extends boolean = true> =
       images: Omit<Image, 'createdAt' | 'updatedAt'>[];
       libs: Omit<Lib, 'createdAt' | 'updatedAt'>[];
     };
+
+export type Doc = {
+  id: string;
+  name: string | null;
+  createdAt: string | null;
+  nameSpace: string | null;
+  docs: {
+    id: string;
+    name: string | null;
+    createdAt: string | null;
+    metadata: string | null;
+    pageContent: string | null;
+    langChainDocsId: string | null;
+  }[];
+};
+
+export type ChatMessage = {
+  type: 'apiMessage' | 'userMessage';
+  message: string;
+  isStreaming?: boolean;
+  sourceDocs?: Document[];
+};
+
+export type ApiChatResponseBody = {
+  response: {
+    text: string;
+    sourceDocuments: Document[];
+  }
+};
+
