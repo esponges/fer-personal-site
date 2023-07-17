@@ -40,8 +40,14 @@ export const ChatBot = () => {
   }, []);
 
   //handle form submission
-  const handleSubmit = async (e: React.KeyboardEvent<HTMLTextAreaElement>): Promise<void> => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<HTMLButtonElement>) => {
+    if ("key" in e && e.key === "Enter") {
+      e.preventDefault();
+    }
+    // check for on click events for preventing default
+    if ("key" in e && e.key !== "Enter") {
+      return;
+    }
 
     setError(null);
 
@@ -104,7 +110,7 @@ export const ChatBot = () => {
   };
 
   //prevent empty submissions
-  const handleEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (e.key === "Enter" && query) {
       handleSubmit(e);
     } else if (e.key === "Enter") {
@@ -188,7 +194,7 @@ export const ChatBot = () => {
                 className={styles.textarea}
               />
               <button
-                type="submit"
+                onClick={handleSubmit}
                 disabled={loading}
                 className={styles.generatebutton}
               >
