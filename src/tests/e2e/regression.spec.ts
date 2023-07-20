@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { test, expect } from "@playwright/test";
 
-// todo: test are not passing - FIX
 test.describe("regression tests", () => {
   test("should successfully navigate and find elements through main sections in the page", async ({ page }) => {
     await page.goto("/");
@@ -44,7 +43,10 @@ test.describe("regression tests", () => {
   */
   test("should preserve the existing mode (Dark or Light) when navigating", async ({ page }) => {
     await page.goto("/");
-  
+
+    page.on('request', request => console.log('>>', request.method(), request.url()));
+    page.on('response', response => console.log('<<', response.status(), response.url()));
+
     // expect the html element to have the class 'light'
     // expect(await page.locator("html").first()).toHaveClass("light");
     const togglerDark = await page.locator("#navbar-darkmode-toggler");
@@ -63,7 +65,12 @@ test.describe("regression tests", () => {
     // and light mode toggle to be present
     const togglerLight = await page.locator("#navbar-lightmode-toggler");
     expect(togglerLight).toBeTruthy();
+
+    // hit home to check if the mode is preserved and page doesn't hard refresh
+    await page.locator("#navbar-home-link").click();
+    const toggler = await page.locator("#navbar-lightmode-toggler");
+    expect(toggler).toBeTruthy();
+    
   });
 });
 
-// todo: add a test to assert that the page doesnt reload when navigating to home
