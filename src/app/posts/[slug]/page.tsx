@@ -65,9 +65,6 @@ const CustomElement = ({ children, type, ...props }: CustomElementProps) => {
   return createElement(type, props, children);
 };
 
-// todo: figure out if there's a way to use the slug instead of the id
-// not sure if possible in RSCs directly yet
-// id prefer this router to be posts/[slug]?id=123
 export default async function PostDetails({
   params: _,
   searchParams,
