@@ -1,5 +1,4 @@
 import type { Metadata, ResolvingMetadata } from "next";
-// import Markdown from "markdown-to-jsx";
 import { createElement, lazy } from "react";
 
 import { Container } from "~/components/organisms/container";
@@ -7,7 +6,7 @@ import { PageHeader } from "~/components/atoms/pageHeader";
 import { getPostDetails } from "~/utils/posts";
 import Image from "next/image";
 
-// do not import directly to avoid
+// in case of error fetching the post details
 const Markdown = lazy(() => import("markdown-to-jsx"));
 
 type Props = {
@@ -15,7 +14,10 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata(
+  { params: _params, searchParams }: Props,
+  _parent: ResolvingMetadata
+): Promise<Metadata> {
   // read route params
   const id = searchParams.ref as string;
 
@@ -63,11 +65,8 @@ const CustomElement = ({ children, type, ...props }: CustomElementProps) => {
   return createElement(type, props, children);
 };
 
-// todo: figure out if there's a way to use the slug instead of the id
-// not sure if possible in RSCs directly yet
-// id prefer this router to be posts/[slug]?id=123
 export default async function PostDetails({
-  params,
+  params: _,
   searchParams,
 }: {
   params: { id: string };
@@ -102,6 +101,7 @@ export default async function PostDetails({
         />
       ) : null}
       <Markdown
+        id="markdown-article"
         options={{
           overrides: {
             p: overrideCustomElement("p", "text-md leading-7 my-4 md:my-6 dark:text-gray-300"),

@@ -67,6 +67,7 @@ export const Navbar = () => {
                 textSize="md:text-xl lg:text-2xl text-lg"
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay={!isMobile}
+                id="navbar-blog-link"
               >
                 Blog
               </NavbarLink>
@@ -75,6 +76,7 @@ export const Navbar = () => {
                 textSize="md:text-xl lg:text-2xl text-lg"
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay={!isMobile}
+                id="navbar-projects-link"
               >
                 Projects
               </NavbarLink>
@@ -83,6 +85,7 @@ export const Navbar = () => {
                 textSize="md:text-xl lg:text-2xl text-lg"
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay={!isMobile}
+                id="navbar-about-link"
               >
                 About
                 <Badge

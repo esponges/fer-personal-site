@@ -41,11 +41,12 @@ jobs:
           # need to set the image to the same as the deployment image. Otherwise, the tests will fail
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.vercel_image_setup.outputs.preview_url }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DOCUMENTS_DB_URL: ${{ secrets.DOCUMENTS_DB_URL }}
+          DB_CONTEXT_DOCUMENT: ${{ secrets.DB_CONTEXT_DOCUMENT }}
           NODE_ENV: "test"
           NEXT_PUBLIC_IMAGEKIT_URL: "https://ik.imagekit.io"
           NEXTAUTH_SECRET: "mocked_nextauth_secret"
           NEXTAUTH_URL: "http://localhost:3000"
-          PINECONE_NAMESPACE: "mocked_pinecone_namespace"
           DISCORD_CLIENT_ID: "mocked_discord_client_id"
           DISCORD_CLIENT_SECRET: "mocked_discord_client_secret"
 
