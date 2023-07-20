@@ -12,7 +12,6 @@ import type { Document } from "langchain/document";
 import type { ApiChatResponseBody } from "~/types";
 
 export const ChatBot = () => {
-  const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
@@ -41,6 +40,7 @@ export const ChatBot = () => {
 
   //handle form submission
   const handleSubmit = async (e: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<HTMLButtonElement>) => {
+    setError(null);
     if ("key" in e && e.key === "Enter") {
       e.preventDefault();
     }
@@ -49,14 +49,14 @@ export const ChatBot = () => {
       return;
     }
 
-    setError(null);
+    const input = e.currentTarget.value;
 
-    if (!query) {
-      setError("Please enter a question.");
+    if (!input) {
+      setError("Please first enter a question.");
       return;
     }
 
-    const question = query.trim();
+    const question = input.trim();
 
     setMessageState((state) => ({
       ...state,
@@ -70,7 +70,8 @@ export const ChatBot = () => {
     }));
 
     setLoading(true);
-    setQuery("");
+    // set text areaRef value to empty string
+    textAreaRef.current && (textAreaRef.current.value = "");
 
     try {
       const response = await fetch("/api/chat", {
@@ -111,7 +112,7 @@ export const ChatBot = () => {
 
   //prevent empty submissions
   const handleEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
-    if (e.key === "Enter" && query) {
+    if (e.key === "Enter" && textAreaRef.current?.value) {
       handleSubmit(e);
     } else if (e.key === "Enter") {
       e.preventDefault();
@@ -189,9 +190,6 @@ export const ChatBot = () => {
                 id="userInput"
                 name="userInput"
                 placeholder={loading ? "Waiting for response..." : "Ask a question about Fer"}
-                value={query}
-                /* todo: dont set vals, use the form values so we do not rerender at every keystroke */
-                onChange={(e) => setQuery(e.target.value)}
                 className={styles.textarea}
               />
               <button
