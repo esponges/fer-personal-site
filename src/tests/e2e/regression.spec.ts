@@ -8,12 +8,12 @@ test.describe("regression tests", () => {
     // await page.pause();
 
     // home page
-    await page.getByRole("heading", { name: "Hello 👋, I'm Fernando" }).click();
+    await page.getByRole("heading", { name: "Hello 👋, I'm Fernando" });
+    // footer email link
     await page.getByText("fernandogtostado@gmail.com").click();
 
     // posts
-    await page.getByRole('link', { name: 'Blog' }).click();
-    await page.getByRole("heading", { name: "Posts" }).click();
+    await page.locator("#navbar-blog-link").click();
 
     // grab the first html <article> element
     const firstArticle = page.locator("article").first();
@@ -27,13 +27,13 @@ test.describe("regression tests", () => {
     expect(await page.locator("#markdown-article")).toBeTruthy();
 
     // my projects
-    await page.getByRole('link', { name: 'Projects' }).click();
+    await page.locator("#navbar-projects-link").click();
     // assert there's at least one project card
     expect(await page.locator("#project-card-0")).toBeTruthy();
 
     // open model click
-    await page.getByRole('link', { name: 'About AI🤖' }).click();
-    await page.getByText('Hi, what would you like to learn about Fer?').click();
+    await page.locator("#navbar-about-link").click();
+    await page.locator("#chat-messages-list");
   });
 
   /* 

@@ -124,6 +124,7 @@ export const ChatBot = () => {
         <div
           ref={messageListRef}
           className={styles.messagelist}
+          id="chat-messages-list"
         >
           {messages.map((message, index) => {
             let icon;
