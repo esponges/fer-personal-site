@@ -14,6 +14,7 @@ import type { Document } from "langchain/document";
 import type { Doc } from "~/types";
 
 import * as schema from "../../drizzle/schema";
+import { getErrorMessage } from "./misc";
 
 const CONDENSE_PROMPT = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
 
@@ -65,7 +66,12 @@ const client = new Client({
 });
 
 const connect = async () => {
-  await client.connect();
+  try {
+    await client.connect();
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    throw new Error(`error initializing docs db: ${errorMessage}`); 
+  }
 };
 
 connect();
