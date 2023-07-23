@@ -14,7 +14,7 @@
 }
 
 .card--bg {
-  @apply bg-white/10 hover:bg-white/20;
+  @apply bg-white/10 hover:bg-white/20 dark:bg-black;
 }
 
 .font-color--primary {
@@ -31,9 +31,4 @@
 
 .background--white {
   @apply bg-white;
-}
-
-#nprogress .bar.app {
-  background: white;
-  height: 3px;
 }

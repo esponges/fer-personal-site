@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import AwesomeSlider from 'react-awesome-slider';
-import Link from 'next/link';
-import { IKImage } from 'imagekitio-react';
+import { useState } from "react";
+import Image from "next/image";
+import AwesomeSlider from "react-awesome-slider";
+import Link from "next/link";
+import { IKImage } from "imagekitio-react";
 
-import type { Project } from '~/types';
-import { BgColor } from '~/types/enums';
+import type { Project } from "~/types";
+import { BgColor } from "~/types/enums";
 
-import { Header } from '~/components/atoms/header';
-import { SubHeader } from '~/components/atoms/subheader';
-import { Paragraph } from '~/components/atoms/paragraph';
-import { UrlHeader } from '~/components/atoms/urlHeader';
-import { Modal } from '~/components/organisms/modal';
-import { Button } from '~/components/atoms/button';
+import { Header } from "~/components/atoms/header";
+import { SubHeader } from "~/components/atoms/subheader";
+import { Paragraph } from "~/components/atoms/paragraph";
+import { UrlHeader } from "~/components/atoms/urlHeader";
+import { Modal } from "~/components/organisms/modal";
+import { Button } from "~/components/atoms/button";
 
-import { env } from '~/env/client.mjs';
+import { env } from "~/env/client.mjs";
 
-import { useDeviceWidth } from '~/utils/hooks/misc';
-import { SocialMediaIcon } from '../atoms/socialMediaIcon';
+import { useDeviceWidth } from "~/utils/hooks/misc";
+import { SocialMediaIcon } from "../atoms/socialMediaIcon";
 
 export const ProjectCard = ({ project }: { project: Project<false> }) => {
   const { isMobile } = useDeviceWidth();
@@ -45,7 +45,7 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
     <>
       <IKImage
         urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
-        path={project?.images?.[showImageIdx]?.path ?? ''}
+        path={project?.images?.[showImageIdx]?.path ?? ""}
       />
       {/* close & next img btns */}
       <div className="mx-auto">
@@ -85,13 +85,13 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
           </div>
         )}
         <SubHeader>{project.subheader}</SubHeader>
-        <Paragraph>{project.description}</Paragraph>
+        <Paragraph className="dark:text-gray-400">{project.description}</Paragraph>
       </div>
       {/* if it has a repo url */}
       {project.repoUrl && (
         <div className="mx-2 mb-4 rounded-md border border-gray-200 px-4 py-4 sm:px-6">
           Check the code!
-          {project.repoUrl.includes('github') && (
+          {project.repoUrl.includes("github") && (
             <SocialMediaIcon
               url={project.repoUrl}
               icon="github"
@@ -163,7 +163,7 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
         </div>
       )}
       <SubHeader>Main libs used in this project:</SubHeader>
-      <ul className="px-4 py-4 sm:px-6">
+      <ul className="px-4 py-4 dark:text-gray-400 sm:px-6">
         {project.libs.map((lib, index) => {
           return (
             <li key={index}>
@@ -174,7 +174,7 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
           );
         })}
       </ul>
-      <div className="px-4 py-4 sm:px-6">
+      <div className="px-4 py-4 dark:text-gray-400 sm:px-6">
         <b>Stack: </b>
         {project.tags}
       </div>

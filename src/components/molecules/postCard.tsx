@@ -24,7 +24,7 @@ export const PostCard = (
           placeholder="blur"
           blurDataURL="/images/cover-placeholder.png"
         />
-        <Paragraph>{post.description}</Paragraph>
+        <Paragraph className="dark:text-gray-400">{post.description}</Paragraph>
       </div>
     </Link>
   );

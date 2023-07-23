@@ -15,7 +15,7 @@ export default async function About() {
       <Container>
         <PageHeader
           title="About me"
-          description="Ask the chatbot about me!"
+          description="Ask the bot about me!"
         />
         <ChatBot />
       </Container>

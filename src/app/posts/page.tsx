@@ -13,7 +13,7 @@ export default async function PostsPage() {
   return (
     <Container>
       <PageHeader
-        title="Posts"
+        title="Blog"
         description="I love to write about things I'm learning. 
             Blogging is a great way to improve and share knowledge.
             And who knows, maybe one day it might help me to write a book!"

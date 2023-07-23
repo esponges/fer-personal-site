@@ -54,7 +54,7 @@ export const Navbar = () => {
               ) : null}
               <NavbarLink
                 href={Routes.me}
-                textSize="md:text-4xl text-3xl"
+                textSize="md:text-4xl text-3xl dark:text-white"
                 className={NAV_LINK_HOVER_CLASS}
                 shouldDisplay
                 isMobile={isMobile}
