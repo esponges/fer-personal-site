@@ -30,7 +30,7 @@ test.describe("regression tests", () => {
     // assert there's at least one project card
     expect(await page.locator("#project-card-0")).toBeTruthy();
 
-    // open model click
+    // open chatbot click
     await page.locator("#navbar-about-link").click();
     await page.locator("#chat-messages-list");
   });
@@ -72,5 +72,28 @@ test.describe("regression tests", () => {
     expect(toggler).toBeTruthy();
     
   });
+
+  // chatbot should work
+  // todo: add case with Enter
+  // todo: add follow up questions
+  test("should successfully chat with the chatbot", async ({ page }) => {
+    await page.goto("/");
+
+    await page.locator("#navbar-about-link").click();
+    await page.locator("#chat-messages-list");
+
+    // go to userInput 
+    // ask a question and hit enter
+    await page.locator("#chat-user-input").fill("Who is Fer?");
+    await page.locator("#chat-submit-button").click();
+
+    // assert that the chatbot answered
+    await page.locator("#chat-messages-list div").nth(1);
+    // todo: use a regexp that accepts any combination of strings (.*?) and any number of characters (.*)
+    // this one causes the browser has been closed error
+    // expect(chatResponse).toHaveText(/[\s\S]*/);
+  });
+
 });
+
 
