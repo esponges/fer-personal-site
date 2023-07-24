@@ -72,9 +72,6 @@ test.describe("regression tests", () => {
     expect(toggler).toBeTruthy();
   });
 
-  // chatbot should work
-  // todo: add case with Enter
-  // todo: add follow up questions
   const CHATBOT_CASES = [
     {
       type: "click",
