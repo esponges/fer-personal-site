@@ -42,16 +42,16 @@ export const ChatBot = () => {
   const handleSubmit = async (e: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<HTMLButtonElement>) => {
     setError(null);
     if ("key" in e && e.key === "Enter") {
-      e.preventDefault();
-    }
-    // check for on click events for preventing default
-    if ("key" in e && e.key !== "Enter") {
-      return;
+      if (e.key === "Enter") {
+        e.preventDefault();
+      } else {
+        return;
+      }
     }
 
-    const input = e.currentTarget.value;
+    const input = e.currentTarget.value || textAreaRef.current?.value;
 
-    if (!input) {
+    if (!input || typeof input !== "string") {
       setError("Please first enter a question.");
       return;
     }
@@ -187,8 +187,8 @@ export const ChatBot = () => {
                 autoFocus={false}
                 rows={1}
                 maxLength={512}
-                id="userInput"
-                name="userInput"
+                id="chat-user-input"
+                name="chat-user-input"
                 placeholder={loading ? "Waiting for response..." : "Ask a question about Fer"}
                 className={styles.textarea}
               />
@@ -196,6 +196,7 @@ export const ChatBot = () => {
                 onClick={handleSubmit}
                 disabled={loading}
                 className={styles.generatebutton}
+                id="chat-submit-button"
               >
                 {loading ? (
                   <div className={styles.loadingwheel}>
