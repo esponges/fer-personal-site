@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { AIMessage, HumanMessage } from "langchain/schema";
-import { HNSWLib } from "langchain/vectorstores/hnswlib";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { Document } from "langchain/document";
 
 import { getErrorMessage } from "~/utils/misc";
-import { getExistingDocs, makeChain } from "~/utils/chat";
+import { makeChain, makeStore } from "~/utils/chat";
 
 import type { BaseMessage} from "langchain/schema";
 import { type NextRequest, NextResponse } from "next/server";
-import type { Doc } from "~/types";
 
 interface RequestBody {
   question: string;
@@ -31,33 +27,12 @@ export async function POST(request: NextRequest) {
     }
   });
 
-  const chatHistoryAsString = "how old is bob\nHe is 28 years old" + chatHistory.map((msg) => msg.content).join("\n");
+  const chatHistoryAsString = "how old is bob\nHe is 28 years old" + history.map((msg) => msg).join("\n");
 
   try {
-    /* using DB instead of local file */
-    if (!process.env.DB_CONTEXT_DOCUMENT) {
-      throw new Error("DB_CONTEXT_DOCUMENT is not set");
-    }
-
-    const docs = await getExistingDocs(process.env.DB_CONTEXT_DOCUMENT);
-
-    if (!docs[0]?.docs.length) {
-      return NextResponse.json({
-        error: "An error occurred while fetching documents",
-      });
-    }
-
-    const documents = docs[0].docs.map(
-      (doc) =>
-        new Document<Doc>({
-          metadata: JSON.parse(doc.metadata as string),
-          pageContent: doc.pageContent as string,
-        })
-    );
-
-    const HNSWStore = await HNSWLib.fromDocuments(documents, new OpenAIEmbeddings());
-
-    const chain = makeChain(HNSWStore);
+    
+    const HNSWStore = await makeStore();
+    const chain = await makeChain(HNSWStore);
 
     const sanitizedQuestion = question.trim().replaceAll("\n", " ");
     const response = await chain.call({

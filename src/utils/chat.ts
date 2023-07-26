@@ -2,19 +2,48 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable max-len */
-import { OpenAI } from "langchain/llms/openai";
+import { ChatOpenAI } from "langchain/chat_models/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
+import { HNSWLib } from "langchain/vectorstores/hnswlib";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { Document } from "langchain/document";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
 import { Client } from "pg";
 
-import type { VectorStore } from "langchain/dist/vectorstores/base";
-import type { Document } from "langchain/document";
-import type { Doc } from "~/types";
-
 import * as schema from "../../drizzle/schema";
 import { getErrorMessage } from "./misc";
+
+import type { VectorStore } from "langchain/dist/vectorstores/base";
+import type { Doc } from "~/types";
+
+export const makeStore = async () => {
+  if (!process.env.DB_CONTEXT_DOCUMENT) {
+    throw new Error("DB_CONTEXT_DOCUMENT is not set");
+  }
+
+  const docs = await getExistingDocs(process.env.DB_CONTEXT_DOCUMENT);
+
+  if (!docs[0]?.docs.length) {
+    throw new Error("An error occurred while fetching documents");
+  }
+
+  const documents = docs[0].docs.map(
+    (doc) =>
+      new Document<Doc>({
+        metadata: JSON.parse(doc.metadata as string),
+        pageContent: doc.pageContent as string,
+      })
+  );
+
+  // const texts = docs[0].docs.map((doc) => doc.pageContent as string);
+  // const textsMetas = docs[0].docs.map((doc) => !!doc?.metadata ? JSON.parse(doc.metadata ) : {});
+  // const HNSWStore = await HNSWLib.fromTexts(texts, textsMetas, new OpenAIEmbeddings());
+  const HNSWStore = await HNSWLib.fromDocuments(documents, new OpenAIEmbeddings());
+
+  return HNSWStore;
+};
 
 const CHAIN_PROMPT = `You are a helpful AI assistant. You'll receive context about a Fer (He/him/singular).
 Use the following pieces of context to answer the question at the end of the prompt.
@@ -27,13 +56,12 @@ Chat history:
 Follow Up Input Question: {question}
 Helpful answer in markdown:`;
 
-export const makeChain = (vectorStore: VectorStore) => {
-  const model = new OpenAI({
+export const makeChain = async (vectorStore: VectorStore) => {
+  const model = new ChatOpenAI({
     temperature: 0, // increase temepreature to get more creative answers
     modelName: "gpt-3.5-turbo", //change this to gpt-4 if you have access
     openAIApiKey: process.env.OPENAI_API_KEY,
   });
-
 
   return ConversationalRetrievalQAChain.fromLLM(model, vectorStore.asRetriever(), {
     questionGeneratorChainOptions: { template: CHAIN_PROMPT },
