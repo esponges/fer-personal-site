@@ -4,7 +4,6 @@
 /* eslint-disable max-len */
 import { OpenAI } from "langchain/llms/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
-import { BufferMemory } from "langchain/memory";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
@@ -36,7 +35,7 @@ Helpful answer in markdown:`;
 
 export const makeChain = (vectorStore: VectorStore) => {
   const model = new OpenAI({
-    temperature: 0.9, // increase temepreature to get more creative answers
+    temperature: 0, // increase temepreature to get more creative answers
     modelName: "gpt-3.5-turbo", //change this to gpt-4 if you have access
     openAIApiKey: process.env.OPENAI_API_KEY,
   });
@@ -47,11 +46,11 @@ export const makeChain = (vectorStore: VectorStore) => {
     // todo: how to implement this? Requires BasePromptTemplate
     // qaChainOptions: { prompt: QA_PROMPT },
     questionGeneratorChainOptions: { template: CONDENSE_PROMPT },
-    memory: new BufferMemory({
-      inputKey: "question",
-      memoryKey: "chat_history",
-      outputKey: "text",
-    }),
+    // actually not needed for chat_history
+    // memory: new BufferMemory({
+    //   inputKey: "question",
+    //   outputKey: "text",
+    // }),
   });
 };
 
