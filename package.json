@@ -24,7 +24,7 @@
     "drizzle-orm": "^0.26.5",
     "hnswlib-node": "^1.4.2",
     "imagekitio-react": "^2.0.0",
-    "langchain": "0.0.95",
+    "langchain": "0.0.118",
     "lucide-react": "^0.260.0",
     "markdown-to-jsx": "^7.2.1",
     "next": "^13.4.5",
