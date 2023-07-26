@@ -44,13 +44,10 @@ export const makeChain = (vectorStore: VectorStore) => {
   return ConversationalRetrievalQAChain.fromLLM(model, vectorStore.asRetriever(), {
     // todo: deprecated
     qaTemplate: QA_PROMPT,
-    // questionGeneratorTemplate: CONDENSE_PROMPT,
+    // todo: how to implement this? Requires BasePromptTemplate
     // qaChainOptions: { prompt: QA_PROMPT },
     questionGeneratorChainOptions: { template: CONDENSE_PROMPT },
-    returnSourceDocuments: true,
-    // todo: this is required as per the docs, works first qn but not second
     memory: new BufferMemory({
-      // chatHistory: [],
       inputKey: "question",
       memoryKey: "chat_history",
       outputKey: "text",
