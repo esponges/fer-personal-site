@@ -26,9 +26,6 @@ export async function POST(request: NextRequest) {
     if (!!history[idx]?.length) {
       // first message is always human message
       chatHistory.push(new HumanChatMessage(history[idx]?.[0] as string));
-    }
-    if (!!history[idx]?.length) {
-      // second message is always AI response
       chatHistory.push(new AIChatMessage(history[idx]?.[1] as string));
     }
   });
