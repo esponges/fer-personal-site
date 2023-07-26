@@ -19,6 +19,7 @@ interface RequestBody {
 export async function POST(request: NextRequest) {
   const { question, history } = (await request.json()) as RequestBody;
 
+  // todo: probably not needed since the history should be passed as a string (see below)
   // fix TypeError: chatMessage._getType is not a function
   // solution found here https://github.com/hwchase17/langchainjs/issues/1573#issuecomment-1582636486
   const chatHistory: BaseMessage[] = [];
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
   });
 
-  const chatHistoryAsString = chatHistory.map((msg) => msg.content).join("\n");
+  const chatHistoryAsString = "how old is bob\nHe is 28 years old" + chatHistory.map((msg) => msg.content).join("\n");
 
   try {
     /* using DB instead of local file */
@@ -54,12 +55,6 @@ export async function POST(request: NextRequest) {
         })
     );
 
-    // const text = fs.readFileSync(`${process.cwd()}/public/robot.txt`, "utf-8");
-    // /* Split the text into chunks */
-    // const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
-    // const documents = await textSplitter.createDocuments([text]);
-    /* Create the vectorstore */
-
     const HNSWStore = await HNSWLib.fromDocuments(documents, new OpenAIEmbeddings());
 
     const chain = makeChain(HNSWStore);
@@ -67,7 +62,8 @@ export async function POST(request: NextRequest) {
     const sanitizedQuestion = question.trim().replaceAll("\n", " ");
     const response = await chain.call({
       question: sanitizedQuestion,
-      // todo: fix chat history - not working very well atm ?
+      // not working?
+      // apparently fixed here https://github.com/nearform/langchainjs/commit/a8be68df562c7e7d2bfce5a9b2fa933a06bf616f
       chat_history: chatHistoryAsString,
     });
 
