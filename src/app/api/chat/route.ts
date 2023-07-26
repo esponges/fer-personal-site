@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { AIChatMessage, HumanChatMessage } from "langchain/schema";
+import { AIMessage, HumanMessage } from "langchain/schema";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { Document } from "langchain/document";
@@ -7,7 +7,7 @@ import { Document } from "langchain/document";
 import { getErrorMessage } from "~/utils/misc";
 import { getExistingDocs, makeChain } from "~/utils/chat";
 
-import type { BaseChatMessage } from "langchain/schema";
+import type { BaseMessage} from "langchain/schema";
 import { type NextRequest, NextResponse } from "next/server";
 import type { Doc } from "~/types";
 
@@ -21,14 +21,16 @@ export async function POST(request: NextRequest) {
 
   // fix TypeError: chatMessage._getType is not a function
   // solution found here https://github.com/hwchase17/langchainjs/issues/1573#issuecomment-1582636486
-  const chatHistory: BaseChatMessage[] = [];
+  const chatHistory: BaseMessage[] = [];
   history?.forEach((_, idx) => {
     if (!!history[idx]?.length) {
       // first message is always human message
-      chatHistory.push(new HumanChatMessage(history[idx]?.[0] as string));
-      chatHistory.push(new AIChatMessage(history[idx]?.[1] as string));
+      chatHistory.push(new HumanMessage(history[idx]?.[0] as string));
+      chatHistory.push(new AIMessage(history[idx]?.[1] as string));
     }
   });
+
+  const chatHistoryAsString = chatHistory.map((msg) => msg.content).join("\n");
 
   try {
     /* using DB instead of local file */
@@ -65,7 +67,8 @@ export async function POST(request: NextRequest) {
     const sanitizedQuestion = question.trim().replaceAll("\n", " ");
     const response = await chain.call({
       question: sanitizedQuestion,
-      chat_history: chatHistory || [],
+      // todo: fix chat history - not working very well atm ?
+      chat_history: chatHistoryAsString,
     });
 
     return NextResponse.json({
