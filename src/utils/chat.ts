@@ -4,6 +4,7 @@
 /* eslint-disable max-len */
 import { OpenAI } from "langchain/llms/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
+import { BufferMemory } from "langchain/memory";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
@@ -23,11 +24,10 @@ Chat History:
 Follow Up Input: {question}
 Standalone question:`;
 
-const QA_PROMPT = `You are a helpful AI assistant. You'll receive context and general information about a professional programmer. 
+const QA_PROMPT = `You are a helpful AI assistant. You'll receive context about a Fer (He/him/singular).
 Use the following pieces of context to answer the question at the end of the prompt.
 If you don't know the answer, just say you don't know. DO NOT try to make up an answer.
-If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context
-and the professional programmer's general information.
+If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context.
 
 {context}
 
@@ -44,16 +44,14 @@ export const makeChain = (vectorStore: VectorStore) => {
   return ConversationalRetrievalQAChain.fromLLM(model, vectorStore.asRetriever(), {
     // todo: deprecated
     qaTemplate: QA_PROMPT,
-    // questionGeneratorTemplate: CONDENSE_PROMPT,
+    // todo: how to implement this? Requires BasePromptTemplate
     // qaChainOptions: { prompt: QA_PROMPT },
     questionGeneratorChainOptions: { template: CONDENSE_PROMPT },
-    returnSourceDocuments: true,
-    // todo: this is required as per the docs, works first qn but not second
-    // memory: new BufferMemory({
-    //   // chatHistory: [],
-    //   inputKey: 'question',
-    //   memoryKey: 'chat_history',
-    // })
+    memory: new BufferMemory({
+      inputKey: "question",
+      memoryKey: "chat_history",
+      outputKey: "text",
+    }),
   });
 };
 
@@ -70,7 +68,7 @@ const connect = async () => {
     await client.connect();
   } catch (error) {
     const errorMessage = getErrorMessage(error);
-    throw new Error(`error initializing docs db: ${errorMessage}`); 
+    throw new Error(`error initializing docs db: ${errorMessage}`);
   }
 };
 
