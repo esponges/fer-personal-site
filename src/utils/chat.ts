@@ -46,7 +46,8 @@ export const makeStore = async () => {
 };
 
 // todo: improve it, apparently it's 
-const CHAIN_PROMPT = `Given the following conversation and a follow up question, return the conversation history excerpt that includes any relevant context to the question if it exists and rephrase the follow up question to be a standalone question.
+const CHAIN_PROMPT = `Given the following conversation and a follow up question, return the conversation history excerpt that includes any relevant context to 
+the question if it exists and rephrase the follow up question to be a standalone question.
 Chat History:
 {chat_history}
 Follow Up Input: {question}
@@ -58,7 +59,7 @@ If you don't know the answer, just say that you don't know, don't try to make up
 <Relevant chat history excerpt as context here>
 Standalone question: <Rephrased question here>
 \`\`\`
-Your answer:`;
+Your useful answer in markup language:`;
 
 export const makeChain = async (vectorStore: VectorStore) => {
   const model = new OpenAI({
