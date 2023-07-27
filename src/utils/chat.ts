@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable max-len */
-import { ChatOpenAI } from "langchain/chat_models/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
@@ -17,6 +16,7 @@ import { getErrorMessage } from "./misc";
 
 import type { VectorStore } from "langchain/dist/vectorstores/base";
 import type { Doc } from "~/types";
+import { OpenAI } from "langchain";
 
 export const makeStore = async () => {
   if (!process.env.DB_CONTEXT_DOCUMENT) {
@@ -45,19 +45,23 @@ export const makeStore = async () => {
   return HNSWStore;
 };
 
-const CHAIN_PROMPT = `You are a helpful AI assistant. You'll receive context about a Fer (He/him/singular).
-Use the following pieces of context to answer the question at the end of the prompt.
-If you don't know the answer, just say you don't know. DO NOT try to make up an answer.
-If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context.
-
-Chat history:
+// todo: improve it, apparently it's 
+const CHAIN_PROMPT = `Given the following conversation and a follow up question, return the conversation history excerpt that includes any relevant context to the question if it exists and rephrase the follow up question to be a standalone question.
+Chat History:
 {chat_history}
-
-Follow Up Input Question: {question}
-Helpful answer in markdown:`;
+Follow Up Input: {question}
+Your answer should follow the following format:
+\`\`\`
+Use the following pieces of context to answer the users question.
+If you don't know the answer, just say that you don't know, don't try to make up an answer.
+----------------
+<Relevant chat history excerpt as context here>
+Standalone question: <Rephrased question here>
+\`\`\`
+Your answer:`;
 
 export const makeChain = async (vectorStore: VectorStore) => {
-  const model = new ChatOpenAI({
+  const model = new OpenAI({
     temperature: 0, // increase temepreature to get more creative answers
     modelName: "gpt-3.5-turbo", //change this to gpt-4 if you have access
     openAIApiKey: process.env.OPENAI_API_KEY,
@@ -65,12 +69,6 @@ export const makeChain = async (vectorStore: VectorStore) => {
 
   return ConversationalRetrievalQAChain.fromLLM(model, vectorStore.asRetriever(), {
     questionGeneratorChainOptions: { template: CHAIN_PROMPT },
-    // actually not needed when externally managing the history
-    // https://js.langchain.com/docs/modules/chains/popular/chat_vector_db#externally-managed-memory
-    // memory: new BufferMemory({
-    //   inputKey: "question",
-    //   outputKey: "text",
-    // }),
   });
 };
 
