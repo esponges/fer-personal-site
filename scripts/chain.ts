@@ -15,10 +15,10 @@ const EXECUTING_CASES = {
     enabled: false,
   },
   runConversationWithExternalManagedMemoryButLocalData: {
-    enabled: true,
-  },
-  runConversationWithLocalFileButExternalManagedMemory: {
     enabled: false,
+  },
+  runConversationWithLocalFileButInternalManagedMemory: {
+    enabled: true,
   },
 };
 
@@ -195,35 +195,59 @@ export const runConversationWithExternalManagedMemoryButLocalData = async () => 
   console.log(res3); // Bob
 };
 
-export const runConversationWithLocalFileButExternalManagedMemory = async () => {
+export const runConversationWithLocalFileButInternalManagedMemory = async () => {
   /* Initialize the LLM to use to answer the question */
   const model = getModel();
   /* Load in the file we want to do question answering over */
-  const text = fs.readFileSync("state_of_the_union.txt", "utf8");
+  const text = fs.readFileSync("public/QA.md.txt", "utf8");
   /* Split the text into chunks */
   const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
   const docs = await textSplitter.createDocuments([text]);
   /* Create the vectorstore */
   const vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings());
   /* Create the chain */
-  const chain = ConversationalRetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+  const chain = ConversationalRetrievalQAChain.fromLLM(model, vectorStore.asRetriever(), {
+    // memory: new BufferMemory({
+    //   memoryKey: "chat_history", // Must be set to "chat_history"
+    //   returnMessages: false,
+    // }),
+    questionGeneratorChainOptions: {
+      template: CUSTOM_QUESTION_GENERATOR_CHAIN_PROMPT,
+    },
+  });
+
   /* Ask it a question */
-  const question = "What did the president say about Justice Breyer?";
+  const question = "My Friend José who is 28 years old wants to know: Whats Fer Toasted education?";
   /* Can be a string or an array of chat messages */
   const res = await chain.call({ question, chat_history: "" });
+  // Fer Toasted has a Master of Business Administration from Tecnologico de Monterrey and a 
+  // Bachelor of Industrial Engineering from Universidad de Guadalajara
   console.log(res);
+
   /* Ask it a follow up question */
   const chatHistory = `${question}\n${res.text as string}`;
+  const followUpQn = "And the latest one?";
   const followUpRes = await chain.call({
-    question: "Was that nice?",
+    question: followUpQn,
     chat_history: chatHistory,
   });
   console.log(followUpRes);
+  // Fer Toasted has earned a Master of Business Administration from Tecnologico de Monterrey.
+
+  const updatedChatHistory = `${chatHistory}\n${followUpRes.text as string}`;
+  const followUpQn2 = "What's José's age?";
+  const followUpRes2 = await chain.call({
+    question: followUpQn2,
+    chat_history: updatedChatHistory,
+  });
+  console.log(followUpRes2);
+  // José is 28 years old.
 };
 
 // todo: this could probably be handled with a loop instead if
 if (EXECUTING_CASES.runConversationWithMemoryDoc?.enabled) {
   (async () => {
+    console.log("running runConversationWithMemoryDoc");
     await runConversationWithMemoryDoc();
     console.log("chain completed");
   })();
@@ -231,6 +255,7 @@ if (EXECUTING_CASES.runConversationWithMemoryDoc?.enabled) {
 
 if (EXECUTING_CASES.runConversationWithExternalManagedMemory?.enabled) {
   (async () => {
+    console.log("running runConversationWithExternalManagedMemory");
     await runConversationWithExternalManagedMemory();
     console.log("chain completed");
   })();
@@ -238,7 +263,16 @@ if (EXECUTING_CASES.runConversationWithExternalManagedMemory?.enabled) {
 
 if (EXECUTING_CASES.runConversationWithExternalManagedMemoryButLocalData?.enabled) {
   (async () => {
+    console.log("running runConversationWithExternalManagedMemoryButLocalData");
     await runConversationWithExternalManagedMemoryButLocalData();
+    console.log("chain completed");
+  })();
+}
+
+if (EXECUTING_CASES.runConversationWithLocalFileButInternalManagedMemory?.enabled) {
+  (async () => {
+    console.log("running runConversationWithLocalFileButInternalManagedMemory");
+    await runConversationWithLocalFileButInternalManagedMemory();
     console.log("chain completed");
   })();
 }

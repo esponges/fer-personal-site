@@ -1,0 +1,127 @@
+﻿# Fer Toasted CV
+Excerpt: This document outlines Fer Toasted professional experience and skills.
+
+
+## Profile
+- I have spent the past 5 years (React+Nodejs mainly) in love with coding, solving problems through technology and innovative solutions. Driven by constantly learning new exciting things.
+- I'm also a business developer expert - 7y + MBA.
+
+
+## Main Stack
+- React, Redux, NodeJs, NextJs, Typescript, Jest
+- Mongo, PostgresSQL, Golang, PromQL, Google Kubernetes, Prisma
+
+
+## Experience
+- Fullstack Developer - The Home Depot USA-Canada (February 23 - Present) - Remote - Atlanta, GA
+Collaborate with cross-functional teams to design and develop scalable software solutions using React, NodeJS, Golang, and other technologies. Contribute to the development of microservices architecture using Google Kubernetes Engine and PromQL for monitoring and alerting. Analyze and optimize application performance using profiling and monitoring tools. Continuously learn and apply emerging technologies and best practices to enhance the efficiency and effectiveness of software development processes.
+
+
+- ReactJS Developer - Altomobile (May 21 - February 23) - Remote - Guadalajara, Jalisco
+Develop innovative web apps with React JS for several different projects across a wide range
+of teams with other stacks such as C#. Rails. NodeJS. React Native. NextJS. etc.
+Ideate solutions for complex problems where the path is not usually clear and deep research has to be done, using docs, shared knowledge, experimenting and creating methods to get things done without compromising the integrity of the code.
+
+
+- Fullstack Developer and Sales - Vinoreo/KlusterMx B2B & B2C - (Oct 19 - May 21) - Remote - Guadalajara, Jalisco
+Develop & deploy WebbApps from scratch using ReactJS/JS/Jest-RTL/PHP/Laravel. Coding commercially launched apps since 2019.
+Lead growth and product adoption from key regional wholesalers. Recruited 85% of scoped clients.
+
+
+- Off Trade Wholesale Account Area Manager - Pernod Ricard Mexico - (Jul 18 - Oct 19) - Guadalajara, Jalisco
+
+
+- On Trade Sales Executive - Pernod Ricard Mexico - (Sept 13 - Jul 18) - Guadalajara, Jalisco
+
+
+## Education
+Master of Business Administration - Tecnologico de Monterrey - (2017 - 2019) - Guadalajara, Jalisco
+Bachelor of Industrial Engineering - Universidad de Guadalajara - (2007 - 2012) - Guadalajara, Jalisco
+
+
+### International Experience
+2011 - Universitat de Barcelona - Barcelona, Spain
+2001-2005 - IES Sep Mollet - Mollet del Valles, Barcelona, Spain
+
+
+## Languages
+- Spanish - Native
+- English - Advanced
+- Catalan - Intermediate
+- German - Basic
+
+
+### Q & A - FAQ
+- Please explain your daily routine as a developer
+- I usually start my day by checking my emails and slack messages. Then I check my Jira board to see what I have to do for the day. I usually have a daily standup with my team to discuss the progress of the project and to see if there are any blockers. Then I start coding and I usually have a couple of meetings during the day to discuss the progress of the project or to discuss new features or bugs. As senior developer I also have to review the code of my teammates and help them with any blockers they might have and discuss with them the best approach to plan the architecture of the project and implement new features.
+
+
+- What is your favorite programming language?
+- Javascript and Typescript
+
+
+- What is your favorite framework?
+- ReactJS
+- NextJS
+
+
+- What is your favorite IDE?
+- VSCode
+
+
+- What is your favorite OS?
+- MacOS
+
+
+- Which testing framework do you prefer?
+- Jest
+- RTL
+- Playwright
+
+
+- Have you worked with other languages?
+- Yes, I have worked with lately with Golang, and some time ago with PHP.
+
+
+- Are you open to learn new languages?
+- Yes, I'm always open to learn new languages and technologies, however I wouldn't like to get too far from Javascript.
+
+
+- Are you experienced with DBs? Which ones
+- Yes, I have worked with PostgresSQL, Mongo, and MySQL. However I do not consider myself an expert in DBs.
+
+
+- Have you worked with cloud services?
+- Yes, I have worked with Google Cloud Platform and Azure.
+
+
+- How comfortable you feel with Redux?
+- I have worked with Redux for 3 years in several versions: Redux, Redux Toolkit, Redux Observable, Redux Thunk, etc.
+
+
+- Have you done AI implementations?
+- Yes, I have worked with Langchain and OpenAI in some personal projects and I'm very looking forward to improve my skills in this area.
+
+
+- What do you do keep yourself up to date?
+- I like building side projects and then write about them in my blog. I also follow several vloggers and tech influencers on Youtube and Twitter and I try to read as much as I can about new technologies and trends.
+
+
+- Do you have American Visa?
+- Yes, I have a valid tourist visa.
+
+
+- How do you feel about working remotely?
+- I have been working remotely for the past 3 years and I love it. I'm very comfortable with it and I'm very productive.
+
+
+- Is your communication in English fluent?
+- Yes, I have been working with American companies for the past 3 years and I have no problem communicating in English.
+
+
+- Do you have experience working with Agile methodologies?
+- Yes, I have worked with Scrum mainly with Jira and a bit with Github Projects.
+
+
+- Do you consider yourself a hands-on person?
+- Yes, I love to get my hands dirty and get things done. I actually don't like to be in meetings or chasing people to get things done. I love implementing code and solving problems.
