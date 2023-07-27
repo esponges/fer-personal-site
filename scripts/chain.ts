@@ -1,20 +1,28 @@
 import { OpenAI } from "langchain/llms/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
-import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { BufferMemory } from "langchain/memory";
-import { PDFLoader } from "langchain/document_loaders/fs/pdf";
-import { makeStore } from "~/utils/chat";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import * as fs from "fs";
+import { makeStore as makeDBStore } from "~/utils/chat";
 
 const EXECUTING_CASES = {
   runConversationWithMemoryDoc: {
+    enabled: false,
+  },
+  runConversationWithExternalManagedMemory: {
+    enabled: false,
+  },
+  runConversationWithExternalManagedMemoryButLocalData: {
     enabled: true,
-  }
+  },
+  runConversationWithLocalFileButExternalManagedMemory: {
+    enabled: false,
+  },
 };
 
-const CUSTOM_QUESTION_GENERATOR_CHAIN_PROMPT = 
-`Given the following conversation and a follow up question, 
+const CUSTOM_QUESTION_GENERATOR_CHAIN_PROMPT = `Given the following conversation and a follow up question, 
 return the conversation history excerpt that includes any relevant context to the question 
 if it exists and rephrase the follow up question to be a standalone question.
 Chat History:
@@ -30,6 +38,13 @@ Standalone question: <Rephrased question here>
 \`\`\`
 Your answer:`;
 
+const getModel = (modelName?: string, temp?: number) => {
+  return new OpenAI({
+    modelName: modelName,
+    temperature: temp,
+  });
+};
+
 export const runConversationWithMemoryDoc = async () => {
   /* Load in the file we want to do question answering over */
   // const loader = new PDFLoader("public/lotr-world-wars.pdf");
@@ -40,12 +55,9 @@ export const runConversationWithMemoryDoc = async () => {
   // console.log('the docs', docs);
 
   /* Create the vectorstore */
-  const model = new OpenAI({
-    modelName: "gpt-3.5-turbo",
-    temperature: 0,
-  });
+  const model = getModel("gpt-3.5-turbo", 0);
 
-  const vectorStore = await makeStore();
+  const vectorStore = await makeDBStore();
   /* Create the chain */
   const chain = ConversationalRetrievalQAChain.fromLLM(model, vectorStore.asRetriever(), {
     returnSourceDocuments: false,
@@ -76,20 +88,157 @@ export const runConversationWithMemoryDoc = async () => {
   console.log("fer", nonRelatedQn);
 };
 
-// export const runConversationWithExternalManagedMemory = async () => {
-//   const model = new OpenAI({
-//     modelName: "gpt-3.5-turbo",
-//     temperature: 0,
-//   });
+export const runConversationWithExternalManagedMemory = async () => {
+  const model = getModel("gpt-3.5-turbo", 0);
 
-//   const vectorStore = await makeStore();
-//   /* Create the chain */
+  const vectorStore = await makeDBStore();
 
+  console.log("vectorStore", vectorStore);
+  // wont pass any memory option
+  const chain = ConversationalRetrievalQAChain.fromLLM(model, vectorStore.asRetriever(), {
+    questionGeneratorChainOptions: {
+      template: CUSTOM_QUESTION_GENERATOR_CHAIN_PROMPT,
+    },
+  });
 
+  const chatHistory = `
+  I have a friend called Bob. He's 28 years old. What's Fer Stack?\n
+  Fer's stack includes React, Redux, NodeJs, NextJs, Typescript, Jest, Mongo, 
+  PostgresSQL, Golang, PromQL, Google Kubernetes, and Prisma.\n
+  `;
 
+  const qn = "What's Bob Age?";
+  const res = await chain.call({
+    question: qn,
+    chat_history: chatHistory,
+  });
+
+  console.log(res);
+
+  const updatedChatHistory = `${chatHistory}\n${qn}\n${res.text as string}`;
+
+  const followUpRes = await chain.call({
+    question: "How many years Fer has been programming?",
+    chat_history: updatedChatHistory,
+  });
+
+  console.log(followUpRes);
+};
+
+export const runConversationWithExternalManagedMemoryButLocalData = async () => {
+  const vectorStoreDocuments = await HNSWLib.fromDocuments(
+    [
+      {
+        pageContent: "Mitochondria are the powerhouse of the cell",
+        metadata: { id: 2 },
+      },
+      { pageContent: "Foo is red", metadata: { id: 1 } },
+      { pageContent: "Bar is red", metadata: { id: 3 } },
+      { pageContent: "Buildings are made out of brick", metadata: { id: 4 } },
+      { pageContent: "Mitochondria are made of lipids", metadata: { id: 5 } },
+    ],
+    new OpenAIEmbeddings()
+  );
+
+  const model = new OpenAI({
+    modelName: "gpt-3.5-turbo",
+    temperature: 0,
+  });
+
+  const chain = ConversationalRetrievalQAChain.fromLLM(model, vectorStoreDocuments.asRetriever(), {
+    questionGeneratorChainOptions: {
+      template: CUSTOM_QUESTION_GENERATOR_CHAIN_PROMPT,
+    },
+  });
+
+  const chatHistory = `
+  I have a friend called Bob. He's 28 years old. He'd like to know what the powerhouse of the cell is?\n
+  The powerhouse of the cell is the mitochondria.\n
+`;
+
+  //   const res = await chain.call({
+  //     question:
+  //       "I have a friend called Bob. He's 28 years old. He'd like to know what the powerhouse of the cell is?",
+  //   });
+
+  //   console.log(res);
+  //   /*
+  //   {
+  //     text: "The powerhouse of the cell is the mitochondria."
+  //   }
+  // */
+  const firstQn = "How old is Bob?";
+
+  const res2 = await chain.call({
+    question: firstQn,
+    chat_history: chatHistory,
+  });
+
+  console.log(res2); // Bob is 28 years old.
+
+  /*
+{
+  text: "Bob is 28 years old."
+}
+*/
+
+  // const updatedChatHistory = chatHistory + "\n" + firstQn + "\n" + res2.text + "\n";
+  const updatedChatHistory = `${chatHistory}\n${firstQn}\n${res2.text as string}\n`;
+
+  const secondQn = "Whats my friends name?";
+
+  const res3 = await chain.call({
+    question: secondQn,
+    chat_history: updatedChatHistory,
+  });
+
+  console.log(res3); // Bob
+};
+
+export const runConversationWithLocalFileButExternalManagedMemory = async () => {
+  /* Initialize the LLM to use to answer the question */
+  const model = getModel();
+  /* Load in the file we want to do question answering over */
+  const text = fs.readFileSync("state_of_the_union.txt", "utf8");
+  /* Split the text into chunks */
+  const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
+  const docs = await textSplitter.createDocuments([text]);
+  /* Create the vectorstore */
+  const vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings());
+  /* Create the chain */
+  const chain = ConversationalRetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+  /* Ask it a question */
+  const question = "What did the president say about Justice Breyer?";
+  /* Can be a string or an array of chat messages */
+  const res = await chain.call({ question, chat_history: "" });
+  console.log(res);
+  /* Ask it a follow up question */
+  const chatHistory = `${question}\n${res.text as string}`;
+  const followUpRes = await chain.call({
+    question: "Was that nice?",
+    chat_history: chatHistory,
+  });
+  console.log(followUpRes);
+};
+
+// todo: this could probably be handled with a loop instead if
 if (EXECUTING_CASES.runConversationWithMemoryDoc?.enabled) {
   (async () => {
     await runConversationWithMemoryDoc();
-    console.log('chain completed');
+    console.log("chain completed");
+  })();
+}
+
+if (EXECUTING_CASES.runConversationWithExternalManagedMemory?.enabled) {
+  (async () => {
+    await runConversationWithExternalManagedMemory();
+    console.log("chain completed");
+  })();
+}
+
+if (EXECUTING_CASES.runConversationWithExternalManagedMemoryButLocalData?.enabled) {
+  (async () => {
+    await runConversationWithExternalManagedMemoryButLocalData();
+    console.log("chain completed");
   })();
 }
