@@ -118,4 +118,32 @@ test.describe("regression tests", () => {
       await page.locator("#chat-messages-list div").nth(3);
     });
   });
+
+  // regression test for responses from the chatbot
+  test("should work with several questions?", async ({ page }) => {
+    await page.goto("/");
+
+    await page.locator("#navbar-about-link").click();
+    await page.locator("#chat-messages-list");
+
+    // ask Fer tech stack
+    // assert it contains at least one of the following words:
+    // react
+    await page.locator("#chat-user-input").fill("What's his tech stack?");
+    await page.locator("#chat-submit-button").click();
+
+    // assert that the chatbot answered
+    await expect(page.getByText(/react/i)).toBeTruthy();
+
+    // ask Fer about databases
+    // assert it contains at least one of the following words:
+    // postgres
+    await page.locator("#chat-user-input").fill("What about databases?");
+    await page.locator("#chat-user-input").press("Enter");
+
+    // // assert that the chatbot answered
+    await expect(page.getByText(/postgres/i)).toBeTruthy();
+
+    // todo: prolly add more cases
+  });
 });
