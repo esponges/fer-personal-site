@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { AIMessage, HumanMessage } from "langchain/schema";
-
 import { getErrorMessage } from "~/utils/misc";
 import { makeChain, makeStore } from "~/utils/chat";
 
-import type { BaseMessage} from "langchain/schema";
 import { type NextRequest, NextResponse } from "next/server";
 
 interface RequestBody {
@@ -15,30 +12,18 @@ interface RequestBody {
 export async function POST(request: NextRequest) {
   const { question, history } = (await request.json()) as RequestBody;
 
-  // todo: probably not needed since the history should be passed as a string (see below)
-  // fix TypeError: chatMessage._getType is not a function
-  // solution found here https://github.com/hwchase17/langchainjs/issues/1573#issuecomment-1582636486
-  const chatHistory: BaseMessage[] = [];
-  history?.forEach((_, idx) => {
-    if (!!history[idx]?.length) {
-      // first message is always human message
-      chatHistory.push(new HumanMessage(history[idx]?.[0] as string));
-      chatHistory.push(new AIMessage(history[idx]?.[1] as string));
-    }
-  });
-
-  const chatHistoryAsString = "how old is bob\nHe is 28 years old" + history.map((msg) => msg).join("\n");
-
   try {
-    
     const HNSWStore = await makeStore();
     const chain = await makeChain(HNSWStore);
 
     const sanitizedQuestion = question.trim().replaceAll("\n", " ");
+    const chatHistoryAsString = history.map((msg) => msg.join("\n")).join("\n");
+
     const response = await chain.call({
       question: sanitizedQuestion,
       // not working?
       // apparently fixed here https://github.com/nearform/langchainjs/commit/a8be68df562c7e7d2bfce5a9b2fa933a06bf616f
+      // also works on scripts/chain.ts but not here, why?
       chat_history: chatHistoryAsString,
     });
 

@@ -234,8 +234,8 @@ export const runConversationWithLocalFileButInternalManagedMemory = async () => 
   console.log(followUpRes);
   // Fer Toasted has earned a Master of Business Administration from Tecnologico de Monterrey.
 
-  const updatedChatHistory = `${chatHistory}\n${followUpRes.text as string}`;
   const followUpQn2 = "What's José's age?";
+  const updatedChatHistory = `${chatHistory}\n${followUpQn}\n${followUpRes.text as string}`;
   const followUpRes2 = await chain.call({
     question: followUpQn2,
     chat_history: updatedChatHistory,
