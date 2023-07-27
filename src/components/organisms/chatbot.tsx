@@ -7,9 +7,8 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { LoadingDots } from "~/components/atoms/loadingDots";
 
-import type { ChatMessage } from "~/types";
+import type { ApiChatResponse, ChatMessage } from "~/types";
 import type { Document } from "langchain/document";
-import type { ApiChatResponseBody } from "~/types";
 
 export const ChatBot = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -73,18 +72,28 @@ export const ChatBot = () => {
     // set text areaRef value to empty string
     textAreaRef.current && (textAreaRef.current.value = "");
 
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          question,
-          history,
-        }),
-      });
-      const { response: chatResponse } = (await response.json()) as ApiChatResponseBody;
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        question,
+        history,
+      }),
+    });
+    const chatResponse = (await response.json()) as ApiChatResponse;
+
+    if ("error" in chatResponse) {
+      setError(`An error occurred while fetching the data. Please try again. Error: ${chatResponse.error}`);
+      setLoading(false);
+      return;
+    }
+
+    if ("response" in chatResponse) {
+      const {
+        response: { text, sourceDocuments },
+      } = chatResponse;
 
       setMessageState((state) => ({
         ...state,
@@ -92,22 +101,19 @@ export const ChatBot = () => {
           ...state.messages,
           {
             type: "apiMessage",
-            message: chatResponse.text,
-            sourceDocs: chatResponse.sourceDocuments,
+            message: text,
+            sourceDocs: sourceDocuments,
           },
         ],
-        history: [...state.history, [question, chatResponse.text]],
-        pendingSourceDocs: chatResponse.sourceDocuments,
+        history: [...state.history, [question, text]],
+        pendingSourceDocs: sourceDocuments,
       }));
-
-      setLoading(false);
-
-      //scroll to bottom - broken - fix later
-      messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
-    } catch (err: unknown) {
-      setLoading(false);
-      setError("An error occurred while fetching the data. Please try again.");
     }
+
+    setLoading(false);
+
+    //scroll to bottom - broken - fix later
+    messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
   };
 
   //prevent empty submissions
