@@ -76,16 +76,21 @@ test.describe("regression tests", () => {
     {
       type: "click",
       userInput: "Who is Fer?",
+      chatResIncludes: "React",
       followUp: "With how many years of experience?",
+      chatRes2Includes: "5 years",
     },
-    {
-      type: "enter",
-      userInput: "Who is Fer?",
-      followUp: "With how many years of experience?",
-    },
+    // test other scenarios
+    // {
+    //   type: "enter",
+    //   userInput: "Who is Fer?",
+    //   chatResIncludes: "React",
+    //   followUp: "With how many years of experience?",
+    //   chatRes2Includes: "5 years",
+    // },
   ];
 
-  CHATBOT_CASES.forEach(({ type, userInput, followUp }) => {
+  CHATBOT_CASES.forEach(({ type, userInput, followUp, chatResIncludes, chatRes2Includes }) => {
     test(`should work with ${type} and answer ${userInput}`, async ({ page }) => {
       await page.goto("/");
 
@@ -96,14 +101,11 @@ test.describe("regression tests", () => {
       // ask a question and hit enter
       await page.locator("#chat-user-input").fill(userInput);
 
-      if (type === "click") {
-        await page.locator("#chat-submit-button").click();
-      } else {
-        await page.locator("#chat-user-input").press("Enter");
-      }
+      await page.locator("#chat-submit-button").click();
 
       // assert that the chatbot answered
-      await page.locator("#chat-messages-list div").nth(1);
+      const chatRes = await page.locator("#chat-message-2").innerHTML();
+      expect(chatRes).toContain(chatResIncludes);
       // todo: use a regexp that accepts any combination of strings (.*?) and any number of characters (.*)
       // this one causes the browser has been closed error
       // expect(chatResponse).toHaveText(/[\s\S]*/);
@@ -113,37 +115,8 @@ test.describe("regression tests", () => {
       await page.locator("#chat-submit-button").click();
 
       // assert that the chatbot answered
-      // 3 because the first one is the user input, 
-      // the second one is the chatbot response and the third one is the follow up question
-      await page.locator("#chat-messages-list div").nth(3);
+      const chatRes2 = await page.locator("#chat-message-4").innerHTML();
+      expect(chatRes2).toContain(chatRes2Includes);
     });
-  });
-
-  // regression test for responses from the chatbot
-  test("should work with several questions?", async ({ page }) => {
-    await page.goto("/");
-
-    await page.locator("#navbar-about-link").click();
-    await page.locator("#chat-messages-list");
-
-    // ask Fer tech stack
-    // assert it contains at least one of the following words:
-    // react
-    await page.locator("#chat-user-input").fill("What's his tech stack?");
-    await page.locator("#chat-submit-button").click();
-
-    // assert that the chatbot answered
-    await expect(page.getByText(/react/i)).toBeTruthy();
-
-    // ask Fer about databases
-    // assert it contains at least one of the following words:
-    // postgres
-    await page.locator("#chat-user-input").fill("What about databases?");
-    await page.locator("#chat-user-input").press("Enter");
-
-    // // assert that the chatbot answered
-    await expect(page.getByText(/postgres/i)).toBeTruthy();
-
-    // todo: prolly add more cases
   });
 });

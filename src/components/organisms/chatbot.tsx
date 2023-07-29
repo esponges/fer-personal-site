@@ -169,7 +169,7 @@ export const ChatBot = () => {
                 <div className={className}>
                   {icon}
                   <div className="flex flex-col">
-                    <div className={styles.markdownanswer}>
+                    <div className={styles.markdownanswer} id={`chat-message-${index}`}>
                       <ReactMarkdown linkTarget="_blank">{message.message}</ReactMarkdown>
                     </div>
                   </div>
