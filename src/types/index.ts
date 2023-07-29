@@ -90,3 +90,5 @@ export type ApiChatResponseBody = {
   }
 };
 
+export type ApiChatResponse = ApiChatResponseBody | { error: string, status: number };
+

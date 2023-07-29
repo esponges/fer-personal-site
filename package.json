@@ -7,6 +7,7 @@
     "build": "next build",
     "lint": "next lint",
     "postinstall": "prisma generate",
+    "start-chain": "tsx -r dotenv/config scripts/chain.ts",
     "test-e2e-headed": "NODE_ENV=test playwright test --headed",
     "test-e2e-start-server": "start-server-and-test dev 3000 \"NODE_ENV=test playwright test\"",
     "debug:vercel-fn-size-build": "NEXT_DEBUG_FUNCTION_SIZE=1 vercel build"
@@ -22,9 +23,10 @@
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
     "drizzle-orm": "^0.26.5",
+    "dotenv": "^16.0.3",
     "hnswlib-node": "^1.4.2",
     "imagekitio-react": "^2.0.0",
-    "langchain": "0.0.95",
+    "langchain": "0.0.118",
     "lucide-react": "^0.260.0",
     "markdown-to-jsx": "^7.2.1",
     "next": "^13.4.5",
@@ -61,6 +63,7 @@
     "prisma": "^4.5.0",
     "start-server-and-test": "^2.0.0",
     "tailwindcss": "^3.2.0",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "tsx": "^3.12.3"
   }
 }
