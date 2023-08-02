@@ -216,6 +216,13 @@ export const runConversationWithLocalFileButInternalManagedMemory = async () => 
     },
   });
 
+  // this breaks chat history
+  const prevHistory = `
+  I have a friend called Bob. He's 28 years old. What's Fer Stack?\n
+  Fer's stack includes React, Redux, NodeJs, NextJs, Typescript, Jest, Mongo,
+  PostgresSQL, Golang, PromQL, Google Kubernetes, and Prisma.\n
+  `;
+
   /* Ask it a question */
   const question = "My Friend José who is 28 years old wants to know: Whats Fer Toasted education?";
   /* Can be a string or an array of chat messages */
@@ -231,6 +238,8 @@ export const runConversationWithLocalFileButInternalManagedMemory = async () => 
     question: followUpQn,
     chat_history: chatHistory,
   });
+  console.log('question', followUpQn);
+  console.log('chatHistory', chatHistory);
   console.log(followUpRes);
   // Fer Toasted has earned a Master of Business Administration from Tecnologico de Monterrey.
 
@@ -240,6 +249,8 @@ export const runConversationWithLocalFileButInternalManagedMemory = async () => 
     question: followUpQn2,
     chat_history: updatedChatHistory,
   });
+  console.log('question', followUpQn2);
+  console.log('chatHistory', updatedChatHistory);
   console.log(followUpRes2);
   // José is 28 years old.
 };
