@@ -22,7 +22,8 @@ export const Badge = ({
   textSize = "text-sm",
 }: Props) => {
   return (
-    <div className={`relative inline-flex items-center justify-center absolute -top-3 right-1  
+    <div
+      className={`relative inline-flex items-center justify-center absolute -top-3 right-1  
       ${className}`}
     >
       <span
@@ -30,11 +31,7 @@ export const Badge = ({
         ${bgColor} ${textColor} ${textSize} ${iconClassName}`}
       >
         {children}
-        {icon ? (
-          <span className={`${iconColor} ${iconSize}`}>
-            {icon}
-          </span>
-        ) : null}
+        {icon ? <span className={`${iconColor} ${iconSize}`}>{icon}</span> : null}
       </span>
     </div>
   );

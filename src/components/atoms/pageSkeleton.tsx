@@ -1,6 +1,6 @@
 /* this is an svg skeleton to use in the suspense for RSC pages */
 
-import ContentLoader from 'react-content-loader';
+import ContentLoader from "react-content-loader";
 
 // see more layouts in https://skeletonreact.com/
 
@@ -13,7 +13,7 @@ export function PageSkeleton() {
       viewBox="0 0 400 460"
       backgroundColor="#9ab0f4"
       foregroundColor="#8094f9"
-      className='w-full h-full mx-auto'
+      className="w-full h-full mx-auto"
       /* {...props} */
     >
       <circle

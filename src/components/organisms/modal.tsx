@@ -12,15 +12,7 @@ type Props = {
 };
 
 // todo: close modal on outside click
-export const Modal = ({
-  children,
-  isOpen,
-  onClose,
-  title,
-  showActions,
-  bgColor,
-  outerCloseBtn,
-}: Props) => {
+export const Modal = ({ children, isOpen, onClose, title, showActions, bgColor, outerCloseBtn }: Props) => {
   if (!isOpen) {
     return null;
   }
@@ -33,17 +25,15 @@ export const Modal = ({
         overflow-y-auto overflow-x-hidden 
         outline-none focus:outline-none"
       >
-        <div className="relative my-6 mx-auto w-auto md:max-w-6xl lg:min-w-[40%]">
+        <div className="relative mx-auto my-6 w-auto md:max-w-6xl lg:min-w-[40%]">
           {outerCloseBtn && (
             <button
-              className="absolute -top-6 -right-6 ml-auto
+              className="absolute -right-6 -top-6 ml-auto
                 border-0 bg-transparent p-1 text-3xl font-semibold
                 leading-none text-black opacity-50"
               onClick={onClose}
             >
-              <span className="h-6 w-6 bg-transparent text-2xl text-black outline-none focus:outline-none">
-                ×
-              </span>
+              <span className="h-6 w-6 bg-transparent text-2xl text-black outline-none focus:outline-none">×</span>
             </button>
           )}
           {/* content */}
@@ -68,24 +58,20 @@ export const Modal = ({
                 opacity-75 outline-none focus:outline-none"
                   onClick={onClose}
                 >
-                  <span className="h-6 w-6 bg-white text-2xl text-black outline-none focus:outline-none">
-                    ×
-                  </span>
+                  <span className="h-6 w-6 bg-white text-2xl text-black outline-none focus:outline-none">×</span>
                 </button>
                 {/* outside div x close btn */}
               </div>
             )}
             {/* body */}
             <div>
-              <div className="text-blueGray-500 my-4 text-lg leading-relaxed">
-                {children}
-              </div>
+              <div className="text-blueGray-500 my-4 text-lg leading-relaxed">{children}</div>
             </div>
             {/* actions */}
             {showActions && (
               <div className="border-blueGray-200 flex items-center justify-end rounded-b border-t border-solid p-6">
                 <button
-                  className="mr-1 mb-1 rounded bg-red-500 px-6
+                  className="mb-1 mr-1 rounded bg-red-500 px-6
                 py-3 text-sm font-bold uppercase text-white shadow outline-none 
                 transition-all duration-150 ease-linear 
                 hover:shadow-lg focus:outline-none active:bg-red-600"

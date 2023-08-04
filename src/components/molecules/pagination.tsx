@@ -7,11 +7,7 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export const Pagination: React.FC<PaginationProps> = ({
-  page,
-  totalPages,
-  onPageChange,
-}) => {
+export const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange }) => {
   const [pages, setPages] = useState<number[]>([]);
 
   useEffect(() => {
@@ -29,12 +25,12 @@ export const Pagination: React.FC<PaginationProps> = ({
         onClick={() => onPageChange(page - 1)}
         disabled={page === 1}
       >
-        {'<'}
+        {"<"}
       </button>
       {pages.map((p) => {
         return (
           <button
-            key={p}  
+            key={p}
             className="flex items-center justify-center rounded-full w-8 h-8 mx-1"
             onClick={() => onPageChange(p)}
           >
@@ -47,7 +43,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         onClick={() => onPageChange(page + 1)}
         disabled={page === totalPages}
       >
-        {'>'}
+        {">"}
       </button>
     </div>
   );

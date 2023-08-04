@@ -31,8 +31,8 @@ export const NavbarLink = ({
       id={id}
     >
       <span
-        className={`font-color-dark--primary rounded font-bold md:p-3 ${textColor} ${textSize} ${className || ''} ${
-          !shouldDisplay ? "hidden" : ''
+        className={`font-color-dark--primary rounded font-bold md:p-3 ${textColor} ${textSize} ${className || ""} ${
+          !shouldDisplay ? "hidden" : ""
         }`}
       >
         {children}
