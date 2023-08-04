@@ -1,7 +1,7 @@
+/* eslint-disable max-len */
 import type { BgColor } from "~/types/enums";
 
-/* eslint-disable max-len */
-interface Props {
+type Props = {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
@@ -9,8 +9,9 @@ interface Props {
   title?: string;
   showActions?: boolean;
   bgColor?: BgColor;
-}
+};
 
+// todo: close modal on outside click
 export const Modal = ({
   children,
   isOpen,
