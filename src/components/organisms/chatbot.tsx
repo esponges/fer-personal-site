@@ -39,10 +39,10 @@ export const ChatBot = () => {
     textAreaRef.current?.focus();
   }, []);
 
-  //handle form submission
-  const handleSubmit = async (e: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<HTMLButtonElement>) => {
+  // todo: accept modal option click event
+  const handleSubmit = async (e?: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<HTMLButtonElement>) => {
     setError(null);
-    if ("key" in e && e.key === "Enter") {
+    if (!!e && "key" in e && e.key === "Enter") {
       if (e.key === "Enter") {
         e.preventDefault();
       } else {
@@ -50,7 +50,7 @@ export const ChatBot = () => {
       }
     }
 
-    const input = e.currentTarget.value || textAreaRef.current?.value;
+    const input = e?.currentTarget.value || textAreaRef.current?.value;
 
     if (!input || typeof input !== "string") {
       setError("Please first enter a question.");
@@ -131,11 +131,18 @@ export const ChatBot = () => {
     setExamplesQuestionModalOpen((prev) => !prev);
   };
 
+  const handleSetExampleQuestion = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, question: string) => {
+    textAreaRef.current && (textAreaRef.current.value = question);
+    handleToggleExamplesQuestionModal();
+    handleSubmit();
+  };
+
   return (
     <div className="mx-auto flex w-full flex-col gap-4">
       <AboutModal
         isOpen={examplesQuestionModalOpen}
         onClose={handleToggleExamplesQuestionModal}
+        handleOptionClick={handleSetExampleQuestion}
       />
       <div className="align-center justify-center">
         <div

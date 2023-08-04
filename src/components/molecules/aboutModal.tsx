@@ -1,10 +1,18 @@
+import { BgColor } from "~/types/enums";
 import { Modal } from "../organisms/modal";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  handleOptionClick?: (option: string) => void;
+  handleOptionClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, question: string) => void;
 };
+
+const QUESTIONS = [
+  "What's Fer's Tech Stack?",
+  "What's Fer's favorite programming language?",
+  "What's Fer's programming time experience?",
+  "What's Fer's education?",
+];
 
 export const AboutModal = ({ isOpen, onClose, handleOptionClick }: Props) => {
   return (
@@ -12,20 +20,22 @@ export const AboutModal = ({ isOpen, onClose, handleOptionClick }: Props) => {
       isOpen={isOpen}
       onClose={onClose}
       outerCloseBtn
+      bgColor={BgColor.white10}
     >
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="font-bold text-gray-800">What&apos;s Fer&apos;s Tech Stack?</div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="font-bold text-gray-800">What&apos;s Fer&apos;s favorite programming language?</div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="font-bold text-gray-800">What&apos;s Fer&apos;s programming time experience?</div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="font-bold text-gray-800">What&apos;s Fer&apos;s education?</div>
-        </div>
+        {QUESTIONS.map((question) => (
+          <div
+            key={question}
+            className="flex flex-col gap-2"
+          >
+            <div
+              className="font-bold text-gray-800 hover:text-gray-600 cursor-pointer"
+              onClick={(e) => handleOptionClick?.(e, question)}
+            >
+              {question}
+            </div>
+          </div>
+        ))}
       </div>
     </Modal>
   );

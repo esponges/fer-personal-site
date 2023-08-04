@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { Fragment } from "react";
 import type { BgColor } from "~/types/enums";
 
 type Props = {
@@ -18,7 +19,7 @@ export const Modal = ({ children, isOpen, onClose, title, showActions, bgColor, 
   }
 
   return (
-    <>
+    <Fragment>
       <div
         className="fixed inset-0 z-[102] 
         flex min-w-full items-center justify-center 
@@ -86,6 +87,6 @@ export const Modal = ({ children, isOpen, onClose, title, showActions, bgColor, 
         </div>
       </div>
       <div className="fixed inset-0 z-[101] bg-black opacity-25" />
-    </>
+    </Fragment>
   );
 };

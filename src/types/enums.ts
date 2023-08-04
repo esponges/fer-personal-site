@@ -41,5 +41,6 @@ export enum BgColor {
   green = "bg-green-100",
   purple = "bg-purple-100",
   pink = "bg-pink-100",
+  white10 = "bg-white/10",
   // custom colors
 }
