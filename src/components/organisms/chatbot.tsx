@@ -9,6 +9,7 @@ import { LoadingDots } from "~/components/atoms/loadingDots";
 
 import type { ApiChatResponse, ChatMessage } from "~/types";
 import type { Document } from "langchain/document";
+import { Modal } from "./modal";
 
 export const ChatBot = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,6 +28,7 @@ export const ChatBot = () => {
     ],
     history: [],
   });
+  const [examplesQuestionModalOpen, setExamplesQuestionModalOpen] = useState<boolean>(false);
 
   const { messages, history } = messageState;
 
@@ -125,6 +127,10 @@ export const ChatBot = () => {
     }
   };
 
+  const handleToggleExamplesQuestionModal = () => {
+    setExamplesQuestionModalOpen((prev) => !prev);
+  };
+
   return (
     <div className="mx-auto flex w-full flex-col gap-4">
       <div className="align-center justify-center">
@@ -133,6 +139,27 @@ export const ChatBot = () => {
           className={styles.messagelist}
           id="chat-messages-list"
         >
+          <Modal
+            isOpen={examplesQuestionModalOpen}
+            onClose={handleToggleExamplesQuestionModal}
+            outerCloseBtn
+          >
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <div className="font-bold text-gray-800">What&apos;s Fer&apos;s Tech Stack?</div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="font-bold text-gray-800">What&apos;s Fer&apos;s favorite programming language?</div>
+
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="font-bold text-gray-800">What&apos;s Fer&apos;s programming time experience?</div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="font-bold text-gray-800">What&apos;s Fer&apos;s education?</div>
+              </div>
+            </div>
+          </Modal>
           {messages.map((message, index) => {
             let icon;
             let className;
@@ -176,6 +203,13 @@ export const ChatBot = () => {
                   {!index ? (
                     <div className="relative flex w-full flex-col items-center justify-center text-sm text-gray-500">
                       E.g: What&apos;s Fer&apos;s Tech Stack?
+                      {/* add toggler more options */}
+                      <button
+                        onClick={handleToggleExamplesQuestionModal}
+                        className="text-blue-500 hover:text-blue-700"
+                      >
+                        More Examples
+                      </button>
                     </div>
                   ) : null}
                 </div>
