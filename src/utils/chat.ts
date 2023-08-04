@@ -45,7 +45,7 @@ export const makeStore = async () => {
   return HNSWStore;
 };
 
-// todo: improve it, apparently it's 
+// todo: improve it, apparently it's
 const CHAIN_PROMPT = `Given the following conversation and a follow up question, return the conversation history excerpt that includes any relevant context to 
 the question if it exists and rephrase the follow up question to be a standalone question.
 Chat History:

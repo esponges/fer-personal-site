@@ -19,7 +19,6 @@ export const AboutModal = ({ isOpen, onClose, handleOptionClick }: Props) => {
         </div>
         <div className="flex flex-col gap-2">
           <div className="font-bold text-gray-800">What&apos;s Fer&apos;s favorite programming language?</div>
-
         </div>
         <div className="flex flex-col gap-2">
           <div className="font-bold text-gray-800">What&apos;s Fer&apos;s programming time experience?</div>
