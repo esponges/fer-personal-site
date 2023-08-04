@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Fragment } from "react";
+import { Fragment, useCallback, useEffect, useRef } from "react";
 import type { BgColor } from "~/types/enums";
 
 type Props = {
@@ -14,6 +14,31 @@ type Props = {
 
 // todo: close modal on outside click
 export const Modal = ({ children, isOpen, onClose, title, showActions, bgColor, outerCloseBtn }: Props) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const checkOutsideClick = useCallback((e: MouseEvent) => {
+    console.log(modalRef.current, modalRef?.current?.contains(e.target as Node));
+    // if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+    //   onClose();
+    // }
+
+    // this is not working because any outside click is considered a click on the modal
+    // play with the tailwind settings to figure out how to fix
+  }, []);
+
+  // close modal on outside click
+  useEffect(() => {
+    // this aint working - fix
+    if (isOpen) {
+      document.body.addEventListener("click", checkOutsideClick);
+    }
+
+    return () => {
+      if (!isOpen) return;
+      document.body.removeEventListener("click", checkOutsideClick);
+    };
+  }, [modalRef, onClose, isOpen, checkOutsideClick]);
+
   if (!isOpen) {
     return null;
   }
@@ -21,8 +46,9 @@ export const Modal = ({ children, isOpen, onClose, title, showActions, bgColor, 
   return (
     <Fragment>
       <div
+        ref={modalRef}
         className="fixed inset-0 z-[102] 
-        flex min-w-full items-center justify-center 
+        flex items-center justify-center 
         overflow-y-auto overflow-x-hidden 
         outline-none focus:outline-none"
       >

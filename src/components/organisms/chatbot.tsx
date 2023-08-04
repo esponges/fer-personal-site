@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "~/styles/Home.module.css";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, use } from "react";
 
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
@@ -35,6 +35,7 @@ export const ChatBot = () => {
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  // todo: fix
   useEffect(() => {
     textAreaRef.current?.focus();
   }, []);
