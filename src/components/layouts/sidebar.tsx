@@ -66,7 +66,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               textColor={NAV_EL_COLOR}
               onClick={onClick}
             >
-                About
+              About
               <Badge
                 className="ml-2"
                 icon="🤖"

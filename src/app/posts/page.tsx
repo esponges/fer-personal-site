@@ -1,11 +1,11 @@
-import { Container } from '~/components/organisms/container';
-import { PageHeader } from '~/components/atoms/pageHeader';
-import Posts from '~/components/containers/posts';
-import { generateMetadata } from '~/app/defaultMetadata';
+import { Container } from "~/components/organisms/container";
+import { PageHeader } from "~/components/atoms/pageHeader";
+import Posts from "~/components/containers/posts";
+import { generateMetadata } from "~/app/defaultMetadata";
 
 export const metadata = await generateMetadata({
-  title: 'Posts',
-  description: 'Stuff I learned and liked enough.'
+  title: "Posts",
+  description: "Stuff I learned and liked enough.",
 });
 
 // eslint-disable-next-line @typescript-eslint/require-await

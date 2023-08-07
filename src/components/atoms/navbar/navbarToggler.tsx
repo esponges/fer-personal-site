@@ -10,13 +10,13 @@ export const NavbarToggler = ({ onToggle, isSidebarOpen }: { onToggle: () => voi
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
-        style={{ transform: isSidebarOpen ? 'rotate(180deg)' : '' }}
+        style={{ transform: isSidebarOpen ? "rotate(180deg)" : "" }}
       >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth={2}
-          d={isSidebarOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+          d={isSidebarOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
         />
       </svg>
     </button>

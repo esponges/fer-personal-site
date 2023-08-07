@@ -3,11 +3,12 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
     "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:@typescript-eslint/recommended"
+    // "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    // "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "warn",
@@ -36,7 +37,6 @@
       }
     ],
     "indent": "off",
-    "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/semi": ["error", "always"],
     "@typescript-eslint/no-shadow": "error",
     // no template curly braces in strings and no unnecessary template literals
@@ -45,6 +45,18 @@
     "react/jsx-curly-brace-presence": ["warn", { "props": "never", "children": "never" }],
     // jsx curly spacing
     "react/jsx-curly-spacing": ["error", "never"],
-    "@typescript-eslint/require-await": "off" // must be off for nextjs 13 async component support
+    "@typescript-eslint/require-await": "off", // must be off for nextjs 13 async component support
+    // todo: all styling rules should be moved to prettier
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 120,
+        "singleQuote": false,
+        "trailingComma": "es5",
+        "singleAttributePerLine": true,
+        "tabWidth": 2,
+        "endOfLine": "auto"
+      }
+    ]
   }
 }

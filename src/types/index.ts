@@ -1,5 +1,5 @@
-import type { Prisma, Image, Lib } from '@prisma/client';
-import type { Document } from 'langchain/document';
+import type { Prisma, Image, Lib } from "@prisma/client";
+import type { Document } from "langchain/document";
 
 // dev.to API response
 export type Post<HasDetails extends boolean = false> = {
@@ -35,30 +35,29 @@ export type Post<HasDetails extends boolean = false> = {
   };
 } & (HasDetails extends true
   ? {
-    body_html: string;
-    body_markdown: string;
-  }
+      body_html: string;
+      body_markdown: string;
+    }
   : {});
 
-export type Project<HasTimeStamps extends boolean = true> =
-  HasTimeStamps extends true
-    ? Prisma.ProjectGetPayload<{
+export type Project<HasTimeStamps extends boolean = true> = HasTimeStamps extends true
+  ? Prisma.ProjectGetPayload<{
       include: {
         images: true;
         libs: true;
       };
     }>
-    : Omit<
-    Prisma.ProjectGetPayload<{
-      include: {
-        images: true;
-        libs: true;
-      };
-    }>,
-    'createdAt' | 'updatedAt'
+  : Omit<
+      Prisma.ProjectGetPayload<{
+        include: {
+          images: true;
+          libs: true;
+        };
+      }>,
+      "createdAt" | "updatedAt"
     > & {
-      images: Omit<Image, 'createdAt' | 'updatedAt'>[];
-      libs: Omit<Lib, 'createdAt' | 'updatedAt'>[];
+      images: Omit<Image, "createdAt" | "updatedAt">[];
+      libs: Omit<Lib, "createdAt" | "updatedAt">[];
     };
 
 export type Doc = {
@@ -77,7 +76,7 @@ export type Doc = {
 };
 
 export type ChatMessage = {
-  type: 'apiMessage' | 'userMessage';
+  type: "apiMessage" | "userMessage";
   message: string;
   isStreaming?: boolean;
   sourceDocs?: Document[];
@@ -87,8 +86,7 @@ export type ApiChatResponseBody = {
   response: {
     text: string;
     sourceDocuments: Document[];
-  }
+  };
 };
 
-export type ApiChatResponse = ApiChatResponseBody | { error: string, status: number };
-
+export type ApiChatResponse = ApiChatResponseBody | { error: string; status: number };

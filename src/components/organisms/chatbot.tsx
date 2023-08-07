@@ -9,6 +9,7 @@ import { LoadingDots } from "~/components/atoms/loadingDots";
 
 import type { ApiChatResponse, ChatMessage } from "~/types";
 import type { Document } from "langchain/document";
+import { AboutModal } from "../molecules/aboutModal";
 
 export const ChatBot = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,20 +28,22 @@ export const ChatBot = () => {
     ],
     history: [],
   });
+  const [examplesQuestionModalOpen, setExamplesQuestionModalOpen] = useState<boolean>(false);
 
   const { messages, history } = messageState;
 
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  // todo: fix
   useEffect(() => {
     textAreaRef.current?.focus();
   }, []);
 
-  //handle form submission
-  const handleSubmit = async (e: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<HTMLButtonElement>) => {
+  // todo: accept modal option click event
+  const handleSubmit = async (e?: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<HTMLButtonElement>) => {
     setError(null);
-    if ("key" in e && e.key === "Enter") {
+    if (!!e && "key" in e && e.key === "Enter") {
       if (e.key === "Enter") {
         e.preventDefault();
       } else {
@@ -48,7 +51,7 @@ export const ChatBot = () => {
       }
     }
 
-    const input = e.currentTarget.value || textAreaRef.current?.value;
+    const input = e?.currentTarget.value || textAreaRef.current?.value;
 
     if (!input || typeof input !== "string") {
       setError("Please first enter a question.");
@@ -125,8 +128,23 @@ export const ChatBot = () => {
     }
   };
 
+  const handleToggleExamplesQuestionModal = () => {
+    setExamplesQuestionModalOpen((prev) => !prev);
+  };
+
+  const handleSetExampleQuestion = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, question: string) => {
+    textAreaRef.current && (textAreaRef.current.value = question);
+    handleToggleExamplesQuestionModal();
+    handleSubmit();
+  };
+
   return (
     <div className="mx-auto flex w-full flex-col gap-4">
+      <AboutModal
+        isOpen={examplesQuestionModalOpen}
+        onClose={handleToggleExamplesQuestionModal}
+        handleOptionClick={handleSetExampleQuestion}
+      />
       <div className="align-center justify-center">
         <div
           ref={messageListRef}
@@ -169,13 +187,23 @@ export const ChatBot = () => {
                 <div className={className}>
                   {icon}
                   <div className="flex flex-col">
-                    <div className={styles.markdownanswer} id={`chat-message-${index}`}>
+                    <div
+                      className={styles.markdownanswer}
+                      id={`chat-message-${index}`}
+                    >
                       <ReactMarkdown linkTarget="_blank">{message.message}</ReactMarkdown>
                     </div>
                   </div>
                   {!index ? (
                     <div className="relative flex w-full flex-col items-center justify-center text-sm text-gray-500">
                       E.g: What&apos;s Fer&apos;s Tech Stack?
+                      {/* add toggler more options */}
+                      <button
+                        onClick={handleToggleExamplesQuestionModal}
+                        className="text-blue-500 hover:text-blue-700"
+                      >
+                        More Examples
+                      </button>
                     </div>
                   ) : null}
                 </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-shadow */
 import { prisma } from "~/server/db/client";
 import type { Project } from "~/types";
@@ -22,7 +23,7 @@ export const removeTimeStamps = (project: Project) => {
 export const getProjects = async () => {
   const data = await prisma.project.findMany({
     orderBy: {
-      relevance: 'desc',
+      relevance: "desc",
     },
     include: {
       images: true,
