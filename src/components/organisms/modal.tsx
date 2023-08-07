@@ -9,7 +9,7 @@ type Props = {
   outerCloseBtn?: boolean;
   title?: string;
   showActions?: boolean;
-  bgColor?: BgColor;
+  bgColor?: BgColor | string;
 };
 
 // todo: close modal on outside click

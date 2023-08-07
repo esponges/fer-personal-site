@@ -20,7 +20,7 @@ export const AboutModal = ({ isOpen, onClose, handleOptionClick }: Props) => {
       isOpen={isOpen}
       onClose={onClose}
       outerCloseBtn
-      bgColor={BgColor.white10}
+      bgColor="bg-blue-800 dark:bg-gray-900"
     >
       <div className="flex flex-col gap-4">
         {QUESTIONS.map((question) => (
@@ -29,7 +29,7 @@ export const AboutModal = ({ isOpen, onClose, handleOptionClick }: Props) => {
             className="flex flex-col gap-2"
           >
             <div
-              className="font-bold text-gray-800 hover:text-gray-600 cursor-pointer"
+              className="font-bold text-white hover:text-gray-200 cursor-pointer"
               onClick={(e) => handleOptionClick?.(e, question)}
             >
               {question}
