@@ -9,7 +9,7 @@ type Props = {
 const QUESTIONS = [
   "What's Fer's Tech Stack?",
   "What's Fer's favorite programming language?",
-  "What's Fer's programming time experience?",
+  "What's Fer's coding time experience?",
   "What's Fer's education?",
 ];
 
