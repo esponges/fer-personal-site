@@ -1,4 +1,3 @@
-import { P } from "drizzle-orm/db.d-a6fe1b19";
 import { useEffect, useState } from "react";
 
 interface PaginationProps {

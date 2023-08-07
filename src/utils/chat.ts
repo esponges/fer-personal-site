@@ -16,7 +16,7 @@ import { getErrorMessage } from "./misc";
 
 import type { VectorStore } from "langchain/dist/vectorstores/base";
 import type { Doc } from "~/types";
-import { OpenAI } from "langchain";
+import { OpenAI } from "langchain/llms/openai";
 
 export const makeStore = async () => {
   if (!process.env.DB_CONTEXT_DOCUMENT) {

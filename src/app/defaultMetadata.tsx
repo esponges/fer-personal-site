@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ResolvingMetadata } from "next";
 
 type Props = {
   title?: string;
