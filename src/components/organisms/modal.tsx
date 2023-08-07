@@ -7,13 +7,23 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   outerCloseBtn?: boolean;
+  innerCloseBtn?: boolean;
   title?: string;
   showActions?: boolean;
   bgColor?: BgColor | string;
 };
 
 // todo: close modal on outside click
-export const Modal = ({ children, isOpen, onClose, title, showActions, bgColor, outerCloseBtn }: Props) => {
+export const Modal = ({
+  children,
+  isOpen,
+  onClose,
+  title,
+  showActions,
+  bgColor,
+  outerCloseBtn,
+  innerCloseBtn,
+}: Props) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const checkOutsideClick = useCallback((e: MouseEvent) => {
@@ -53,14 +63,14 @@ export const Modal = ({ children, isOpen, onClose, title, showActions, bgColor, 
         outline-none focus:outline-none"
       >
         <div className="relative mx-auto my-6 w-auto md:max-w-6xl lg:min-w-[40%]">
-          {outerCloseBtn && (
+          {(outerCloseBtn || innerCloseBtn) && (
             <button
-              className="absolute -right-6 -top-6 ml-auto
-                border-0 bg-transparent p-1 text-3xl font-semibold
-                leading-none text-black opacity-50"
+              className={`absolute ${outerCloseBtn ? "-right-6 -top-6" : "right-2 top-0 z-[103]"}
+              border-0 bg-transparent p-1 text-3xl font-semibold
+              leading-none opacity-50`}
               onClick={onClose}
             >
-              <span className="h-6 w-6 bg-transparent text-2xl text-black outline-none focus:outline-none">×</span>
+              <span className="h-6 w-6 bg-transparent text-2xl text-white outline-none focus:outline-none ">×</span>
             </button>
           )}
           {/* content */}

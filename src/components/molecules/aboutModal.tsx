@@ -1,4 +1,3 @@
-import { BgColor } from "~/types/enums";
 import { Modal } from "../organisms/modal";
 
 type Props = {
@@ -19,7 +18,7 @@ export const AboutModal = ({ isOpen, onClose, handleOptionClick }: Props) => {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      outerCloseBtn
+      innerCloseBtn
       bgColor="bg-blue-800 dark:bg-gray-900"
     >
       <div className="flex flex-col gap-4">
