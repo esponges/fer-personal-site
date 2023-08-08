@@ -7,11 +7,11 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { LoadingDots } from "~/components/atoms/loadingDots";
 
-import type { ApiChatResponse, ChatMessage } from "~/types";
+import type { ChatMessage } from "~/types";
 import type { Document } from "langchain/document";
 import { AboutModal } from "../molecules/aboutModal";
 import { safeFetch } from "~/utils/safeFetch";
-import { apiChatResponse } from "~/types/zod";
+import { apiChatResponseBody } from "~/types/zod";
 import { getErrorMessage } from "~/utils/misc";
 
 export const ChatBot = () => {
@@ -78,9 +78,8 @@ export const ChatBot = () => {
     // set text areaRef value to empty string
     textAreaRef.current && (textAreaRef.current.value = "");
 
-    let chatResponse;
     try {
-      chatResponse = await safeFetch(apiChatResponse, "/api/chat", {
+      const chatResponse = await safeFetch(apiChatResponseBody, "/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,14 +89,6 @@ export const ChatBot = () => {
           history,
         }),
       });
-    } catch (err: unknown) {
-      const errMsg = getErrorMessage(err);
-      setError(`An error occurred while fetching the data. Please try again. Error: ${errMsg}`);
-      setLoading(false);
-      return;
-    }
-
-    if ("response" in chatResponse) {
       const {
         response: { text, sourceDocuments },
       } = chatResponse;
@@ -115,6 +106,12 @@ export const ChatBot = () => {
         history: [...state.history, [question, text]],
         pendingSourceDocs: sourceDocuments,
       }));
+    } catch (err: unknown) {
+      const errMsg = getErrorMessage(err);
+
+      setError(`An error occurred while fetching the data. Please try again. Error: ${errMsg}`);
+      setLoading(false);
+      return;
     }
 
     setLoading(false);

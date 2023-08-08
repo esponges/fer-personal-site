@@ -5,17 +5,9 @@ const documentSchema = z.object({
   metadata: z.record(z.any()),
 });
 
-const apiChatResponseBody = z.object({
+export const apiChatResponseBody = z.object({
   response: z.object({
     text: z.string(),
     sourceDocuments: z.array(documentSchema),
   }),
 });
-
-export const apiChatResponse = z.union([
-  apiChatResponseBody,
-  z.object({
-    error: z.string(),
-    status: z.number(),
-  }),
-]);
