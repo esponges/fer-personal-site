@@ -1,19 +1,19 @@
 import z from "zod";
 
-const ApiChatResponseBody = z.object({
+const documentSchema = z.object({
+  pageContent: z.string(),
+  metadata: z.record(z.any()),
+});
+
+const apiChatResponseBody = z.object({
   response: z.object({
     text: z.string(),
-    sourceDocuments: z.array(
-      z.object({
-        pageContent: z.string(),
-        metadata: z.record(z.any()),
-      })
-    ),
+    sourceDocuments: z.array(documentSchema),
   }),
 });
 
-export const ApiChatResponse = z.union([
-  ApiChatResponseBody,
+export const apiChatResponse = z.union([
+  apiChatResponseBody,
   z.object({
     error: z.string(),
     status: z.number(),

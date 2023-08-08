@@ -1,10 +1,6 @@
 import type z from "zod";
 
-export async function safeFetch<T extends z.ZodTypeAny>(
-  schema: z.Schema<T>,
-  input: RequestInfo,
-  init?: RequestInit
-): Promise<T> {
+export async function safeFetch<T>(schema: z.Schema<T>, input: RequestInfo, init?: RequestInit): Promise<T> {
   const response = await fetch(input, init);
 
   if (!response.ok) {
