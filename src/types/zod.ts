@@ -8,6 +8,6 @@ const documentSchema = z.object({
 export const apiChatResponseBody = z.object({
   response: z.object({
     text: z.string(),
-    sourceDocuments: z.array(documentSchema),
+    sourceDocuments: z.array(documentSchema).optional(),
   }),
 });
