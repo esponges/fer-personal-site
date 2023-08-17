@@ -16,7 +16,7 @@ type Props = {
 
 export async function generateMetadata(
   { params: _params, searchParams }: Props,
-  _parent: ResolvingMetadata
+  _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // read route params
   const id = searchParams.ref as string;
@@ -51,7 +51,10 @@ type CustomElementProps = {
 
 // to do: react-syntax-highlighter doesn't work with server components
 // find a way to make it work
-const overrideCustomElement = (type: keyof HTMLElementTagNameMap, className: string) => {
+const overrideCustomElement = (
+  type: keyof HTMLElementTagNameMap,
+  className: string,
+) => {
   return {
     component: CustomElement,
     props: {
@@ -79,7 +82,9 @@ export default async function PostDetails({
     return (
       <Container textCenter={false}>
         <PageHeader title="Post not found" />
-        <p className="text-center text-gray-500">No post found. Please try again later.</p>
+        <p className="text-center text-gray-500">
+          No post found. Please try again later.
+        </p>
       </Container>
     );
   }
@@ -104,16 +109,46 @@ export default async function PostDetails({
         id="markdown-article"
         options={{
           overrides: {
-            p: overrideCustomElement("p", "text-md leading-7 my-4 md:my-6 dark:text-gray-300"),
-            pre: overrideCustomElement("pre", "rounded-md bg-gray-700 text-white p-4 my-4 md:my-6 overflow-x-auto"),
-            code: overrideCustomElement("code", "text-sm bg-gray-700 text-white p-1 rounded-md"),
-            strong: overrideCustomElement("strong", "font-bold text-lg leading-7 my-4 md:my-6 dark:text-gray-300"),
-            img: overrideCustomElement("img", "rounded-md my-4 md:my-6 mx-auto"),
-            ul: overrideCustomElement("ul", "list-disc list-inside my-4 md:my-6"),
-            a: overrideCustomElement("a", "text-blue-500 underline hover:text-blue-600"),
-            h1: overrideCustomElement("h1", "text-3xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300"),
-            h2: overrideCustomElement("h2", "text-2xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300"),
-            h3: overrideCustomElement("h3", "text-xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300"),
+            p: overrideCustomElement(
+              "p",
+              "text-md leading-7 my-4 md:my-6 dark:text-gray-300",
+            ),
+            pre: overrideCustomElement(
+              "pre",
+              "rounded-md bg-gray-700 text-white p-4 my-4 md:my-6 overflow-x-auto",
+            ),
+            code: overrideCustomElement(
+              "code",
+              "text-sm bg-gray-700 text-white p-1 rounded-md",
+            ),
+            strong: overrideCustomElement(
+              "strong",
+              "font-bold text-lg leading-7 my-4 md:my-6 dark:text-gray-300",
+            ),
+            img: overrideCustomElement(
+              "img",
+              "rounded-md my-4 md:my-6 mx-auto",
+            ),
+            ul: overrideCustomElement(
+              "ul",
+              "list-disc list-inside my-4 md:my-6",
+            ),
+            a: overrideCustomElement(
+              "a",
+              "text-blue-500 underline hover:text-blue-600",
+            ),
+            h1: overrideCustomElement(
+              "h1",
+              "text-3xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300",
+            ),
+            h2: overrideCustomElement(
+              "h2",
+              "text-2xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300",
+            ),
+            h3: overrideCustomElement(
+              "h3",
+              "text-xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300",
+            ),
           },
         }}
       >

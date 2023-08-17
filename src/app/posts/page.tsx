@@ -18,7 +18,6 @@ export default async function PostsPage() {
             Blogging is a great way to improve and share knowledge.
             And who knows, maybe one day it might help me to write a book!"
       />
-      {/* @ts-expect-error Server Component */}
       <Posts />
     </Container>
   );
