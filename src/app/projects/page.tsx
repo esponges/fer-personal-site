@@ -18,7 +18,6 @@ export default async function ProjectsPage() {
           title="Projects"
           description="A collection of projects I've worked on."
         />
-        {/* @ts-expect-error Server Component */}
         <Projects />
       </Container>
     </>

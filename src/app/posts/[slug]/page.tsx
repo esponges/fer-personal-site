@@ -1,13 +1,13 @@
-import type { Metadata, ResolvingMetadata } from 'next';
-import { createElement, lazy } from 'react';
+import type { Metadata, ResolvingMetadata } from "next";
+import { createElement, lazy } from "react";
 
-import { Container } from '~/components/organisms/container';
-import { PageHeader } from '~/components/atoms/pageHeader';
-import { getPostDetails } from '~/utils/posts';
-import Image from 'next/image';
+import { Container } from "~/components/organisms/container";
+import { PageHeader } from "~/components/atoms/pageHeader";
+import { getPostDetails } from "~/utils/posts";
+import Image from "next/image";
 
 // in case of error fetching the post details
-const Markdown = lazy(() => import('markdown-to-jsx'));
+const Markdown = lazy(() => import("markdown-to-jsx"));
 
 type Props = {
   params: { slug: string };
@@ -16,7 +16,7 @@ type Props = {
 
 export async function generateMetadata(
   { params: _params, searchParams }: Props,
-  _parent: ResolvingMetadata
+  _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // read route params
   const id = searchParams.ref as string;
@@ -28,17 +28,17 @@ export async function generateMetadata(
 
   // optionally access and extend (rather than replace) parent metadata
   return {
-    title: title ?? 'Post not found',
-    description: description ?? 'Post not found',
+    title: title ?? "Post not found",
+    description: description ?? "Post not found",
     authors: [
       {
-        name: user?.name ?? 'Unknown',
+        name: user?.name ?? "Unknown",
         url: !!user ? `https://github.com/${user.github_username}` : undefined,
       },
     ],
     keywords: tags ?? [],
     alternates: {
-      canonical: url ?? 'https://dev.to/',
+      canonical: url ?? "https://dev.to/",
     },
   };
 }
@@ -53,7 +53,7 @@ type CustomElementProps = {
 // find a way to make it work
 const overrideCustomElement = (
   type: keyof HTMLElementTagNameMap,
-  className: string
+  className: string,
 ) => {
   return {
     component: CustomElement,
@@ -81,8 +81,8 @@ export default async function PostDetails({
     // todo: improve error handling views
     return (
       <Container textCenter={false}>
-        <PageHeader title='Post not found' />
-        <p className='text-center text-gray-500'>
+        <PageHeader title="Post not found" />
+        <p className="text-center text-gray-500">
           No post found. Please try again later.
         </p>
       </Container>
@@ -100,54 +100,54 @@ export default async function PostDetails({
           alt={title}
           width={500}
           height={300}
-          className='mx-auto my-4 rounded-xl md:my-10'
-          placeholder='blur'
-          blurDataURL='/images/cover-placeholder.png'
+          className="mx-auto my-4 rounded-xl md:my-10"
+          placeholder="blur"
+          blurDataURL="/images/cover-placeholder.png"
         />
       ) : null}
       <Markdown
-        id='markdown-article'
+        id="markdown-article"
         options={{
           overrides: {
             p: overrideCustomElement(
-              'p',
-              'text-md leading-7 my-4 md:my-6 dark:text-gray-300'
+              "p",
+              "text-md leading-7 my-4 md:my-6 dark:text-gray-300",
             ),
             pre: overrideCustomElement(
-              'pre',
-              'rounded-md bg-gray-700 text-white p-4 my-4 md:my-6 overflow-x-auto'
+              "pre",
+              "rounded-md bg-gray-700 text-white p-4 my-4 md:my-6 overflow-x-auto",
             ),
             code: overrideCustomElement(
-              'code',
-              'text-sm bg-gray-700 text-white p-1 rounded-md'
+              "code",
+              "text-sm bg-gray-700 text-white p-1 rounded-md",
             ),
             strong: overrideCustomElement(
-              'strong',
-              'font-bold text-lg leading-7 my-4 md:my-6 dark:text-gray-300'
+              "strong",
+              "font-bold text-lg leading-7 my-4 md:my-6 dark:text-gray-300",
             ),
             img: overrideCustomElement(
-              'img',
-              'rounded-md my-4 md:my-6 mx-auto'
+              "img",
+              "rounded-md my-4 md:my-6 mx-auto",
             ),
             ul: overrideCustomElement(
-              'ul',
-              'list-disc list-inside my-4 md:my-6'
+              "ul",
+              "list-disc list-inside my-4 md:my-6",
             ),
             a: overrideCustomElement(
-              'a',
-              'text-blue-500 underline hover:text-blue-600'
+              "a",
+              "text-blue-500 underline hover:text-blue-600",
             ),
             h1: overrideCustomElement(
-              'h1',
-              'text-3xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300'
+              "h1",
+              "text-3xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300",
             ),
             h2: overrideCustomElement(
-              'h2',
-              'text-2xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300'
+              "h2",
+              "text-2xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300",
             ),
             h3: overrideCustomElement(
-              'h3',
-              'text-xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300'
+              "h3",
+              "text-xl font-bold leading-7 my-4 md:my-6 dark:text-gray-300",
             ),
           },
         }}
@@ -155,12 +155,12 @@ export default async function PostDetails({
         {markdown}
       </Markdown>
       {/* add a reference to the original post */}
-      <p className='my-6 text-center text-gray-500 md:my-10'>
+      <p className="my-6 text-center text-gray-500 md:my-10">
         <a
           href={url}
-          target='_blank'
-          rel='noopener noreferrer'
-          className='underline hover:text-blue-600'
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-blue-600"
         >
           Read the original post on Dev.to
         </a>

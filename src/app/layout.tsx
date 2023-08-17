@@ -4,7 +4,11 @@ import { Footer } from "~/components/layouts/footer";
 import "~/styles/globals.css";
 import "react-awesome-slider/dist/styles.css";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="EN">
       <head />

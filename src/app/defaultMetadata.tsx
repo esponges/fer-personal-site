@@ -6,7 +6,10 @@ type Props = {
 };
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export async function generateMetadata({ title, description }: Props = {}): Promise<Metadata> {
+export async function generateMetadata({
+  title,
+  description,
+}: Props = {}): Promise<Metadata> {
   return {
     title: title || "Fer Tostado's Personal site",
     description: description || "Welcome to my realm!",

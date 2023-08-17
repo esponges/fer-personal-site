@@ -26,16 +26,6 @@
       { "argsIgnorePattern": "^_" }
     ],
     "max-len": ["error", 120],
-    // newline after import - requires import-newlines plugin
-    // "import-newlines/enforce": ["error", 2, 100],
-    // newline on React component props
-    // "react/jsx-closing-bracket-location": [
-    //   "error",
-    //   {
-    //     "selfClosing": "line-aligned",
-    //     "nonEmpty": "line-aligned"
-    //   }
-    // ],
     "indent": "off",
     "@typescript-eslint/semi": ["error", "always"],
     "@typescript-eslint/no-shadow": "error",
