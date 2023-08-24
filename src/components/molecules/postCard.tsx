@@ -6,7 +6,16 @@ import { Header } from "~/components/atoms/header";
 import { Paragraph } from "~/components/atoms/paragraph";
 
 export const PostCard = (
-  post: Pick<Post, "title" | "canonical_url" | "cover_image" | "description" | "social_image" | "id" | "slug">
+  post: Pick<
+    Post,
+    | "title"
+    | "canonical_url"
+    | "cover_image"
+    | "description"
+    | "social_image"
+    | "id"
+    | "slug"
+  >,
 ) => {
   const detailsUrl = `/posts/${post.slug}?ref=${post.id}`;
 
@@ -16,7 +25,11 @@ export const PostCard = (
       <div className="card--bg my-10 flex flex-col gap-4 rounded-xl p-4">
         <Header>{post.title}</Header>
         <Image
-          src={post.cover_image ?? post.social_image ?? "/images/cover-placeholder.png"}
+          src={
+            post.cover_image ??
+            post.social_image ??
+            "/images/cover-placeholder.png"
+          }
           alt={post.title}
           width={500}
           height={300}

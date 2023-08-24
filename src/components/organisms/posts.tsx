@@ -33,13 +33,14 @@ export const Posts = ({ posts }: { posts: Post[] }) => {
   // if the page is not set, set it to 1, otherwise use the from the currentPage from pagination
   const queryPage = params?.get("page");
   useEffect(() => {
+    if (queryPage === currentPage.toString()) return;
+
     if (!queryPage) {
-      onPageChange(1);
       handlePageChange(1);
     } else {
       onPageChange(parseInt(queryPage));
     }
-  }, [queryPage, handlePageChange, onPageChange]);
+  }, [handlePageChange, onPageChange, queryPage, currentPage]);
 
   return (
     <>

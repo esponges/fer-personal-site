@@ -3,7 +3,10 @@ import { Modal } from "../organisms/modal";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  handleOptionClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, question: string) => void;
+  handleOptionClick?: (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    question: string,
+  ) => void;
 };
 
 const QUESTIONS = [

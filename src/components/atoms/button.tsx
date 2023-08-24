@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+
 interface Props {
   children: React.ReactNode;
   textColor?: string;
@@ -10,13 +12,13 @@ export const Button = ({
   children,
   textColor = "text-white",
   bgColor = "bg-gray-800",
-  className = "",
+  className,
   ...props
 }: Props) => {
   return (
     <button
       type="button"
-      className={`${textColor} ${bgColor} rounded-lg px-4 py-2 ${className}`}
+      className={twMerge("rounded-lg px-4 py-2", textColor, bgColor, className)}
       {...props}
     >
       {children}

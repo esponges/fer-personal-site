@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+
 type Props = {
   children: React.ReactNode;
   className?: string;
@@ -12,7 +14,7 @@ type Props = {
 
 export const Badge = ({
   children,
-  className = "",
+  className,
   icon = "",
   iconColor = "text-white",
   iconSize = "text-2xl",
@@ -23,15 +25,19 @@ export const Badge = ({
 }: Props) => {
   return (
     <div
-      className={`relative inline-flex items-center justify-center absolute -top-3 right-1  
-      ${className}`}
+      className={twMerge(
+        "relative inline-flex items-center justify-center absolute -top-3 right-1",
+        className,
+      )}
     >
       <span
         className={`p-1 rounded-xl items-center justify-center
         ${bgColor} ${textColor} ${textSize} ${iconClassName}`}
       >
         {children}
-        {icon ? <span className={`${iconColor} ${iconSize}`}>{icon}</span> : null}
+        {icon ? (
+          <span className={`${iconColor} ${iconSize}`}>{icon}</span>
+        ) : null}
       </span>
     </div>
   );
