@@ -37,7 +37,8 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
   };
 
   const handleNextImage = () => {
-    const next = showImageIdx === project.images.length - 1 ? 0 : showImageIdx + 1;
+    const next =
+      showImageIdx === project.images.length - 1 ? 0 : showImageIdx + 1;
     setShowImageIdx(next);
   };
 
@@ -85,7 +86,9 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
           </div>
         )}
         <SubHeader>{project.subheader}</SubHeader>
-        <Paragraph className="dark:text-gray-400">{project.description}</Paragraph>
+        <Paragraph className="dark:text-gray-400">
+          {project.description}
+        </Paragraph>
       </div>
       {/* if it has a repo url */}
       {project.repoUrl && (
@@ -168,7 +171,9 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
           return (
             <li key={index}>
               <Link href={lib.url}>
-                <span className="underline hover:text-blue-600">{lib.name}</span>
+                <span className="underline hover:text-blue-600">
+                  {lib.name}
+                </span>
               </Link>
             </li>
           );

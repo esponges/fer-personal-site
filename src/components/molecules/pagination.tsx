@@ -6,7 +6,11 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange }) => {
+export const Pagination: React.FC<PaginationProps> = ({
+  page,
+  totalPages,
+  onPageChange,
+}) => {
   const [pages, setPages] = useState<number[]>([]);
 
   useEffect(() => {
