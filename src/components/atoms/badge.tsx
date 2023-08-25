@@ -26,17 +26,22 @@ export const Badge = ({
   return (
     <div
       className={twMerge(
-        "relative inline-flex items-center justify-center absolute -top-3 right-1",
+        "relative inline-flex items-center justify-center absolute -top-1 md:-right-4 -right-6",
         className,
       )}
     >
       <span
-        className={`p-1 rounded-xl items-center justify-center
-        ${bgColor} ${textColor} ${textSize} ${iconClassName}`}
+        className={twMerge(
+          "p-1 rounded-xl items-center justify-center",
+          bgColor,
+          textColor,
+          textSize,
+          iconClassName,
+        )}
       >
         {children}
         {icon ? (
-          <span className={`${iconColor} ${iconSize}`}>{icon}</span>
+          <span className={twMerge(iconColor, iconSize)}>{icon}</span>
         ) : null}
       </span>
     </div>

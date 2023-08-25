@@ -68,7 +68,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
             >
               About
               <Badge
-                className="ml-2"
+                className="ml-2 -right-10"
                 icon="🤖"
                 iconSize="text-xs"
                 iconColor="text-gray-500"
