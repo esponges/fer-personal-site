@@ -26,7 +26,7 @@ export const Badge = ({
   return (
     <div
       className={twMerge(
-        "relative inline-flex items-center justify-center absolute -top-1 -right-4",
+        "relative inline-flex items-center justify-center absolute -top-1 md:-right-4 -right-6",
         className,
       )}
     >
