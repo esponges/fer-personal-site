@@ -15,6 +15,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   useEffect(() => {
     const ps = [];
+
     for (let i = 1; i <= totalPages; i++) {
       ps.push(i);
     }

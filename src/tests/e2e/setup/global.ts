@@ -34,6 +34,7 @@ export default async function globalSetup() {
 
     // log context cookies
     const cook = await context.cookies();
+
     console.log(cook);
     await browser.close();
   } catch (err) {
@@ -42,6 +43,7 @@ export default async function globalSetup() {
 
   // Save the cookie to the storage state file
   const newStorageState = { cookies: [testCookie], origins: [] };
+
   try {
     await fs.writeFile(storageStatePath, JSON.stringify(newStorageState), "utf8");
   } catch (err) {

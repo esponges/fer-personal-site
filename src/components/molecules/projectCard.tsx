@@ -39,6 +39,7 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
   const handleNextImage = () => {
     const next =
       showImageIdx === project.images.length - 1 ? 0 : showImageIdx + 1;
+
     setShowImageIdx(next);
   };
 
