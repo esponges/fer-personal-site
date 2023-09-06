@@ -16,6 +16,7 @@ test.describe("regression tests", () => {
 
     // grab the first html <article> element
     const firstArticle = page.locator("article").first();
+    
     // expect first child element to be an <a> element
     expect(firstArticle.locator("a").first()).toBeTruthy();
 
@@ -50,6 +51,7 @@ test.describe("regression tests", () => {
     // expect the html element to have the class 'light'
     // expect(await page.locator("html").first()).toHaveClass("light");
     const togglerDark = await page.locator("#navbar-darkmode-toggler");
+
     expect(togglerDark).toBeTruthy();
 
     // click to toggle dark mode
@@ -64,11 +66,13 @@ test.describe("regression tests", () => {
 
     // and light mode toggle to be present
     const togglerLight = await page.locator("#navbar-lightmode-toggler");
+
     expect(togglerLight).toBeTruthy();
 
     // hit home to check if the mode is preserved and page doesn't hard refresh
     await page.locator("#navbar-home-link").click();
     const toggler = await page.locator("#navbar-lightmode-toggler");
+
     expect(toggler).toBeTruthy();
   });
 
@@ -105,6 +109,7 @@ test.describe("regression tests", () => {
 
       // assert that the chatbot answered
       const chatRes = await page.locator("#chat-message-2").innerHTML();
+
       expect(chatRes).toContain(chatResIncludes);
       // todo: use a regexp that accepts any combination of strings (.*?) and any number of characters (.*)
       // this one causes the browser has been closed error
@@ -116,6 +121,7 @@ test.describe("regression tests", () => {
 
       // assert that the chatbot answered
       const chatRes2 = await page.locator("#chat-message-4").innerHTML();
+
       expect(chatRes2).toContain(chatRes2Includes);
     });
   });

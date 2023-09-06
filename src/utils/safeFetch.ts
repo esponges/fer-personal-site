@@ -23,6 +23,7 @@ function newHTTPError(reason: string, response: Response, method?: string) {
   const text = response.text().catch(() => null);
   const message = `HTTPError: ${reason} ${method ?? ""} ${response.url} ${text}`;
   console.error(`[HTTPError] ${message} ${response.url} ${response.status}`);
+
   return new HTTPError(response.status, message);
 }
 

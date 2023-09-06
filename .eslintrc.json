@@ -40,6 +40,13 @@
     "react/jsx-curly-spacing": ["error", "never"],
     // must be off for nextjs 13 async component support
     "@typescript-eslint/require-await": "off",
-    "no-extra-boolean-cast": "off"
+    "no-extra-boolean-cast": "off",
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "export", "next": "*" },
+      { "blankLine": "always", "prev": "var", "next": "*" },
+      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*"},
+      { "blankLine": "any",    "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
+    ]
   }
 }
