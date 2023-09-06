@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 "use client";
+
 import { useEffect, useState } from "react";
 import { Routes } from "~/types/enums";
 import { useDeviceWidth } from "~/utils/hooks/misc";
