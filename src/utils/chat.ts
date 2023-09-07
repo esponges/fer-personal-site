@@ -86,6 +86,7 @@ const connect = async () => {
     await client.connect();
   } catch (error) {
     const errorMessage = getErrorMessage(error);
+    
     throw new Error(`error initializing docs db: ${errorMessage}`);
   }
 };

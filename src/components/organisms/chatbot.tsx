@@ -42,7 +42,7 @@ export const ChatBot = () => {
   useEffect(() => {
     textAreaRef.current?.focus();
   }, []);
-
+  
   // todo: accept modal option click event
   const handleSubmit = async (e?: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<HTMLButtonElement>) => {
     setError(null);
@@ -58,6 +58,7 @@ export const ChatBot = () => {
 
     if (!input || typeof input !== "string") {
       setError("Please first enter a question.");
+      
       return;
     }
 
@@ -111,6 +112,7 @@ export const ChatBot = () => {
 
       setError(`An error occurred while fetching the data. Please try again. Error: ${errMsg}`);
       setLoading(false);
+
       return;
     }
 
@@ -155,6 +157,7 @@ export const ChatBot = () => {
           {messages.map((message, index) => {
             let icon;
             let className;
+
             if (message.type === "apiMessage") {
               icon = (
                 <Image
@@ -183,6 +186,7 @@ export const ChatBot = () => {
               // The latest message sent by the user will be animated while waiting for a response
               className = loading && index === messages.length - 1 ? styles.usermessagewaiting : styles.usermessage;
             }
+
             return (
               <div key={`chatMessage-${index}`}>
                 <div className={className}>
