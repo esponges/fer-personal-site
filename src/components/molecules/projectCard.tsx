@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import AwesomeSlider from "react-awesome-slider";
 import Link from "next/link";
 import { IKImage } from "imagekitio-react";
 
@@ -20,6 +19,7 @@ import { env } from "~/env/client.mjs";
 
 import { useDeviceWidth } from "~/utils/hooks/misc";
 import { SocialMediaIcon } from "../atoms/socialMediaIcon";
+import { Slider } from "./slider";
 
 export const ProjectCard = ({ project }: { project: Project<false> }) => {
   const { isMobile } = useDeviceWidth();
@@ -111,9 +111,9 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
       {project.images.length > 0 && (
         <div className="mb-6 rounded-lg px-4 py-4 sm:px-6 md:mb-0">
           {/* for ImageKit hosted pages */}
-          <AwesomeSlider
+          <Slider
+            autoPlay
             bullets={isMobile}
-            startup
           >
             {project.images.map((image, index) => {
               // show youtube video - PoC
@@ -163,7 +163,7 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
                 );
               }
             })}
-          </AwesomeSlider>
+          </Slider>
         </div>
       )}
       <SubHeader>Main libs used in this project:</SubHeader>
