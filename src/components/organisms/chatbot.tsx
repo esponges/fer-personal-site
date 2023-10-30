@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "~/styles/Home.module.css";
-import { useRef, useState, useEffect, useReducer } from "react";
+import { useRef, useState, useEffect } from "react";
 
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
@@ -14,93 +14,7 @@ import { safeFetch } from "~/utils/safeFetch";
 import { apiChatResponseBody } from "~/types/zod";
 import { getErrorMessage } from "~/utils/misc";
 
-
-type State = {
-  loading?: boolean;
-  error?: string | null;
-  messages?: ChatMessage[];
-  history?: [string, string][];
-  pending?: string | null;
-  pendingSourceDocs?: Document[] | null;
-  examplesQuestionModalOpen?: boolean;
-};
-
-type ActionType =
-  | "set_loading"
-  | "set_error"
-  | "set_messages"
-  | "set_history"
-  | "set_pending"
-  | "set_pendingSourceDocs"
-  | "set_examplesQuestionModalOpen";
-
-type Action = {
-  type: ActionType;
-  payload: Partial<State>;
-};
-
-const initialState: State = {
-  loading: false,
-  error: null,
-  messages: [
-    {
-      message: "Hi, what would you like to learn about Fer?",
-      type: "apiMessage",
-    },
-  ],
-  history: [],
-  pending: null,
-  pendingSourceDocs: null,
-  examplesQuestionModalOpen: false,
-};
-
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case "set_loading":
-      return {
-        ...state,
-        loading: action.payload.loading,
-      };
-    case "set_error":
-      return {
-        ...state,
-        error: action.payload.error,
-      };
-    case "set_messages":
-      return {
-        ...state,
-        messages: action.payload.messages,
-      };
-    case "set_history":
-      return {
-        ...state,
-        history: action.payload.history,
-      };
-    case "set_pending":
-      return {
-        ...state,
-        pending: action.payload.pending,
-      };
-    case "set_pendingSourceDocs":
-      return {
-        ...state,
-        pendingSourceDocs: action.payload.pendingSourceDocs,
-      };
-    case "set_examplesQuestionModalOpen":
-      return {
-        ...state,
-        examplesQuestionModalOpen: action.payload.examplesQuestionModalOpen,
-      };
-    default:
-      return state;
-  }
-};
-
-
-// eslint-disable-next-line max-len
-
 export const ChatBot = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
