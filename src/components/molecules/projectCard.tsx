@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useReducer } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IKImage } from "imagekitio-react";
@@ -21,33 +21,70 @@ import { useDeviceWidth } from "~/utils/hooks/misc";
 import { SocialMediaIcon } from "../atoms/socialMediaIcon";
 import { Slider } from "./slider";
 
+/* Experiment: let's try useReducer instead useState */
+
+type State = {
+  showImageModal: boolean;
+  showImageIdx: number;
+};
+
+type Action = {
+  type: "open" | "close" | "next";
+  payload?: number;
+};
+
+const initialState: State = {
+  showImageModal: false,
+  showImageIdx: 0,
+};
+
+const reducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case "open":
+      return {
+        ...state,
+        showImageModal: true,
+        showImageIdx: action.payload ?? 0,
+      };
+    case "close":
+      return {
+        ...state,
+        showImageModal: false,
+      };
+    case "next":
+      return {
+        ...state,
+        showImageIdx: action.payload ?? 0,
+      };
+    default:
+      throw new Error('Invalid action type: ' + action.type);
+  }
+};
+
 export const ProjectCard = ({ project }: { project: Project<false> }) => {
   const { isMobile } = useDeviceWidth();
 
-  const [showImageModal, setShowImageModal] = useState(false);
-  const [showImageIdx, setShowImageIdx] = useState(0);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleOpenImageModal = (idx: number) => {
-    setShowImageIdx(idx);
-    setShowImageModal(true);
+    dispatch({ type: "open", payload: idx });
   };
 
   const handleCloseImageModal = () => {
-    setShowImageModal(false);
+    dispatch({ type: "close", payload: 0 });
   };
 
   const handleNextImage = () => {
-    const next =
-      showImageIdx === project.images.length - 1 ? 0 : showImageIdx + 1;
+    const next = state.showImageIdx === project.images.length - 1 ? 0 : state.showImageIdx + 1;
 
-    setShowImageIdx(next);
+    dispatch({ type: "next", payload: next });
   };
 
   const renderModalContent = () => (
     <>
       <IKImage
         urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
-        path={project?.images?.[showImageIdx]?.path ?? ""}
+        path={project?.images?.[state.showImageIdx]?.path ?? ""}
       />
       {/* close & next img btns */}
       <div className="mx-auto">
@@ -69,12 +106,13 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
 
   return (
     <div className="card--bg overflow-hidden rounded-lg">
-      {showImageModal && (
+      {state.showImageModal && (
         <Modal
           onClose={handleCloseImageModal}
-          isOpen={showImageModal}
+          isOpen={state.showImageModal}
           bgColor={BgColor.darkGray}
           outerCloseBtn
+          maxWidth="md:max-w-3xl lg:min-w-[40%]"
         >
           {renderModalContent()}
         </Modal>
