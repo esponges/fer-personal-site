@@ -209,7 +209,9 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
         {project.libs.map((lib, index) => {
           return (
             <li key={index}>
-              <Link href={lib.url}>
+              {/* using as="style" to remove the following
+              warning https://stackoverflow.com/questions/76219016/how-to-fix-link-preload-warning-in-next-js-app */}
+              <Link href={lib.url} as="style">
                 <span className="underline hover:text-blue-600">
                   {lib.name}
                 </span>
