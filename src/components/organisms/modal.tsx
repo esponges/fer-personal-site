@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import { Fragment, useCallback, useEffect, useRef } from "react";
+import { twMerge } from "tailwind-merge";
 import type { BgColor } from "~/types/enums";
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
   title?: string;
   showActions?: boolean;
   bgColor?: BgColor | string;
+  maxWidth?: string;
 };
 
 // todo: close modal on outside click
@@ -23,11 +25,11 @@ export const Modal = ({
   bgColor,
   outerCloseBtn,
   innerCloseBtn,
+  maxWidth = "md:max-w-5xl lg:min-w-[40%]",
 }: Props) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const checkOutsideClick = useCallback((e: MouseEvent) => {
-    console.log(modalRef.current, modalRef?.current?.contains(e.target as Node));
     // if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
     //   onClose();
     // }
@@ -62,7 +64,8 @@ export const Modal = ({
         overflow-y-auto overflow-x-hidden 
         outline-none focus:outline-none"
       >
-        <div className="relative mx-auto my-6 w-auto md:max-w-6xl lg:min-w-[40%]">
+        <div className={twMerge("relative mx-auto my-6 w-auto", maxWidth)}>
+          {/* close btn */} 
           {(outerCloseBtn || innerCloseBtn) && (
             <button
               className={`absolute ${outerCloseBtn ? "-right-6 -top-6" : "right-2 top-0 z-[103]"}

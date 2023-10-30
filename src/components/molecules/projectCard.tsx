@@ -112,6 +112,7 @@ export const ProjectCard = ({ project }: { project: Project<false> }) => {
           isOpen={state.showImageModal}
           bgColor={BgColor.darkGray}
           outerCloseBtn
+          maxWidth="md:max-w-3xl lg:min-w-[40%]"
         >
           {renderModalContent()}
         </Modal>
