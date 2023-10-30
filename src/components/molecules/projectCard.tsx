@@ -21,7 +21,7 @@ import { env } from "~/env/client.mjs";
 import { useDeviceWidth } from "~/utils/hooks/misc";
 import { SocialMediaIcon } from "../atoms/socialMediaIcon";
 
-/* Experiment: let's try useReducer */
+/* Experiment: let's try useReducer instead useState */
 
 type State = {
   showImageModal: boolean;
@@ -54,38 +54,29 @@ const reducer = (state: State, action: Action) => {
     case "next":
       return {
         ...state,
-        showImageIdx:
-          state.showImageIdx === action.payload ? 0 : state.showImageIdx + 1,
+        showImageIdx: action.payload ?? 0,
       };
     default:
-      throw new Error();
+      throw new Error('Invalid action type: ' + action.type);
   }
 };
 
 export const ProjectCard = ({ project }: { project: Project<false> }) => {
   const { isMobile } = useDeviceWidth();
 
-  // const [showImageModal, setShowImageModal] = useState(false);
-  // const [showImageIdx, setShowImageIdx] = useState(0);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleOpenImageModal = (idx: number) => {
-    // setShowImageIdx(idx);
-    // setShowImageModal(true);
     dispatch({ type: "open", payload: idx });
   };
 
   const handleCloseImageModal = () => {
-    // setShowImageModal(false);
-    dispatch({ type: "close" });
+    dispatch({ type: "close", payload: 0 });
   };
 
   const handleNextImage = () => {
-    // const next =
-    //   showImageIdx === project.images.length - 1 ? 0 : showImageIdx + 1;
     const next = state.showImageIdx === project.images.length - 1 ? 0 : state.showImageIdx + 1;
 
-    // setShowImageIdx(next);
     dispatch({ type: "next", payload: next });
   };
 
