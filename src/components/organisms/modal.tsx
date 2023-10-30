@@ -30,13 +30,14 @@ export const Modal = ({
   const modalRef = useRef<HTMLDivElement>(null);
 
   const checkOutsideClick = useCallback((e: MouseEvent) => {
-    // if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-    //   onClose();
-    // }
+    console.log(e.target?.classList);
+    if (e.target?.classList?.contains("modal__wrapper")) {
+      onClose();
+    }
 
     // this is not working because any outside click is considered a click on the modal
     // play with the tailwind settings to figure out how to fix
-  }, []);
+  }, [onClose]);
 
   // close modal on outside click
   useEffect(() => {
@@ -56,24 +57,28 @@ export const Modal = ({
   }
 
   return (
-    <Fragment>
+    <>
       <div
         ref={modalRef}
         className="fixed inset-0 z-[102] 
         flex items-center justify-center 
         overflow-y-auto overflow-x-hidden 
-        outline-none focus:outline-none"
+        outline-none focus:outline-none modal__wrapper"
       >
         <div className={twMerge("relative mx-auto my-6 w-auto", maxWidth)}>
-          {/* close btn */} 
+          {/* close btn */}
           {(outerCloseBtn || innerCloseBtn) && (
             <button
-              className={`absolute ${outerCloseBtn ? "-right-6 -top-6" : "right-2 top-0 z-[103]"}
+              className={`absolute ${
+                outerCloseBtn ? "-right-6 -top-6" : "right-2 top-0 z-[103]"
+              }
               border-0 bg-transparent p-1 text-3xl font-semibold
               leading-none opacity-50`}
               onClick={onClose}
             >
-              <span className="h-6 w-6 bg-transparent text-2xl text-white outline-none focus:outline-none ">×</span>
+              <span className="h-6 w-6 bg-transparent text-2xl text-white outline-none focus:outline-none ">
+                ×
+              </span>
             </button>
           )}
           {/* content */}
@@ -98,14 +103,18 @@ export const Modal = ({
                 opacity-75 outline-none focus:outline-none"
                   onClick={onClose}
                 >
-                  <span className="h-6 w-6 bg-white text-2xl text-black outline-none focus:outline-none">×</span>
+                  <span className="h-6 w-6 bg-white text-2xl text-black outline-none focus:outline-none">
+                    ×
+                  </span>
                 </button>
                 {/* outside div x close btn */}
               </div>
             )}
             {/* body */}
             <div>
-              <div className="text-blueGray-500 my-4 text-lg leading-relaxed">{children}</div>
+              <div className="text-blueGray-500 my-4 text-lg leading-relaxed">
+                {children}
+              </div>
             </div>
             {/* actions */}
             {showActions && (
@@ -126,6 +135,6 @@ export const Modal = ({
         </div>
       </div>
       <div className="fixed inset-0 z-[101] bg-black opacity-25" />
-    </Fragment>
+    </>
   );
 };
