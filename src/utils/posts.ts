@@ -6,7 +6,13 @@ export const getPosts = async (): Promise<Post[] | null> => {
   const url = "https://dev.to/api/articles?username=esponges";
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      // cache: "no-cache",
+      next: {
+        // revalidate every week
+        revalidate: 60 * 60 * 24 * 7,
+      }
+    });
     const posts = await res.json();
 
     if (Array.isArray(posts)) {
