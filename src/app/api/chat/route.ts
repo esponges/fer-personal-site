@@ -23,13 +23,6 @@ export async function POST(request: NextRequest) {
   const { question, history } = (await request.json()) as RequestBody;
   
   try {
-    const fileContent = fs.createReadStream("public/robot.txt");
-    
-    await openai.files.create({
-      purpose: "assistants",
-      file: fileContent,
-    });
-
     const HNSWStore = await makeStore();
     const chain = await makeChain(HNSWStore);
 
@@ -38,6 +31,7 @@ export async function POST(request: NextRequest) {
       instructions:
         "You are a personal math tutor. Write and run code to answer math questions.",
       tools: [{ type: "code_interpreter" }],
+      file_ids: ["file-NZwFCA0BnxEvzMlksmk0wIkS"],
       model: "gpt-4-1106-preview",
     });
 
