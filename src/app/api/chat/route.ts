@@ -1,20 +1,39 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { getErrorMessage } from "~/utils/misc";
 import { makeChain, makeStore } from "~/utils/chat";
+import OpenAI from "openai";
 
 import { type NextRequest, NextResponse } from "next/server";
+import fs from "fs";
 
 interface RequestBody {
   question: string;
   history: Array<Array<string>>;
 }
 
+// Create a OpenAI connection
+const secretKey = process.env.OPENAI_API_KEY;
+const openai = new OpenAI({
+  apiKey: secretKey,
+});
+
+
+
 export async function POST(request: NextRequest) {
   const { question, history } = (await request.json()) as RequestBody;
-
+  
   try {
     const HNSWStore = await makeStore();
     const chain = await makeChain(HNSWStore);
+
+    const assistant = await openai.beta.assistants.create({
+      name: "Math Tutor",
+      instructions:
+        "You are a personal math tutor. Write and run code to answer math questions.",
+      tools: [{ type: "code_interpreter" }],
+      file_ids: ["file-NZwFCA0BnxEvzMlksmk0wIkS"],
+      model: "gpt-4-1106-preview",
+    });
 
     const sanitizedQuestion = question.trim().replaceAll("\n", " ");
     const chatHistoryAsString = history.map((msg) => msg.join("\n")).join("\n");
