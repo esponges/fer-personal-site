@@ -4,6 +4,7 @@ import { makeChain, makeStore } from "~/utils/chat";
 import OpenAI from "openai";
 
 import { type NextRequest, NextResponse } from "next/server";
+import fs from "fs";
 
 interface RequestBody {
   question: string;
@@ -14,6 +15,13 @@ interface RequestBody {
 const secretKey = process.env.OPENAI_API_KEY;
 const openai = new OpenAI({
   apiKey: secretKey,
+});
+
+const fileContent = fs.createReadStream("./src/utils/chat/hnsw.bin");
+
+openai.files.create({
+  purpose: "assistants",
+  file: fileContent,
 });
 
 export async function POST(request: NextRequest) {
@@ -49,8 +57,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({
-      ...response,
-      assistantId: assistant.id,
+      response,
     });
   } catch (error) {
     const errorMsg = getErrorMessage(error);
