@@ -74,17 +74,20 @@ export const runConversationWithMemoryDoc = async () => {
   const res = await chain.call({
     question: "I have a friend Called Fer that has this question: What's Fer stack?",
   });
+
   console.log(res);
   /* Ask it a follow up question */
   const followUpRes = await chain.call({
     question: "What the name of my friend?",
   });
+
   console.log(followUpRes);
 
   /* Confirm that the bot doesnt answer anything not related to the context */
   const nonRelatedQn = await chain.call({
     question: "Whats the capital of Mexico?",
   });
+
   console.log("fer", nonRelatedQn);
 };
 
@@ -199,7 +202,7 @@ export const runConversationWithLocalFileButInternalManagedMemory = async () => 
   /* Initialize the LLM to use to answer the question */
   const model = getModel();
   /* Load in the file we want to do question answering over */
-  const text = fs.readFileSync("public/QA.md.txt", "utf8");
+  const text = fs.readFileSync("public/pdf/text.txt", "utf8");
   /* Split the text into chunks */
   const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
   const docs = await textSplitter.createDocuments([text]);
@@ -227,6 +230,7 @@ export const runConversationWithLocalFileButInternalManagedMemory = async () => 
   const question = "My Friend José who is 28 years old wants to know: Whats Fer Toasted education?";
   /* Can be a string or an array of chat messages */
   const res = await chain.call({ question, chat_history: "" });
+
   // Fer Toasted has a Master of Business Administration from Tecnologico de Monterrey and a 
   // Bachelor of Industrial Engineering from Universidad de Guadalajara
   console.log(res);
@@ -238,6 +242,7 @@ export const runConversationWithLocalFileButInternalManagedMemory = async () => 
     question: followUpQn,
     chat_history: chatHistory,
   });
+
   console.log('question', followUpQn);
   console.log('chatHistory', chatHistory);
   console.log(followUpRes);
@@ -249,6 +254,7 @@ export const runConversationWithLocalFileButInternalManagedMemory = async () => 
     question: followUpQn2,
     chat_history: updatedChatHistory,
   });
+
   console.log('question', followUpQn2);
   console.log('chatHistory', updatedChatHistory);
   console.log(followUpRes2);
