@@ -45,4 +45,4 @@ yarn-error.log*
 .netlify
 
 # public pdfs
-/public/pdf
+/public/pdf*
