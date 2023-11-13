@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import readline from "readline";
-// import fs from "fs";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -19,7 +18,7 @@ const openai = new OpenAI({
 async function askRLineQuestion(question: string) {
   return new Promise<string>((resolve, _reject) => {
     rl.question(question, (answer: string) => {
-      resolve(answer);
+      resolve(`${answer}\n`);
     });
   });
 }
@@ -27,7 +26,7 @@ async function askRLineQuestion(question: string) {
 // initial reference for implementation (in Pytho)
 // https://github.com/openai/openai-cookbook/blob/main/examples/Assistants_API_overview_python.ipynb
 async function displayQuiz(title: string, questions: Record<string, string>[]) {
-  console.log("Quiz :", title);
+  console.log("Quiz :\n", title);
   const responses = [];
 
   for (const question of questions) {
@@ -87,27 +86,21 @@ const quizJson = {
 let isQuizAnswered = false;
 
 async function main() {
-  // const fileContent = fs.createReadStream("../public/pdf/test.txt");
-
   try {
-    // const file = await openai.files.create({
-    //   purpose: "assistants",
-    //   file: fileContent,
-    // });
-
     const assistant = await openai.beta.assistants.create({
       name: "Math Tutor",
       instructions:
         "You are a personal math tutor. Answer questions briefly, in a sentence or less.",
       tools: [
         { type: "code_interpreter" },
-        // necessary?
+        // todo: necessary?
         { type: "retrieval" },
         {
           type: "function",
           function: quizJson,
         },
       ],
+      // will work much better with the new model
       model: "gpt-4-1106-preview",
       // model: "gpt-3.5-turbo-1106",
     });
@@ -199,14 +192,15 @@ async function main() {
         )
         .pop();
 
-      console.log(lastMessageForRun);
-
       // If an assistant message is found, console.log() it
       if (lastMessageForRun) {
-        console.log("lastMessageForRun object", lastMessageForRun);
         // aparently this is not correctly typed
         // content returns an of objects do contain a text object
-        console.log(`${lastMessageForRun.content[0]?.text?.value} \n`);
+        const messageValue = lastMessageForRun.content[0] as {
+          text: { value: string };
+        };
+
+        console.log(`${messageValue?.text?.value} \n`);
       }
 
       // Then ask if the user wants to ask another question and update keepAsking state
