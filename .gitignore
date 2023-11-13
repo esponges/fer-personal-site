@@ -43,3 +43,8 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
+
+# public pdfs
+/public/pdf/*
+/public/pdf
+/public/pdf/
