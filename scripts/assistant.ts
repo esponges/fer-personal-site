@@ -1,12 +1,15 @@
-// import the required dependencies
-require("dotenv").config();
+import dotenv from "dotenv";
 import OpenAI from "openai";
-const readline = require("readline").createInterface({
+import readline from "readline";
+// import fs from "fs";
+
+const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-import fs from "fs";
+dotenv.config();
+
 
 // Create a OpenAI connection
 const secretKey = process.env.OPENAI_API_KEY;
@@ -15,8 +18,8 @@ const openai = new OpenAI({
 });
 
 async function askQuestion(question: string) {
-  return new Promise<string>((resolve, reject) => {
-    readline.question(question, (answer: string) => {
+  return new Promise<string>((resolve, _reject) => {
+    rl.question(question, (answer: string) => {
       resolve(answer);
     });
   });
@@ -37,34 +40,30 @@ async function main() {
 
     // console.log("file id: ", file.id);
     const assistant = await openai.beta.assistants.create({
-      name: "Fer toasted assistant",
+      name: "Math Tutor",
       instructions:
-        "You are a personal assitant that will provide information regarding to the provided context." +
-        "This context will be information regarding a Software Developer called Fernando." +
-        "You will be able to answer questions that are related to the context provided." +
-        "If you are not able to answer the question, please politely say that you are not able to answer" +
-        "any questions non related to Fernando.",
-      file_ids: ["file-4Yj5g4XKBzZR5LbJ2CIZyTk6"],
-      tools: [
-        { type: "code_interpreter" },
-        {
-          type: "function",
-          function: {
-            name: "getNickname",
-            description: "Get the nickname of a city",
-            parameters: {
-              type: "object",
-              properties: {
-                location: {
-                  type: "string",
-                  description: "The city and state e.g. San Francisco, CA",
-                },
-              },
-              required: ["location"],
-            },
-          },
-        },
-      ],
+        "You are a personal math tutor. Answer questions briefly, in a sentence or less.",
+      // file_ids: ["file-4Yj5g4XKBzZR5LbJ2CIZyTk6"],
+      // tools: [
+      //   { type: "code_interpreter" },
+      //   {
+      //     type: "function",
+      //     function: {
+      //       name: "getNickname",
+      //       description: "Get the nickname of a city",
+      //       parameters: {
+      //         type: "object",
+      //         properties: {
+      //           location: {
+      //             type: "string",
+      //             description: "The city and state e.g. San Francisco, CA",
+      //           },
+      //         },
+      //         required: ["location"],
+      //       },
+      //     },
+      //   },
+      // ],
       // model: "gpt-4-1106-preview",
       model: "gpt-3.5-turbo-1106",
     });
@@ -104,10 +103,9 @@ async function main() {
         run.id,
         );
         
-        console.log('run :', run);
       // Polling mechanism to see if runStatus is completed
       // This should be made more robust.
-      while (runStatus.status !== "completed") {
+      while (runStatus.status === "queued" || runStatus.status === "in_progress") {
         await new Promise((resolve) => setTimeout(resolve, 2000));
         runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
       }
@@ -129,6 +127,9 @@ async function main() {
 
       // If an assistant message is found, console.log() it
       if (lastMessageForRun) {
+        console.log('lastMessageForRun object', lastMessageForRun);
+        // aparently this is not correctly typed
+        // content returns an of objects do contain a text object
         console.log(`${lastMessageForRun.content[0]?.text?.value} \n`);
       }
 
@@ -146,7 +147,7 @@ async function main() {
     }
 
     // close the readline
-    readline.close();
+    rl.close();
   } catch (error) {
     console.error(error);
   }
