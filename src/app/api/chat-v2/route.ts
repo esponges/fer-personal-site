@@ -18,13 +18,22 @@ export async function POST(request: NextRequest) {
   const { question } = (await request.json()) as RequestBody;
 
   try {
+    // upload a file with an "assistants" purpose
+    // todo: does this upload has to be done every time?
+    // const file = await openai.files.create({
+    //   file: fs.createReadStream("public/pdf/test.txt"),
+    //   purpose: "assistants",
+    // });
+
+    // console.log('file', file.id);
+
     const assistant = await openai.beta.assistants.create({
       name: "Fer Toasted Assistant",
       instructions:
-        "You are a personal math tutor. Write and run code to answer math questions.",
-      // tools: [{ type: "code_interpreter" }, { type: "retrieval" }],
-      // file_ids: ["file-NZwFCA0BnxEvzMlksmk0wIkS"],
+        "You are Fer's personal asistant. Use your knowledge base to best respond to queries regarding Fer.",
+      tools: [{ type: "retrieval" }],
       model: "gpt-4-1106-preview",
+      file_ids: ['file-iHyh58p1aXag60NJhy0zq6hh'],
     });
 
     // create a thread
