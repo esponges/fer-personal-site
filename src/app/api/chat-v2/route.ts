@@ -22,8 +22,8 @@ export async function POST(request: NextRequest) {
       name: "Fer Toasted Assistant",
       instructions:
         "You are a personal math tutor. Write and run code to answer math questions.",
-      tools: [{ type: "code_interpreter" }, { type: "retrieval" }],
-      file_ids: ["file-NZwFCA0BnxEvzMlksmk0wIkS"],
+      // tools: [{ type: "code_interpreter" }, { type: "retrieval" }],
+      // file_ids: ["file-NZwFCA0BnxEvzMlksmk0wIkS"],
       model: "gpt-4-1106-preview",
     });
 
