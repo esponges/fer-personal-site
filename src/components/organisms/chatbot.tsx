@@ -8,20 +8,16 @@ import ReactMarkdown from "react-markdown";
 import { LoadingDots } from "~/components/atoms/loadingDots";
 
 import type { ChatMessage } from "~/types";
-import type { Document } from "langchain/document";
 import { AboutModal } from "../molecules/aboutModal";
 import { safeFetch } from "~/utils/safeFetch";
-import { apiChatResponseBody } from "~/types/zod";
+import { apiChatResponseV2Body } from "~/types/zod";
 import { getErrorMessage } from "~/utils/misc";
 
 export const ChatBot = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
-    messages: ChatMessage[];
-    pending?: string;
-    history: [string, string][];
-    pendingSourceDocs?: Document[];
+    messages: Pick<ChatMessage, "message" | "type">[];
   }>({
     messages: [
       {
@@ -29,11 +25,9 @@ export const ChatBot = () => {
         type: "apiMessage",
       },
     ],
-    history: [],
   });
-  const [examplesQuestionModalOpen, setExamplesQuestionModalOpen] = useState<boolean>(false);
-
-  const { messages, history } = messageState;
+  const [examplesQuestionModalOpen, setExamplesQuestionModalOpen] =
+    useState<boolean>(false);
 
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -42,9 +36,13 @@ export const ChatBot = () => {
   useEffect(() => {
     textAreaRef.current?.focus();
   }, []);
-  
+
   // todo: accept modal option click event
-  const handleSubmit = async (e?: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (
+    e?:
+      | React.KeyboardEvent<HTMLTextAreaElement>
+      | React.MouseEvent<HTMLButtonElement>,
+  ) => {
     setError(null);
     if (!!e && "key" in e && e.key === "Enter") {
       if (e.key === "Enter") {
@@ -58,7 +56,7 @@ export const ChatBot = () => {
 
     if (!input || typeof input !== "string") {
       setError("Please first enter a question.");
-      
+
       return;
     }
 
@@ -80,19 +78,20 @@ export const ChatBot = () => {
     textAreaRef.current && (textAreaRef.current.value = "");
 
     try {
-      const chatResponse = await safeFetch(apiChatResponseBody, "/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const chatResponse = await safeFetch(
+        apiChatResponseV2Body,
+        "/api/chat-v2",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            question,
+          }),
         },
-        body: JSON.stringify({
-          question,
-          history,
-        }),
-      });
-      const {
-        response: { text, sourceDocuments },
-      } = chatResponse;
+      );
+      const { response } = chatResponse;
 
       setMessageState((state) => ({
         ...state,
@@ -100,17 +99,16 @@ export const ChatBot = () => {
           ...state.messages,
           {
             type: "apiMessage",
-            message: text,
-            sourceDocs: sourceDocuments,
+            message: response,
           },
         ],
-        history: [...state.history, [question, text]],
-        pendingSourceDocs: sourceDocuments,
       }));
     } catch (err: unknown) {
       const errMsg = getErrorMessage(err);
 
-      setError(`An error occurred while fetching the data. Please try again. Error: ${errMsg}`);
+      setError(
+        `An error occurred while fetching the data. Please try again. Error: ${errMsg}`,
+      );
       setLoading(false);
 
       return;
@@ -135,7 +133,10 @@ export const ChatBot = () => {
     setExamplesQuestionModalOpen((prev) => !prev);
   };
 
-  const handleSetExampleQuestion = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, question: string) => {
+  const handleSetExampleQuestion = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    question: string,
+  ) => {
     textAreaRef.current && (textAreaRef.current.value = question);
     handleToggleExamplesQuestionModal();
     handleSubmit();
@@ -154,11 +155,11 @@ export const ChatBot = () => {
           className={styles.messagelist}
           id="chat-messages-list"
         >
-          {messages.map((message, index) => {
+          {messageState.messages.map((el, index) => {
             let icon;
             let className;
 
-            if (message.type === "apiMessage") {
+            if (el.type === "apiMessage") {
               icon = (
                 <Image
                   key={index}
@@ -184,7 +185,10 @@ export const ChatBot = () => {
                 />
               );
               // The latest message sent by the user will be animated while waiting for a response
-              className = loading && index === messages.length - 1 ? styles.usermessagewaiting : styles.usermessage;
+              className =
+                loading && index === messageState.messages.length - 1
+                  ? styles.usermessagewaiting
+                  : styles.usermessage;
             }
 
             return (
@@ -196,7 +200,9 @@ export const ChatBot = () => {
                       className={styles.markdownanswer}
                       id={`chat-message-${index}`}
                     >
-                      <ReactMarkdown linkTarget="_blank">{message.message}</ReactMarkdown>
+                      <ReactMarkdown linkTarget="_blank">
+                        {el.message}
+                      </ReactMarkdown>
                     </div>
                   </div>
                   {!index ? (
@@ -228,7 +234,11 @@ export const ChatBot = () => {
                 maxLength={512}
                 id="chat-user-input"
                 name="chat-user-input"
-                placeholder={loading ? "Waiting for response..." : "Ask a question about Fer"}
+                placeholder={
+                  loading
+                    ? "Waiting for response..."
+                    : "Ask a question about Fer"
+                }
                 className={styles.textarea}
               />
               <button
