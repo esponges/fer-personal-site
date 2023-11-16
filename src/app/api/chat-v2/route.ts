@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { getErrorMessage } from "~/utils/misc";
 import OpenAI from "openai";
+import type { Thread } from "openai/resources/beta/threads/threads";
 
 import { type NextRequest, NextResponse } from "next/server";
 
 interface RequestBody {
   question: string;
+  // the actual conversation thread
+  threadId?: string;
 }
 
 // Create a OpenAI connection
@@ -15,29 +18,25 @@ const openai = new OpenAI({
 });
 
 export async function POST(request: NextRequest) {
-  const { question } = (await request.json()) as RequestBody;
+  const { question, threadId } = (await request.json()) as RequestBody;
 
   try {
-    // upload a file with an "assistants" purpose
-    // todo: does this upload has to be done every time?
-    // const file = await openai.files.create({
-    //   file: fs.createReadStream("public/pdf/test.txt"),
-    //   purpose: "assistants",
-    // });
-    const filesIds = process.env.OPENAI_RETRIEVAL_DOCS_IDS?.split(',');
+    // pick existing assistant previously created
+    const assistantId = process.env.OPENAI_ABOUT_ASSISTANT_ID;
+    
+    if (!assistantId) {
+      throw new Error("OPENAI_ABOUT_ASSISTANT_ID not found");
+    }
+    const assistant = await openai.beta.assistants.retrieve('asst_LXiCLmwfX2ojmHFmLsAUcczP');
+    
+    // create a thread for the first question
+    let thread: Thread;
 
-    const assistant = await openai.beta.assistants.create({
-      name: "Fer Toasted Assistant",
-      instructions:
-        "You are Fer's personal asistant. Use your knowledge base to best respond to queries regarding Fer.",
-      tools: [{ type: "retrieval" }],
-      model: "gpt-4-1106-preview",
-      file_ids: Array.isArray(filesIds) ? filesIds : [""],
-    });
-
-    // create a thread
-    // the thread holds the state of the conversation
-    const thread = await openai.beta.threads.create();
+    if (!threadId) {
+      thread = await openai.beta.threads.create();
+    } else {
+      thread = await openai.beta.threads.retrieve(threadId);
+    }
 
     // pass in the user question into the existing thread
     await openai.beta.threads.messages.create(thread.id, {
@@ -63,7 +62,7 @@ export async function POST(request: NextRequest) {
     ) {
       // requires_action means that the assistant is waiting for the functions to be added
       if (actualRun.status === "requires_action") {
-        throw new Error("required_action: function calling not enabled yet!");
+        throw new Error("required_action: Por favor intenta con otra pregunta");
       }
       // keep polling until the run is completed
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -96,6 +95,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       response: assistantResponse,
+      threadId: thread.id,
     });
   } catch (error) {
     const errorMsg = getErrorMessage(error);
