@@ -18,6 +18,7 @@ export const ChatBot = () => {
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
     messages: Pick<ChatMessage, "message" | "type">[];
+    threadId?: string;
   }>({
     messages: [
       {
@@ -88,10 +89,11 @@ export const ChatBot = () => {
           },
           body: JSON.stringify({
             question,
+            threadId: messageState.threadId,
           }),
         },
       );
-      const { response } = chatResponse;
+      const { response, threadId } = chatResponse;
 
       setMessageState((state) => ({
         ...state,
@@ -102,6 +104,7 @@ export const ChatBot = () => {
             message: response,
           },
         ],
+        threadId,
       }));
     } catch (err: unknown) {
       const errMsg = getErrorMessage(err);

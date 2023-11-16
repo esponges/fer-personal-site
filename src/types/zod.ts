@@ -14,4 +14,5 @@ export const apiChatResponseBody = z.object({
 
 export const apiChatResponseV2Body = z.object({
   response: z.string(),
+  threadId: z.string(),
 });
