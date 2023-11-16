@@ -24,8 +24,7 @@ export async function POST(request: NextRequest) {
     //   file: fs.createReadStream("public/pdf/test.txt"),
     //   purpose: "assistants",
     // });
-
-    // console.log('file', file.id);
+    const filesIds = process.env.OPENAI_RETRIEVAL_DOCS_IDS?.split(',');
 
     const assistant = await openai.beta.assistants.create({
       name: "Fer Toasted Assistant",
@@ -33,7 +32,7 @@ export async function POST(request: NextRequest) {
         "You are Fer's personal asistant. Use your knowledge base to best respond to queries regarding Fer.",
       tools: [{ type: "retrieval" }],
       model: "gpt-4-1106-preview",
-      file_ids: ['file-iHyh58p1aXag60NJhy0zq6hh'],
+      file_ids: Array.isArray(filesIds) ? filesIds : [""],
     });
 
     // create a thread
@@ -67,7 +66,7 @@ export async function POST(request: NextRequest) {
         throw new Error("required_action: function calling not enabled yet!");
       }
       // keep polling until the run is completed
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       actualRun = await openai.beta.threads.runs.retrieve(thread.id, run.id);
     }
 
