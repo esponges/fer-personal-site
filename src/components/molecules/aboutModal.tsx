@@ -11,8 +11,9 @@ type Props = {
 
 const QUESTIONS = [
   "What's Fer's Tech Stack?",
-  "What's Fer's favorite programming language?",
-  "What's Fer's coding time experience?",
+  "How many years of experience does Fer have?",
+  "What's Fer's coding experience?",
+  "What's Fer's languages knowledge?",
   "What's Fer's education?",
 ];
 

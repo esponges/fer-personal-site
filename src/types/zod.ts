@@ -11,3 +11,8 @@ export const apiChatResponseBody = z.object({
     sourceDocuments: z.array(documentSchema).optional(),
   }),
 });
+
+export const apiChatResponseV2Body = z.object({
+  response: z.string(),
+  threadId: z.string(),
+});
