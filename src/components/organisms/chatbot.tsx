@@ -8,7 +8,7 @@ import ReactMarkdown from "react-markdown";
 import { LoadingDots } from "~/components/atoms/loadingDots";
 
 import type { ChatMessage } from "~/types";
-import { AboutModal } from "../molecules/aboutModal";
+import { AboutModal } from "~/components/molecules/aboutModal";
 import { safeFetch } from "~/utils/safeFetch";
 import { apiChatResponseV2Body } from "~/types/zod";
 import { getErrorMessage } from "~/utils/misc";
