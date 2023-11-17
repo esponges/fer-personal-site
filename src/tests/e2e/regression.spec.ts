@@ -108,9 +108,12 @@ test.describe("regression tests", () => {
       await page.locator("#chat-submit-button").click();
 
       // assert that the chatbot answered
-      const chatRes = await page.locator("#chat-message-2").innerHTML();
+      const chatRes = await page.locator("#chat-message-2");
 
-      expect(chatRes.toLowerCase()).toContain(chatResIncludes.toLowerCase());
+      console.log("chatRes", chatRes);
+      const chatResInner = await chatRes.innerHTML();
+
+      expect(chatResInner.toLowerCase()).toContain(chatResIncludes.toLowerCase());
       // todo: use a regexp that accepts any combination of strings (.*?) and any number of characters (.*)
       // this one causes the browser has been closed error
       // expect(chatResponse).toHaveText(/[\s\S]*/);
@@ -120,9 +123,12 @@ test.describe("regression tests", () => {
       await page.locator("#chat-submit-button").click();
 
       // assert that the chatbot answered
-      const chatRes2 = await page.locator("#chat-message-4").innerHTML();
+      const chatRes2 = await page.locator("#chat-message-4");
 
-      expect(chatRes2.toLowerCase()).toContain(chatRes2Includes.toLowerCase());
+      console.log("chatRes2", chatRes2);
+      const chatRes2Inner = await chatRes2.innerHTML();
+
+      expect(chatRes2Inner.toLowerCase()).toContain(chatRes2Includes.toLowerCase());
     });
   });
 });
