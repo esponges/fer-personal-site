@@ -108,9 +108,10 @@ test.describe("regression tests", () => {
       await page.locator("#chat-submit-button").click();
 
       // assert that the chatbot answered
-      const chatRes = await page.locator("#chat-message-2");
-
-      console.log("chatRes", chatRes);
+      // using locator was throwing a "Target closed" error 
+      // https://stackoverflow.com/questions/61933492/playwright-error-target-closed-after-navigation
+      // const chatRes = await page.locator("#chat-message-2");
+      const chatRes = await page.waitForSelector("#chat-message-2");
       const chatResInner = await chatRes.innerHTML();
 
       expect(chatResInner.toLowerCase()).toContain(chatResIncludes.toLowerCase());
@@ -123,9 +124,8 @@ test.describe("regression tests", () => {
       await page.locator("#chat-submit-button").click();
 
       // assert that the chatbot answered
-      const chatRes2 = await page.locator("#chat-message-4");
-
-      console.log("chatRes2", chatRes2);
+      // const chatRes2 = await page.locator("#chat-message-4");
+      const chatRes2 = await page.waitForSelector("#chat-message-4");
       const chatRes2Inner = await chatRes2.innerHTML();
 
       expect(chatRes2Inner.toLowerCase()).toContain(chatRes2Includes.toLowerCase());
