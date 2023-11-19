@@ -20,6 +20,10 @@ export const serverSchema = z.object({
   ),
   DISCORD_CLIENT_ID: z.string(),
   DISCORD_CLIENT_SECRET: z.string(),
+  OPENAI_API_KEY: z.string(),
+  OPENAI_RETRIEVAL_DOCS_IDS: z.string(),
+  OPENAI_ABOUT_ASSISTANT_ID: z.string(),
+  PLAYWRIGHT_TEST_BASE_URL: z.string().url(),
 });
 
 /**
