@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { getErrorMessage } from "~/utils/misc";
 import OpenAI from "openai";
-import type { Thread } from "openai/resources/beta/threads/threads";
+import { env } from "~/env/server.mjs";
 
+import type { Thread } from "openai/resources/beta/threads/threads";
 import { type NextRequest, NextResponse } from "next/server";
 
 interface RequestBody {
@@ -12,7 +13,7 @@ interface RequestBody {
 }
 
 // Create a OpenAI connection
-const secretKey = process.env.OPENAI_API_KEY;
+const secretKey = env.OPENAI_API_KEY;
 const openai = new OpenAI({
   apiKey: secretKey,
 });
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
 
   try {
     // pick existing assistant previously created
-    const assistantId = process.env.OPENAI_ABOUT_ASSISTANT_ID;
+    const assistantId = env.OPENAI_ABOUT_ASSISTANT_ID;
     
     if (!assistantId) {
       throw new Error("OPENAI_ABOUT_ASSISTANT_ID not found");
