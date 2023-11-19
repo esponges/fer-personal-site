@@ -10,6 +10,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
 import { Client } from "pg";
+import { env } from "~/env/server.mjs";
 
 import * as schema from "../../drizzle/schema";
 import { getErrorMessage } from "./misc";
@@ -19,11 +20,11 @@ import type { Doc } from "~/types";
 import { OpenAI } from "langchain/llms/openai";
 
 export const makeStore = async () => {
-  if (!process.env.DB_CONTEXT_DOCUMENT) {
+  if (!env.DB_CONTEXT_DOCUMENT) {
     throw new Error("DB_CONTEXT_DOCUMENT is not set");
   }
 
-  const docs = await getExistingDocs(process.env.DB_CONTEXT_DOCUMENT);
+  const docs = await getExistingDocs(env.DB_CONTEXT_DOCUMENT);
 
   if (!docs[0]?.docs.length) {
     throw new Error("An error occurred while fetching documents");
@@ -65,7 +66,7 @@ export const makeChain = async (vectorStore: VectorStore) => {
   const model = new OpenAI({
     temperature: 0, // increase temepreature to get more creative answers
     modelName: "gpt-3.5-turbo", //change this to gpt-4 if you have access
-    openAIApiKey: process.env.OPENAI_API_KEY,
+    openAIApiKey: env.OPENAI_API_KEY,
   });
 
   return ConversationalRetrievalQAChain.fromLLM(model, vectorStore.asRetriever(), {
@@ -73,12 +74,12 @@ export const makeChain = async (vectorStore: VectorStore) => {
   });
 };
 
-if (!process.env.DOCUMENTS_DB_URL) {
+if (!env.DOCUMENTS_DB_URL) {
   throw new Error("DB_URL is not set");
 }
 
 const client = new Client({
-  connectionString: process.env.DOCUMENTS_DB_URL,
+  connectionString: env.DOCUMENTS_DB_URL,
 });
 
 const connect = async () => {

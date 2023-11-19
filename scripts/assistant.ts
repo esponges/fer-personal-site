@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import readline from "readline";
-
+import { env } from '~/env/server.mjs';
+ 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -10,7 +11,7 @@ const rl = readline.createInterface({
 dotenv.config();
 
 // Create a OpenAI connection
-const secretKey = process.env.OPENAI_API_KEY;
+const secretKey = env.OPENAI_API_KEY;
 const openai = new OpenAI({
   apiKey: secretKey,
 });
