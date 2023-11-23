@@ -8,6 +8,11 @@ export const metadata = await generateMetadata({
   description: "Stuff I learned and liked enough.",
 });
 
+// revalidate posts each 24
+// been having problems using the next.revalidate option
+// in the getPosts server side fetch
+export const revalidate = 86400;
+
 // eslint-disable-next-line @typescript-eslint/require-await
 export default async function PostsPage() {
   return (

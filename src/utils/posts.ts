@@ -7,11 +7,12 @@ export const getPosts = async (): Promise<Post[] | null> => {
 
   try {
     const res = await fetch(url, {
+      // will try by tag
       // cache: "no-cache",
-      next: {
-        // revalidate every week
-        revalidate: 60 * 60 * 24 * 7,
-      }
+      // next: {
+      //   // revalidate every week
+      //   revalidate: 60 * 60 * 24 * 7,
+      // }
     });
     const posts = await res.json();
 
