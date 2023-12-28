@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     if (!assistantId) {
       throw new Error("OPENAI_ABOUT_ASSISTANT_ID not found");
     }
-    const assistant = await openai.beta.assistants.retrieve('asst_LXiCLmwfX2ojmHFmLsAUcczP');
+    const assistant = await openai.beta.assistants.retrieve(assistantId);
     
     // create a thread for the first question
     let thread: Thread;
