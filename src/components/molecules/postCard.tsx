@@ -31,11 +31,12 @@ export const PostCard = (
             "/images/cover-placeholder.png"
           }
           alt={post.title}
-          width={500}
-          height={300}
-          className="mx-auto my-4 rounded-xl"
+          width={0}
+          height={0}
+          className="mx-auto my-4 rounded-xl w-full object-cover"
           placeholder="blur"
           blurDataURL="/images/cover-placeholder.png"
+          unoptimized
         />
         <Paragraph className="dark:text-gray-400">{post.description}</Paragraph>
       </div>
