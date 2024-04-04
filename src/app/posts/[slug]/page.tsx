@@ -100,7 +100,7 @@ export default async function PostDetails({
           alt={title}
           width={500}
           height={300}
-          className="mx-auto my-4 rounded-xl md:my-10"
+          className="mx-auto my-4 rounded-xl md:my-10 w-full object-cover"
           placeholder="blur"
           blurDataURL="/images/cover-placeholder.png"
         />
