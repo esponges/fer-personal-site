@@ -15,4 +15,6 @@ export const apiChatResponseBody = z.object({
 export const apiChatResponseV2Body = z.object({
   response: z.string(),
   threadId: z.string(),
+  // todo: type correctly after pocs are done
+  body: z.any(),
 });

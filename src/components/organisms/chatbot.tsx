@@ -7,11 +7,13 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { LoadingDots } from "~/components/atoms/loadingDots";
 
-import type { ChatMessage } from "~/types";
 import { AboutModal } from "~/components/molecules/aboutModal";
 import { safeFetch } from "~/utils/safeFetch";
 import { apiChatResponseV2Body } from "~/types/zod";
 import { getErrorMessage } from "~/utils/misc";
+
+import type { ChatMessage } from "~/types";
+import { AssistantStream } from "openai/lib/AssistantStream";
 
 export const ChatBot = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,6 +39,27 @@ export const ChatBot = () => {
   useEffect(() => {
     textAreaRef.current?.focus();
   }, []);
+
+  const handleReadableStream = (stream: AssistantStream) => {
+
+    // messages
+    stream.on("textCreated", () => console.log('textCreated Event'));
+    stream.on("textDelta", () => console.log('textDelta Event'));
+
+    // image
+    stream.on("imageFileDone", () => console.log('imageFileDone Event'));
+
+    // code interpreter
+    stream.on("toolCallCreated", () => console.log('toolCallCreated Event'));
+    stream.on("toolCallDelta", () => console.log('toolCallDelta Event'));
+
+    // events without helpers yet (e.g. requires_action and run.done)
+    // stream.on("event", (event) => {
+    //   if (event.event === "thread.run.requires_action")
+    //     handleRequiresAction(event);
+    //   if (event.event === "thread.run.completed") handleRunCompleted();
+    // });
+  };
 
   // todo: accept modal option click event
   const handleSubmit = async (
@@ -84,28 +107,33 @@ export const ChatBot = () => {
         "/api/chat-v2",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
           body: JSON.stringify({
             question,
             threadId: messageState.threadId,
           }),
         },
       );
-      const { response, threadId } = chatResponse;
 
-      setMessageState((state) => ({
-        ...state,
-        messages: [
-          ...state.messages,
-          {
-            type: "apiMessage",
-            message: response,
-          },
-        ],
-        threadId,
-      }));
+      const stream = AssistantStream.fromReadableStream(chatResponse.body);
+
+      handleReadableStream(stream);
+
+      // const { response, threadId } = chatResponse;
+
+      // setMessageState((state) => ({
+      //   ...state,
+      //   messages: [
+      //     ...state.messages,
+      //     {
+      //       type: "apiMessage",
+      //       message: response,
+      //     },
+      //   ],
+      //   threadId,
+      // }));
     } catch (err: unknown) {
       const errMsg = getErrorMessage(err);
 
