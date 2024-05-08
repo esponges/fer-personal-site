@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "~/styles/Home.module.css";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
@@ -11,9 +11,10 @@ import { AboutModal } from "~/components/molecules/aboutModal";
 import { safeFetch } from "~/utils/safeFetch";
 import { apiChatResponseV2Body } from "~/types/zod";
 import { getErrorMessage } from "~/utils/misc";
+import { AssistantStream } from "openai/lib/AssistantStream";
 
 import type { ChatMessage } from "~/types";
-import { AssistantStream } from "openai/lib/AssistantStream";
+import type { TextDelta } from "openai/resources/beta/threads/messages";
 
 export const ChatBot = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,6 +22,7 @@ export const ChatBot = () => {
   const [messageState, setMessageState] = useState<{
     messages: Pick<ChatMessage, "message" | "type">[];
     threadId?: string;
+    latestUserMessageIdx?: number;
   }>({
     messages: [
       {
@@ -40,25 +42,64 @@ export const ChatBot = () => {
     textAreaRef.current?.focus();
   }, []);
 
+  // todo: fix this issue
+  const appendToLastMessage = (
+    text: string,
+  ) => {
+    if (messageState.messages.length === 0) {
+      return;
+    }
+
+    setMessageState((prev) => {
+      const latestMessageIsUserMessage =
+        prev.messages.length > 0 &&
+        prev.messages[prev.messages.length - 1]?.type === "userMessage";
+
+      // we need to check if the latest message is a user message
+      // if so, we will append a new apiMessage with `text`
+      // if the latest message is not a user message, we will append `text` to the latest apiMessage
+      return {
+        ...prev,
+        messages: [
+          ...prev.messages.slice(0, latestMessageIsUserMessage ? prev.messages.length : -1),
+          {
+            type: "apiMessage",
+            message: latestMessageIsUserMessage
+              ? text
+              : `${prev.messages[prev.messages.length - 1]?.message}${text}`,
+          },
+        ],
+      };
+    });
+  };
+
+  const handleTextDelta = (delta: TextDelta) => {
+    if (delta.value != null) {
+      appendToLastMessage(delta.value);
+    }
+  };
+
+  // code from: https://github.com/openai/openai-assistants-quickstart/blob/main/app/components/chat.tsx
   const handleReadableStream = (stream: AssistantStream) => {
-
     // messages
-    stream.on("textCreated", () => console.log('textCreated Event'));
-    stream.on("textDelta", () => console.log('textDelta Event'));
+    stream.on("textCreated", () => console.log("todo: textCreated Event"));
+    stream.on("textDelta", handleTextDelta);
 
+    // not required but might be useful in the future
     // image
-    stream.on("imageFileDone", () => console.log('imageFileDone Event'));
+    stream.on("imageFileDone", () => console.log("todo: imageFileDone Event"));
 
     // code interpreter
-    stream.on("toolCallCreated", () => console.log('toolCallCreated Event'));
-    stream.on("toolCallDelta", () => console.log('toolCallDelta Event'));
+    stream.on("toolCallCreated", () => console.log("toolCallCreated Event"));
+    stream.on("toolCallDelta", () => console.log("toolCallDelta Event"));
 
     // events without helpers yet (e.g. requires_action and run.done)
-    // stream.on("event", (event) => {
-    //   if (event.event === "thread.run.requires_action")
-    //     handleRequiresAction(event);
-    //   if (event.event === "thread.run.completed") handleRunCompleted();
-    // });
+    stream.on("event", (event) => {
+      // if (event.event === "thread.run.requires_action")
+      //   handleRequiresAction(event);
+      // if (event.event === "thread.run.completed") handleRunCompleted();
+      console.log("todo: event", event);
+    });
   };
 
   // todo: accept modal option click event
@@ -95,6 +136,7 @@ export const ChatBot = () => {
           message: question,
         },
       ],
+      latestUserMessageIdx: state.messages.length,
     }));
 
     setLoading(true);
@@ -102,22 +144,31 @@ export const ChatBot = () => {
     textAreaRef.current && (textAreaRef.current.value = "");
 
     try {
-      const chatResponse = await safeFetch(
-        apiChatResponseV2Body,
-        "/api/chat-v2",
-        {
-          method: "POST",
-          // headers: {
-          //   "Content-Type": "application/json",
-          // },
-          body: JSON.stringify({
-            question,
-            threadId: messageState.threadId,
-          }),
-        },
-      );
+      // const chatResponse = await safeFetch(
+      //   apiChatResponseV2Body,
+      //   "/api/chat-v2",
+      //   {
+      //     method: "POST",
+      //     // headers: {
+      //     //   "Content-Type": "application/json",
+      //     // },
+      //     body: JSON.stringify({
+      //       question,
+      //       threadId: messageState.threadId,
+      //     }),
+      //   },
+      // );
+      const response = await fetch("/api/chat-v2", {
+        method: "POST",
+        body: JSON.stringify({
+          question,
+          threadId: messageState.threadId,
+        }),
+      });
 
-      const stream = AssistantStream.fromReadableStream(chatResponse.body);
+      const stream = AssistantStream.fromReadableStream(
+        response.body as ReadableStream,
+      );
 
       handleReadableStream(stream);
 
