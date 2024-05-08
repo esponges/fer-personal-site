@@ -190,9 +190,12 @@ export const ChatBot = () => {
 
   const handleSetExampleQuestion = (
     question: string,
+    toggleModal: boolean = true,
   ) => {
     textAreaRef.current && (textAreaRef.current.value = question);
+    if (toggleModal) {
     handleToggleExamplesQuestionModal();
+    }
     handleSubmit();
   };
 
@@ -263,12 +266,11 @@ export const ChatBot = () => {
                     <div className="relative flex w-full flex-col items-center justify-center text-sm text-gray-500">
                       <button
                         onClick={() =>
-                          handleSetExampleQuestion("What's Fer's Tech Stack?")
+                          handleSetExampleQuestion("What's Fer's Tech Stack?", false)
                         }
                       >
                         E.g: What&apos;s Fer&apos;s Tech Stack?
                       </button>
-                      {/* add toggler more options */}
                       <button
                         onClick={handleToggleExamplesQuestionModal}
                         className="text-blue-500 hover:text-blue-700"
