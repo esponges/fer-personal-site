@@ -1,6 +1,7 @@
 import { defineConfig } from '@playwright/test';
 import { devices } from '@playwright/test';
-import { env } from '~/env/server.mjs';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default defineConfig({
   // Look for test files in the "tests" directory, relative to this configuration file.
@@ -27,7 +28,7 @@ export default defineConfig({
 
   use: {
     // Base URL to use in actions like `await page.goto('/')`.
-    baseURL: env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:3000',
+    baseURL: process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:3000',
 
     // Collect trace when retrying the failed test.
     // trace: 'on-first-retry',
