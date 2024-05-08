@@ -7,11 +7,12 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { LoadingDots } from "~/components/atoms/loadingDots";
 
-import type { ChatMessage } from "~/types";
 import { AboutModal } from "~/components/molecules/aboutModal";
-import { safeFetch } from "~/utils/safeFetch";
-import { apiChatResponseV2Body } from "~/types/zod";
 import { getErrorMessage } from "~/utils/misc";
+import { AssistantStream } from "openai/lib/AssistantStream";
+
+import type { ChatMessage } from "~/types";
+import type { TextDelta } from "openai/resources/beta/threads/messages";
 
 export const ChatBot = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,6 +38,66 @@ export const ChatBot = () => {
   useEffect(() => {
     textAreaRef.current?.focus();
   }, []);
+
+  // todo: fix this issue
+  const appendToLastMessage = (text: string) => {
+    if (messageState.messages.length === 0) {
+      return;
+    }
+
+    setMessageState((prev) => {
+      const latestMessageIsUserMessage =
+        prev.messages.length > 0 &&
+        prev.messages[prev.messages.length - 1]?.type === "userMessage";
+
+      // we need to check if the latest message is a user message
+      // if so, we will append a new apiMessage with `text`
+      // if the latest message is not a user message, we will append `text` to the latest apiMessage
+      return {
+        ...prev,
+        messages: [
+          ...prev.messages.slice(
+            0,
+            latestMessageIsUserMessage ? prev.messages.length : -1,
+          ),
+          {
+            type: "apiMessage",
+            message: latestMessageIsUserMessage
+              ? text
+              : `${prev.messages[prev.messages.length - 1]?.message}${text}`,
+          },
+        ],
+      };
+    });
+  };
+
+  const handleTextDelta = (delta: TextDelta) => {
+    if (delta.value != null) {
+      appendToLastMessage(delta.value);
+    }
+  };
+
+  // code from: https://github.com/openai/openai-assistants-quickstart/blob/main/app/components/chat.tsx
+  const handleReadableStream = (stream: AssistantStream) => {
+    // messages
+    stream.on("textCreated", () => console.log("todo: textCreated Event"));
+    stream.on("textDelta", handleTextDelta);
+
+    // not required but might be useful in the future
+    // image
+    stream.on("imageFileDone", () => console.log("todo: imageFileDone Event"));
+
+    // code interpreter
+    stream.on("toolCallCreated", () => console.log("toolCallCreated Event"));
+    stream.on("toolCallDelta", () => console.log("toolCallDelta Event"));
+
+    // rest of the events
+    stream.on("event", (event) => {
+      // if (event.event === "thread.run.requires_action")
+      //   handleRequiresAction(event);
+      if (event.event === "thread.run.completed") setLoading(false);
+    });
+  };
 
   // todo: accept modal option click event
   const handleSubmit = async (
@@ -72,6 +133,7 @@ export const ChatBot = () => {
           message: question,
         },
       ],
+      latestUserMessageIdx: state.messages.length,
     }));
 
     setLoading(true);
@@ -79,33 +141,21 @@ export const ChatBot = () => {
     textAreaRef.current && (textAreaRef.current.value = "");
 
     try {
-      const chatResponse = await safeFetch(
-        apiChatResponseV2Body,
-        "/api/chat-v2",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            question,
-            threadId: messageState.threadId,
-          }),
-        },
-      );
-      const { response, threadId } = chatResponse;
+      // won't use safeFetch helper with this stream request
+      // stream are handled differently than normal requests
+      const response = await fetch("/api/chat-v2", {
+        method: "POST",
+        body: JSON.stringify({
+          question,
+          threadId: messageState.threadId,
+        }),
+      });
 
-      setMessageState((state) => ({
-        ...state,
-        messages: [
-          ...state.messages,
-          {
-            type: "apiMessage",
-            message: response,
-          },
-        ],
-        threadId,
-      }));
+      const stream = AssistantStream.fromReadableStream(
+        response.body as ReadableStream,
+      );
+
+      handleReadableStream(stream);
     } catch (err: unknown) {
       const errMsg = getErrorMessage(err);
 
@@ -116,8 +166,6 @@ export const ChatBot = () => {
 
       return;
     }
-
-    setLoading(false);
 
     //scroll to bottom - broken - fix later
     messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
@@ -137,11 +185,13 @@ export const ChatBot = () => {
   };
 
   const handleSetExampleQuestion = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     question: string,
+    toggleModal: boolean = true,
   ) => {
     textAreaRef.current && (textAreaRef.current.value = question);
+    if (toggleModal) {
     handleToggleExamplesQuestionModal();
+    }
     handleSubmit();
   };
 
@@ -210,8 +260,13 @@ export const ChatBot = () => {
                   </div>
                   {!index ? (
                     <div className="relative flex w-full flex-col items-center justify-center text-sm text-gray-500">
-                      E.g: What&apos;s Fer&apos;s Tech Stack?
-                      {/* add toggler more options */}
+                      <button
+                        onClick={() =>
+                          handleSetExampleQuestion("What's Fer's Tech Stack?", false)
+                        }
+                      >
+                        E.g: What&apos;s Fer&apos;s Tech Stack?
+                      </button>
                       <button
                         onClick={handleToggleExamplesQuestionModal}
                         className="text-blue-500 hover:text-blue-700"

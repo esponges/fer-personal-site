@@ -1,6 +1,15 @@
 import type z from "zod";
 
-export async function safeFetch<T>(schema: z.Schema<T>, input: RequestInfo, init?: RequestInit): Promise<T> {
+export async function safeFetch<T>({
+  input,
+  init,
+  schema,
+}: {
+  input: RequestInfo;
+  init?: RequestInit;
+  schema: z.ZodType<T>;
+  parseJson?: boolean;
+}): Promise<T> {
   const response = await fetch(input, init);
 
   if (!response.ok) {
@@ -22,7 +31,9 @@ export async function safeFetch<T>(schema: z.Schema<T>, input: RequestInfo, init
 
 function newHTTPError(reason: string, response: Response, method?: string) {
   const text = response.text().catch(() => null);
-  const message = `HTTPError: ${reason} ${method ?? ""} ${response.url} ${text}`;
+  const message = `HTTPError: ${reason} ${method ?? ""} ${
+    response.url
+  } ${text}`;
 
   console.error(`[HTTPError] ${message} ${response.url} ${response.status}`);
 
@@ -32,7 +43,7 @@ function newHTTPError(reason: string, response: Response, method?: string) {
 export class HTTPError extends Error {
   constructor(
     public status: number,
-    message: string
+    message: string,
   ) {
     super(message);
     this.status = status;

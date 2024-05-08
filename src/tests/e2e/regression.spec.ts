@@ -99,7 +99,7 @@ test.describe("regression tests", () => {
       await page.goto("/");
 
       await page.locator("#navbar-about-link").click();
-      await page.locator("#chat-messages-list");
+      await page.locator("#chat-messages-list").click();
 
       // go to userInput
       // ask a question and hit enter
@@ -110,25 +110,19 @@ test.describe("regression tests", () => {
       // assert that the chatbot answered
       // using locator was throwing a "Target closed" error 
       // https://stackoverflow.com/questions/61933492/playwright-error-target-closed-after-navigation
-      // const chatRes = await page.locator("#chat-message-2");
-      const chatRes = await page.waitForSelector("#chat-message-2");
-      const chatResInner = await chatRes.innerHTML();
+      await page.waitForSelector("#chat-message-2");
 
-      expect(chatResInner.toLowerCase()).toContain(chatResIncludes.toLowerCase());
+      await page.getByText(chatResIncludes).click();
       // todo: use a regexp that accepts any combination of strings (.*?) and any number of characters (.*)
       // this one causes the browser has been closed error
-      // expect(chatResponse).toHaveText(/[\s\S]*/);
 
       // ask a follow up question
       await page.locator("#chat-user-input").fill(followUp);
       await page.locator("#chat-submit-button").click();
 
-      // assert that the chatbot answered
-      // const chatRes2 = await page.locator("#chat-message-4");
-      const chatRes2 = await page.waitForSelector("#chat-message-4");
-      const chatRes2Inner = await chatRes2.innerHTML();
-
-      expect(chatRes2Inner.toLowerCase()).toContain(chatRes2Includes.toLowerCase());
+      // since we're streaming the response we can't use a locator, otherwise it will find the locator
+      // with the initial token which may not yet contain the response
+      await page.getByText(chatRes2Includes).click();
     });
   });
 });

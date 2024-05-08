@@ -6,6 +6,8 @@ import { env } from "~/env/server.mjs";
 import type { Thread } from "openai/resources/beta/threads/threads";
 import { type NextRequest, NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 interface RequestBody {
   question: string;
   // the actual conversation thread
@@ -47,57 +49,11 @@ export async function POST(request: NextRequest) {
 
     // use runs to start processing the assistant response after the thread has
     // been created and the message has been appended to the thread
-    const run = await openai.beta.threads.runs.create(thread.id, {
+    const stream = openai.beta.threads.runs.stream(thread.id, {
       assistant_id: assistant.id,
     });
 
-    // retrieve the run to see if it is completed
-    let actualRun = await openai.beta.threads.runs.retrieve(thread.id, run.id);
-
-    // Polling mechanism to see if actualRun is completed
-    // This should be made more robust.
-    while (
-      actualRun.status === "queued" ||
-      actualRun.status === "in_progress" ||
-      actualRun.status === "requires_action"
-    ) {
-      // requires_action means that the assistant is waiting for the functions to be added
-      if (actualRun.status === "requires_action") {
-        throw new Error("required_action: Por favor intenta con otra pregunta");
-      }
-      // keep polling until the run is completed
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      actualRun = await openai.beta.threads.runs.retrieve(thread.id, run.id);
-    }
-
-    // Get the last assistant message from the messages array
-    const messages = await openai.beta.threads.messages.list(thread.id);
-
-    // Find the last message for the current run
-    const lastMessageForRun = messages.data
-      .filter(
-        (message) => message.run_id === run.id && message.role === "assistant",
-      )
-      .pop();
-
-    let assistantResponse = "";
-
-    if (lastMessageForRun) {
-      // aparently this is not correctly typed
-      // content returns an of objects do contain a text object
-      const res = lastMessageForRun.content[0] as {
-        text: { value: string };
-      };
-
-      assistantResponse = res.text.value;
-    } else {
-      throw new Error("No assistant message found");
-    }
-
-    return NextResponse.json({
-      response: assistantResponse,
-      threadId: thread.id,
-    });
+    return new Response(stream.toReadableStream());
   } catch (error) {
     const errorMsg = getErrorMessage(error);
 
