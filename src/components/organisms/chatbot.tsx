@@ -20,7 +20,6 @@ export const ChatBot = () => {
   const [messageState, setMessageState] = useState<{
     messages: Pick<ChatMessage, "message" | "type">[];
     threadId?: string;
-    latestUserMessageIdx?: number;
   }>({
     messages: [
       {
@@ -92,12 +91,11 @@ export const ChatBot = () => {
     stream.on("toolCallCreated", () => console.log("toolCallCreated Event"));
     stream.on("toolCallDelta", () => console.log("toolCallDelta Event"));
 
-    // all the events
-    stream.on("event", (_event) => {
+    // rest of the events
+    stream.on("event", (event) => {
       // if (event.event === "thread.run.requires_action")
       //   handleRequiresAction(event);
-      // if (event.event === "thread.run.completed") handleRunCompleted();
-      // console.log("todo: event", event);
+      if (event.event === "thread.run.completed") setLoading(false);
     });
   };
 
@@ -168,8 +166,6 @@ export const ChatBot = () => {
 
       return;
     }
-
-    setLoading(false);
 
     //scroll to bottom - broken - fix later
     messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
