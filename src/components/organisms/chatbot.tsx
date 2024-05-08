@@ -1,15 +1,13 @@
 "use client";
 
 import styles from "~/styles/Home.module.css";
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect } from "react";
 
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { LoadingDots } from "~/components/atoms/loadingDots";
 
 import { AboutModal } from "~/components/molecules/aboutModal";
-import { safeFetch } from "~/utils/safeFetch";
-import { apiChatResponseV2Body } from "~/types/zod";
 import { getErrorMessage } from "~/utils/misc";
 import { AssistantStream } from "openai/lib/AssistantStream";
 
@@ -93,12 +91,12 @@ export const ChatBot = () => {
     stream.on("toolCallCreated", () => console.log("toolCallCreated Event"));
     stream.on("toolCallDelta", () => console.log("toolCallDelta Event"));
 
-    // events without helpers yet (e.g. requires_action and run.done)
-    stream.on("event", (event) => {
+    // all the events
+    stream.on("event", (_event) => {
       // if (event.event === "thread.run.requires_action")
       //   handleRequiresAction(event);
       // if (event.event === "thread.run.completed") handleRunCompleted();
-      console.log("todo: event", event);
+      // console.log("todo: event", event);
     });
   };
 
@@ -144,20 +142,8 @@ export const ChatBot = () => {
     textAreaRef.current && (textAreaRef.current.value = "");
 
     try {
-      // const chatResponse = await safeFetch(
-      //   apiChatResponseV2Body,
-      //   "/api/chat-v2",
-      //   {
-      //     method: "POST",
-      //     // headers: {
-      //     //   "Content-Type": "application/json",
-      //     // },
-      //     body: JSON.stringify({
-      //       question,
-      //       threadId: messageState.threadId,
-      //     }),
-      //   },
-      // );
+      // won't use safeFetch helper with this stream request
+      // stream are handled differently than normal requests
       const response = await fetch("/api/chat-v2", {
         method: "POST",
         body: JSON.stringify({
@@ -171,20 +157,6 @@ export const ChatBot = () => {
       );
 
       handleReadableStream(stream);
-
-      // const { response, threadId } = chatResponse;
-
-      // setMessageState((state) => ({
-      //   ...state,
-      //   messages: [
-      //     ...state.messages,
-      //     {
-      //       type: "apiMessage",
-      //       message: response,
-      //     },
-      //   ],
-      //   threadId,
-      // }));
     } catch (err: unknown) {
       const errMsg = getErrorMessage(err);
 
