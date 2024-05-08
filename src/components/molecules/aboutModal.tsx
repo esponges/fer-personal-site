@@ -3,10 +3,7 @@ import { Modal } from "../organisms/modal";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  handleOptionClick?: (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    question: string,
-  ) => void;
+  handleOptionClick?: (question: string) => void;
 };
 
 const QUESTIONS = [
@@ -31,12 +28,12 @@ export const AboutModal = ({ isOpen, onClose, handleOptionClick }: Props) => {
             key={question}
             className="flex flex-col gap-2"
           >
-            <div
+            <button
               className="font-bold text-white hover:text-gray-200 cursor-pointer"
-              onClick={(e) => handleOptionClick?.(e, question)}
+              onClick={() => handleOptionClick?.(question)}
             >
               {question}
-            </div>
+            </button>
           </div>
         ))}
       </div>

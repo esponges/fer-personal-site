@@ -41,9 +41,7 @@ export const ChatBot = () => {
   }, []);
 
   // todo: fix this issue
-  const appendToLastMessage = (
-    text: string,
-  ) => {
+  const appendToLastMessage = (text: string) => {
     if (messageState.messages.length === 0) {
       return;
     }
@@ -59,7 +57,10 @@ export const ChatBot = () => {
       return {
         ...prev,
         messages: [
-          ...prev.messages.slice(0, latestMessageIsUserMessage ? prev.messages.length : -1),
+          ...prev.messages.slice(
+            0,
+            latestMessageIsUserMessage ? prev.messages.length : -1,
+          ),
           {
             type: "apiMessage",
             message: latestMessageIsUserMessage
@@ -188,7 +189,6 @@ export const ChatBot = () => {
   };
 
   const handleSetExampleQuestion = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     question: string,
   ) => {
     textAreaRef.current && (textAreaRef.current.value = question);
@@ -261,7 +261,13 @@ export const ChatBot = () => {
                   </div>
                   {!index ? (
                     <div className="relative flex w-full flex-col items-center justify-center text-sm text-gray-500">
-                      E.g: What&apos;s Fer&apos;s Tech Stack?
+                      <button
+                        onClick={() =>
+                          handleSetExampleQuestion("What's Fer's Tech Stack?")
+                        }
+                      >
+                        E.g: What&apos;s Fer&apos;s Tech Stack?
+                      </button>
                       {/* add toggler more options */}
                       <button
                         onClick={handleToggleExamplesQuestionModal}
