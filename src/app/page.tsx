@@ -32,9 +32,9 @@ export default function Home() {
             />
             <MeCard
               emoji={Emojis.code}
-              description="My current stack is React, Next.js, 
-                MySql/Mongo/Postgres, TypeScript, TailwindCSS, and Prisma. 
-                With a sprinkle of Electron and Node.js."
+              description="My current stack is React, Next.js, TypeScript, Node.js. 
+                With a sprinkle of Golang, and currently learning Python 
+                and how to implement LLMs into existing systems."
             />
             <MeCard
               emoji={Emojis.heart}
