@@ -7,7 +7,6 @@ import { renderSocial } from "../atoms/social";
 const NAV_EL_COLOR = "text-gray-800";
 
 export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => {
-  console.log({ isOpen });
   return (
     <div
       className={`
@@ -27,6 +26,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               isMobile
               textColor={NAV_EL_COLOR}
               onClick={onClick}
+              ariaLabel="Home Link"
             >
               FerTostado
             </NavbarLink>
@@ -40,6 +40,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               isMobile
               textColor={NAV_EL_COLOR}
               onClick={onClick}
+              ariaLabel="Blog Link"
             >
               Blog
             </NavbarLink>
@@ -53,6 +54,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               isMobile
               textColor={NAV_EL_COLOR}
               onClick={onClick}
+              ariaLabel="Projects Link"
             >
               Projects
             </NavbarLink>
@@ -66,6 +68,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               isMobile
               textColor={NAV_EL_COLOR}
               onClick={onClick}
+              ariaLabel="About Link"
             >
               About
               <Badge

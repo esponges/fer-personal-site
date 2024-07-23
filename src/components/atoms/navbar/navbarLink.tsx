@@ -32,6 +32,7 @@ export const NavbarLink = ({
       onClick={onClick}
       className={!isMobile && shouldDisplay ? "ml-6" : "block"}
       id={id}
+      aria-label={ariaLabel}
     >
       <button
         className={twMerge(
