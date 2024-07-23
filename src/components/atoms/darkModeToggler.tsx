@@ -33,6 +33,7 @@ export const DarkModeToggler = () => {
       className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-500 text-white/90 dark:text-white"
       onClick={toggleTheme}
       id="navbar-darkmode-toggler"
+      aria-label="Toggle Dark Mode"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

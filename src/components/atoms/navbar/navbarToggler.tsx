@@ -3,6 +3,7 @@ export const NavbarToggler = ({ onToggle, isSidebarOpen }: { onToggle: () => voi
     <button
       className="fixed top-5 right-4 z-50 rounded-full p-2"
       onClick={onToggle}
+      aria-label="Toggle Sidebar"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

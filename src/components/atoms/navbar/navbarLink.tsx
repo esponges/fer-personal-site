@@ -13,6 +13,7 @@ export const NavbarLink = ({
   textColor = "text-white",
   onClick,
   id,
+  ariaLabel = "navbar-link",
 }: {
   href: string;
   children: React.ReactNode;
@@ -23,6 +24,7 @@ export const NavbarLink = ({
   isMobile?: boolean;
   onClick?: () => void;
   id?: string;
+  ariaLabel?: string;
 }) => {
   return (
     <Link
@@ -31,17 +33,18 @@ export const NavbarLink = ({
       className={!isMobile && shouldDisplay ? "ml-6" : "block"}
       id={id}
     >
-      <span
+      <button
         className={twMerge(
           "font-color-dark--primary rounded font-bold md:p-3 relative",
           textColor,
           textSize,
           className,
           !shouldDisplay ? "hidden" : "",
+          ariaLabel
         )}
       >
         {children}
-      </span>
+      </button>
     </Link>
   );
 };
