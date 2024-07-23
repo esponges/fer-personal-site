@@ -7,11 +7,12 @@ import { renderSocial } from "../atoms/social";
 const NAV_EL_COLOR = "text-gray-800";
 
 export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => {
+  console.log({ isOpen });
   return (
     <div
       className={`
       fixed top-0 left-0 z-40 h-screen w-64 
-      bg-white transition-transform dark:bg-gray-600 sm:translate-x-0
+      bg-white transition-transform dark:bg-gray-600
       ${isOpen ? "translate-x-0" : "-translate-x-full"}
       `}
     >
