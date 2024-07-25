@@ -11,7 +11,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
     <div
       className={`
       fixed top-0 left-0 z-40 h-screen w-64 
-      bg-white transition-transform dark:bg-gray-600 sm:translate-x-0
+      bg-white transition-transform dark:bg-gray-600
       ${isOpen ? "translate-x-0" : "-translate-x-full"}
       `}
     >
@@ -26,6 +26,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               isMobile
               textColor={NAV_EL_COLOR}
               onClick={onClick}
+              ariaLabel="Home Link"
             >
               FerTostado
             </NavbarLink>
@@ -39,6 +40,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               isMobile
               textColor={NAV_EL_COLOR}
               onClick={onClick}
+              ariaLabel="Blog Link"
             >
               Blog
             </NavbarLink>
@@ -52,6 +54,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               isMobile
               textColor={NAV_EL_COLOR}
               onClick={onClick}
+              ariaLabel="Projects Link"
             >
               Projects
             </NavbarLink>
@@ -65,6 +68,7 @@ export const Sidebar = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => v
               isMobile
               textColor={NAV_EL_COLOR}
               onClick={onClick}
+              ariaLabel="About Link"
             >
               About
               <Badge

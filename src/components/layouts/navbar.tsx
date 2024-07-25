@@ -15,7 +15,7 @@ import { Badge } from "../atoms/badge";
 export const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-
+ 
   const { isMobile } = useDeviceWidth();
 
   const handleSidebarToggle = () => {

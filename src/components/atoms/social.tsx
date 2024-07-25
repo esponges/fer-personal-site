@@ -6,6 +6,7 @@ export const renderSocial = (color: string = "text-gray-600") => [
     href="https://twitter.com/fer_tostado"
     className={`${color} mx-10 transition-colors duration-300 ease-in-out hover:text-gray-800`}
     key="twitter"
+    aria-label="Twitter Link"
   >
     <svg
       aria-hidden="true"
@@ -27,6 +28,7 @@ export const renderSocial = (color: string = "text-gray-600") => [
     href="https://www.linkedin.com/in/luis-fernando-gonz%C3%A1lez-tostado-a9696177/"
     className={`${color} mx-10 transition-colors duration-300 ease-in-out hover:text-gray-800 `}
     key="linkedin"
+    aria-label="Linkedin Link"
   >
     <svg
       aria-hidden="true"
@@ -48,6 +50,7 @@ export const renderSocial = (color: string = "text-gray-600") => [
     href="https://github.com/esponges"
     className={`${color} mx-10 transition-colors duration-300 ease-in-out hover:text-gray-800 `}
     key="github"
+    aria-label="Github Link"
   >
     <svg
       aria-hidden="true"
